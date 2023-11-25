@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../const.dart';
+import '../widgets/SliderImages.dart';
 
 void main() {
   runApp(Products());
@@ -377,12 +378,35 @@ class _DetailProductsState extends State<DetailProducts> {
             return Center(child: Text('No data available'));
           } else {
             final item = snapshot.data!;
-            return Center(
-              child: Text(
-                'Details of Item ${item['id']}: ${item['name']}',
-                style: TextStyle(fontSize: 24),
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Image Slider
+                  SliderImages(
+                    images: [
+                      'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
+                      'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
+                    ],
+                  ),
+                  // Title
+                  Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: Text(
+                      item['name'],
+                      style:
+                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ],
               ),
             );
+            // return Center(
+            //   child: Text(
+            //     'Details of Item ${item['id']}: ${item['name']}',
+            //     style: TextStyle(fontSize: 24),
+            //   ),
+            // );
           }
         },
       ),
