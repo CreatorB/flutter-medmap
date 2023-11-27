@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../const.dart';
-import '../widgets/SliderImages.dart';
+import '../widgets/slider_images.dart';
 
 void main() {
   runApp(Products());
@@ -339,6 +339,7 @@ class DetailProducts extends StatefulWidget {
 
 class _DetailProductsState extends State<DetailProducts> {
   late Future<Map<String, dynamic>> itemDetails;
+  late List<String> imageUrls = [];
 
   @override
   void initState() {
@@ -347,8 +348,19 @@ class _DetailProductsState extends State<DetailProducts> {
   }
 
   Future<Map<String, dynamic>> fetchItemDetails(int itemId) async {
-    final response = await http.get(Uri.parse(Const.API_PRODUCTS + '$itemId'));
+    // final api_products = Const.API_PRODUCTS + '$itemId';
+    final api_products = Const.API_PRODUCTS + 'mc500';
+    // print('cekUrl : $api_products');
+    final response = await http.get(Uri.parse(api_products));
     if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<dynamic> images = jsonData['media'];
+      setState(() {
+        imageUrls = images
+            .where((media) => media['type'] == 'image')
+            .map((image) => image['url'] as String)
+            .toList();
+      });
       return json.decode(response.body);
     } else {
       throw Exception('Failed to load item details');
@@ -383,12 +395,13 @@ class _DetailProductsState extends State<DetailProducts> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   // Image Slider
-                  SliderImages(
-                    images: [
-                      'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
-                      'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
-                    ],
-                  ),
+                  // SliderImages(
+                  //   images: [
+                  //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
+                  //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
+                  //   ],
+                  // ),
+                  SliderImages(images: imageUrls),
                   // Title
                   Padding(
                     padding: const EdgeInsets.all(8.0),
