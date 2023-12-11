@@ -9,6 +9,7 @@ import '../views/browse_products.dart';
 // import '../views/myblog.dart';
 
 class Dashboard extends StatefulWidget {
+  static const String route = '/dashboard';
   Dashboard({
     Key? key,
   }) : super(key: key);
@@ -49,25 +50,17 @@ class _MyAppState extends State<Dashboard> {
               child: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () async {
-                  navbarVisibility(true);
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => BrowseProducts()),
-                  // );
+                  // NavigationHistory.addContext(context);
+                  // print("cekDashboard : ${context}");
 
+                  navbarVisibility(true);
                   final back = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BrowseProducts()),
                   );
                   if (back == 'back') {
-                    print("cek");
                     navbarVisibility(false);
                   }
-
-                  // Navigator.push(
-                  //   context,
-                  //   MaterialPageRoute(builder: (context) => MyNavbar()),
-                  // );
                 },
                 // color: Colors.white,
               ),
