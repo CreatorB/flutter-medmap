@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../const.dart';
-import '../widgets/slider_images.dart';
-import '../views/browse_products.dart';
+import '../views/browse_products.dart' as browse_products;
 import '../main.dart';
+import '../views/details/detail_products.dart';
 
 // void main() {
 //   runApp(Products());
@@ -196,7 +195,8 @@ class _MyProductState extends State<Products> {
               navbarVisibility(true);
               final back = Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BrowseProducts()),
+                MaterialPageRoute(
+                    builder: (context) => browse_products.BrowseProducts()),
               );
               if (back == 'back') {
                 navbarVisibility(false);
@@ -326,9 +326,7 @@ class _MyProductState extends State<Products> {
                                     height: 75,
                                   ),
                                 ),
-                                SizedBox(
-                                  width: 89,
-                                  height: 36,
+                                Flexible(
                                   child: Text(
                                     itemCategories[index]['title'],
                                     textAlign: TextAlign.center,
@@ -469,7 +467,7 @@ class GridItem extends StatelessWidget {
                   item.name,
                   overflow: TextOverflow
                       .ellipsis, // This will cut off extra text with ellipsis
-                  maxLines: 2, // Limits the number of lines displayed
+                  maxLines: 1, // Limits the number of lines displayed
                   // style: TextStyle(fontSize: 16.0), // Adjust font size as needed
                   style: TextStyle(
                     color: Color(0xFF18181B),
@@ -486,118 +484,25 @@ class GridItem extends StatelessWidget {
   }
 }
 
-class Item {
-  final String name;
-  final String url;
-  final int id;
+// class Tag {
+//   int id;
+//   String name;
+//   DateTime createdAt;
+//   DateTime updatedAt;
 
-  Item({required this.name, required this.url, required this.id});
+//   Tag({
+//     required this.id,
+//     required this.name,
+//     required this.createdAt,
+//     required this.updatedAt,
+//   });
 
-  factory Item.fromJson(Map<String, dynamic> json) {
-    // print("cekJSONItem : '$json'");
-    // print(json['thumbnail']['url']);
-    return Item(
-      name: json['name'],
-      url: json['thumbnail']['url'],
-      id: json['id'],
-    );
-  }
-}
+//   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+//         id: json['id'],
+//         name: json['name'],
+//         createdAt: DateTime.parse(json['created_at']),
+//         updatedAt: DateTime.parse(json['updated_at']),
+//       );
+// }
 
-class DetailProducts extends StatefulWidget {
-  final Item item;
-  const DetailProducts({required this.item});
-
-  @override
-  _DetailProductsState createState() => _DetailProductsState();
-}
-
-class _DetailProductsState extends State<DetailProducts> {
-  late Future<Map<String, dynamic>> itemDetails;
-  late List<String> imageUrls = [];
-
-  @override
-  void initState() {
-    super.initState();
-    itemDetails = fetchItemDetails(widget.item.id);
-  }
-
-  Future<Map<String, dynamic>> fetchItemDetails(int itemId) async {
-    final api_products = Const.API_PRODUCTS + '$itemId';
-    // final api_products = Const.API_PRODUCTS + 'mc500';
-    // print('cekUrl : $api_products');
-    final response = await http.get(Uri.parse(api_products));
-    if (response.statusCode == 200) {
-      final jsonData = json.decode(response.body);
-      final List<dynamic> images = jsonData['media'];
-      setState(() {
-        imageUrls = images
-            .where((media) => media['type'] == 'image')
-            .map((image) => image['url'] as String)
-            .toList();
-      });
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to load item details');
-    }
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        // title: Text('Another Page'),
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back),
-          onPressed: () {
-            Navigator.pop(context, 'back');
-          },
-        ),
-      ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: itemDetails,
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (!snapshot.hasData) {
-            return Center(child: Text('No data available'));
-          } else {
-            final item = snapshot.data!;
-            return SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  // Image Slider
-                  // SliderImages(
-                  //   images: [
-                  //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
-                  //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
-                  //   ],
-                  // ),
-                  SliderImages(images: imageUrls),
-                  // Title
-                  Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: Text(
-                      item['name'],
-                      style:
-                          TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-                    ),
-                  ),
-                ],
-              ),
-            );
-            // return Center(
-            //   child: Text(
-            //     'Details of Item ${item['id']}: ${item['name']}',
-            //     style: TextStyle(fontSize: 24),
-            //   ),
-            // );
-          }
-        },
-      ),
-    );
-  }
-}
+// end model

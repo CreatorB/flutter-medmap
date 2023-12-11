@@ -338,12 +338,27 @@ class GridItem extends StatelessWidget {
   }
 }
 
+// model
 class Item {
   final String name;
   final String url;
   final int id;
+  List<Tag>? tags;
+  Category? category;
+  String description;
+  Manufacturer? manufacturer;
+  Distributor? distributor;
 
-  Item({required this.name, required this.url, required this.id});
+  Item({
+    required this.name,
+    required this.url,
+    required this.id,
+    this.tags,
+    this.category,
+    required this.description,
+    this.manufacturer,
+    this.distributor,
+  });
 
   factory Item.fromJson(Map<String, dynamic> json) {
     // print("cekJSONItem : '$json'");
@@ -352,8 +367,196 @@ class Item {
       name: json['name'],
       url: json['thumbnail']['url'],
       id: json['id'],
+      tags: List<Tag>.from(json['tags'].map((x) => Tag.fromJson(x))),
+      category: Category.fromJson(json['category']),
+      description: json['description'],
+      manufacturer: json['manufacturer'] != null
+          ? Manufacturer.fromJson(json['manufacturer'])
+          : null,
+      distributor: json['distributor'] != null
+          ? Distributor.fromJson(json['distributor'])
+          : null,
     );
   }
+}
+
+class Manufacturer {
+  int id;
+  String name;
+  String picName;
+  String description;
+  String address;
+  String website;
+  String video;
+  String about;
+  int userId;
+  DateTime createdAt;
+  DateTime updatedAt;
+  // User user;
+  // Thumbnail logo;
+  // Country country;
+
+  Manufacturer({
+    required this.id,
+    required this.name,
+    required this.picName,
+    required this.description,
+    required this.address,
+    required this.website,
+    required this.video,
+    required this.about,
+    required this.userId,
+    required this.createdAt,
+    required this.updatedAt,
+    // required this.user,
+    // required this.logo,
+    // required this.country,
+  });
+
+  factory Manufacturer.fromJson(Map<String, dynamic> json) => Manufacturer(
+        id: json['id'],
+        name: json['name'],
+        picName: json['pic_name'],
+        description: json['description'],
+        address: json['address'],
+        website: json['website'],
+        video: json['video'],
+        about: json['about'],
+        userId: json['user_id'],
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']),
+        // user: User.fromJson(json['user']),
+        // logo: Thumbnail.fromJson(json['logo']),
+        // country: Country.fromJson(json['country']),
+      );
+}
+
+class Distributor {
+  int? id;
+  String? name;
+  String? slug;
+  String? address;
+  String? website;
+  String? overview;
+  String? about;
+  int? userId;
+  String? contactName;
+  String? contactEmail;
+  String? contactMobile;
+  String? contactUrl;
+  DateTime? createdAt;
+  DateTime? updatedAt;
+  // User? user;
+  // Country? country;
+  // Thumbnail? logo;
+
+  Distributor({
+    this.id,
+    this.name,
+    this.slug,
+    this.address,
+    this.website,
+    this.overview,
+    this.about,
+    this.userId,
+    this.contactName,
+    this.contactEmail,
+    this.contactMobile,
+    this.contactUrl,
+    this.createdAt,
+    this.updatedAt,
+    // this.user,
+    // this.country,
+    // this.logo,
+  });
+
+  factory Distributor.fromJson(Map<String, dynamic> json) => Distributor(
+        id: json["id"],
+        name: json["name"],
+        slug: json["slug"],
+        address: json["address"],
+        website: json["website"],
+        overview: json["overview"],
+        about: json["about"],
+        userId: json["user_id"],
+        contactName: json["contact_name"],
+        contactEmail: json["contact_email"],
+        contactMobile: json["contact_mobile"],
+        contactUrl: json["contact_url"],
+        createdAt: DateTime.parse(json["created_at"]),
+        updatedAt: DateTime.parse(json["updated_at"]),
+        // user: User.fromJson(json["user"]),
+        // country: Country.fromJson(json["country"]),
+        // logo: Thumbnail.fromJson(json["logo"]),
+      );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "slug": slug,
+        "address": address,
+        "website": website,
+        "overview": overview,
+        "about": about,
+        "user_id": userId,
+        "contact_name": contactName,
+        "contact_email": contactEmail,
+        "contact_mobile": contactMobile,
+        "contact_url": contactUrl,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+        // "user": user.toJson(),
+        // "country": country.toJson(),
+        // "logo": logo.toJson(),
+      };
+}
+
+class Category {
+  int id;
+  String name;
+  String? description;
+  int? categoryId;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  Category({
+    required this.id,
+    required this.name,
+    this.description,
+    this.categoryId,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Category.fromJson(Map<String, dynamic> json) => Category(
+        id: json['id'],
+        name: json['name'],
+        // description: json['description'] ?? '-',
+        // categoryId: json['category_id'] ?? '-',
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']),
+      );
+}
+
+class Tag {
+  int id;
+  String name;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  Tag({
+    required this.id,
+    required this.name,
+    required this.createdAt,
+    required this.updatedAt,
+  });
+
+  factory Tag.fromJson(Map<String, dynamic> json) => Tag(
+        id: json['id'],
+        name: json['name'],
+        createdAt: DateTime.parse(json['created_at']),
+        updatedAt: DateTime.parse(json['updated_at']),
+      );
 }
 
 class DetailProducts extends StatefulWidget {
@@ -430,6 +633,54 @@ class _DetailProductsState extends State<DetailProducts> {
                   //   ],
                   // ),
                   SliderImages(images: imageUrls),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
+                    child: Container(
+                      height: 30,
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      decoration: ShapeDecoration(
+                        color: Color(0x334894FE),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: (item['tags'] as List<dynamic>).map((tag) {
+                          // children: (item.tags as List<dynamic>).map((tag) {
+                          // return Chip(
+                          //   label: Text(tag['name']),
+                          //   backgroundColor: Colors.blue,
+                          //   labelStyle: TextStyle(color: Colors.white),
+                          // );
+                          return Text(
+                            tag['name'],
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 14,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w400,
+                              height: 0,
+                            ),
+                          );
+                        }).toList(),
+                        // children: [
+                        //   Text(
+                        //     item.tags[0].name,
+                        //     style: TextStyle(
+                        //       color: Colors.black,
+                        //       fontSize: 14,
+                        //       fontFamily: 'Inter',
+                        //       fontWeight: FontWeight.w400,
+                        //       height: 0,
+                        //     ),
+                        //   ),
+                        // ],
+                      ),
+                    ),
+                  ),
                   // Title
                   Padding(
                     padding: const EdgeInsets.all(8.0),
@@ -437,6 +688,101 @@ class _DetailProductsState extends State<DetailProducts> {
                       item['name'],
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: SizedBox(
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Category: ',
+                              style: TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: item['category']['name'],
+                              style: TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8),
+                    child: SizedBox(
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: item['manufacturer'] != null
+                                  ? 'Manufacturer: '
+                                  : 'Distributor: ',
+                              style: TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            TextSpan(
+                              text: item['manufacturer'] != null
+                                  ? item['manufacturer']['name']
+                                  : item['distributor']['name'],
+                              style: TextStyle(
+                                color: Color(0xFF4894FE),
+                                fontSize: 13,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, top: 13),
+                    child: SizedBox(
+                      width: 334,
+                      height: 244,
+                      child: Text.rich(
+                        TextSpan(
+                          children: [
+                            TextSpan(
+                              text: 'Product Details\n',
+                              style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 12,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w700,
+                                letterSpacing: 0.15,
+                              ),
+                            ),
+                            TextSpan(
+                              text: item['description'],
+                              style: TextStyle(
+                                color: Color(0xFF757575),
+                                fontSize: 12,
+                                fontFamily: 'Inter',
+                                fontWeight: FontWeight.w400,
+                                letterSpacing: 0.15,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],
