@@ -10,6 +10,7 @@ import 'presentation/icon_medmap_home_icons.dart';
 import 'const.dart';
 import 'views/dashboard.dart';
 import 'views/products.dart';
+import 'views/tenders.dart';
 import 'views/browse_products.dart';
 
 class NavigationHistory {
@@ -169,7 +170,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       // BrowseProducts.route: BrowseProducts(),
     },
     1: {
-      '/': DefaultPage(),
+      '/': Tenders(),
     },
     2: {
       '/': Products(),

@@ -14,6 +14,6 @@ class Const {
       'assets/images/menu_registrations.png';
 
   static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
-  static const String URL_API = BASE_URL + '/v1/';
+  static const String URL_API = BASE_URL + '/v1';
   static const String API_PRODUCTS = URL_API + '/products/';
 }
