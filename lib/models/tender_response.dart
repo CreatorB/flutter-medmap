@@ -71,7 +71,7 @@ class TenderData {
   final dynamic tenderValue;
   final dynamic attachment;
   final dynamic emd;
-  final dynamic documentFee;
+  final DocumentFee? documentFee;
   final List<Tag> tags;
   final Healthcare healthcare;
   final StateInfo state;
@@ -125,11 +125,55 @@ class TenderData {
       tenderValue: json['tender_value'],
       attachment: json['attachment'],
       emd: json['emd'],
-      documentFee: json['document_fee'],
+      // documentFee: json['document_fee'],
+      documentFee: json['document_fee'] != null
+          ? new DocumentFee.fromJson(json['document_fee'])
+          : null,
       tags: List<Tag>.from(json['tags'].map((x) => Tag.fromJson(x))),
       healthcare: Healthcare.fromJson(json['healthcare']),
       state: StateInfo.fromJson(json['state']),
     );
+  }
+}
+
+class DocumentFee {
+  int? id;
+  String? extname;
+  String? type;
+  String? path;
+  String? createdAt;
+  String? updatedAt;
+  String? url;
+
+  DocumentFee(
+      {this.id,
+      this.extname,
+      this.type,
+      this.path,
+      this.createdAt,
+      this.updatedAt,
+      this.url});
+
+  DocumentFee.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    extname = json['extname'];
+    type = json['type'];
+    path = json['path'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    url = json['url'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['extname'] = this.extname;
+    data['type'] = this.type;
+    data['path'] = this.path;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    data['url'] = this.url;
+    return data;
   }
 }
 

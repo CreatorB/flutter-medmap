@@ -195,7 +195,7 @@ class _TenderState extends State<Tenders> {
                                 context,
                                 MaterialPageRoute(
                                   builder: (context) =>
-                                      TenderDetailPage(tenderId: tender.id),
+                                      TenderDetailPage(item: tender),
                                 ),
                               );
                             },
@@ -214,9 +214,9 @@ class _TenderState extends State<Tenders> {
 }
 
 class TenderDetailPage extends StatelessWidget {
-  final int tenderId;
+  final TenderData item;
 
-  TenderDetailPage({required this.tenderId});
+  TenderDetailPage({Key? key, required this.item});
 
   @override
   Widget build(BuildContext context) {
@@ -224,8 +224,27 @@ class TenderDetailPage extends StatelessWidget {
       appBar: AppBar(
         title: Text('Tender Details'),
       ),
-      body: Center(
-        child: Text('Details for tender ID: $tenderId'),
+      body: SingleChildScrollView(
+        padding: EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text('Reference No: ${item.refNo}'),
+            Text('Authority: ${item.authority}'),
+            Text('Brief: ${item.brief}'),
+            Text('Open Date: ${item.openDate.toLocal()}'),
+            Text('Close Date: ${item.closeDate.toLocal()}'),
+            SizedBox(height: 20),
+            if (item.documentFee?.url != null &&
+                item.documentFee!.url!.isNotEmpty)
+              ElevatedButton(
+                onPressed: () {
+                  Utils.launchURL(context, item.documentFee!.url.toString());
+                },
+                child: Text('View Document Fee'),
+              ),
+          ],
+        ),
       ),
     );
   }
