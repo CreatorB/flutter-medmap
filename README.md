@@ -10,11 +10,11 @@ You can test it easily by click the download button below and install it apk on 
 flutter build apk --release --target-platform=android-arm,android-arm64 --split-per-abi
 ```
 
-<!-- BEGIN LATEST DOWNLOAD BUTTON -->
-<!-- **Version app-armeabi-v7a (Mostly used)** -->
+BEGIN LATEST DOWNLOAD BUTTON
+**Version app-armeabi-v7a (Mostly used)**
 
-<!-- [![Download apk](https://custom-icon-badges.demolab.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download apk")](https://raw.githubusercontent.com/CreatorB/flutter-medmap/dev/demo/app-armeabi-v7a-debug.apk) -->
-<!-- END LATEST DOWNLOAD BUTTON -->
+[![Download apk](https://custom-icon-badges.demolab.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download apk")](https://raw.githubusercontent.com/CreatorB/flutter-medmap/dev/demo/app-armeabi-v7a-debug.apk)
+END LATEST DOWNLOAD BUTTON
 
 <!-- **Version app-arm64-v8a** -->
 <!-- [![Download apk](https://custom-icon-badges.demolab.com/badge/-Download-blue?style=for-the-badge&logo=download&logoColor=white "Download apk")](https://raw.githubusercontent.com/CreatorB/flutter-medmap/dev/demo/app-arm64-v8a-debug.apk) -->
