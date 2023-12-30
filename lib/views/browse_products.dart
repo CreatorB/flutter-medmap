@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../const.dart';
-import '../main.dart';
 import '../widgets/slider_images.dart';
 
 void main() {

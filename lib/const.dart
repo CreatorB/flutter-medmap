@@ -1,6 +1,13 @@
 import 'package:flutter/material.dart';
 
 class Const {
+  static const Color primaryTextColor = Color(0xFF414C6B);
+  static const Color secondaryTextColor = Color(0xFFE4979E);
+  static const Color titleTextColor = Colors.white;
+  static const Color contentTextColor = Color(0xff868686);
+  static const Color navigationColor = Color(0xFF6751B5);
+  static const Color gradientStartColor = Color(0xFF0050AC);
+  static const Color gradientEndColor = Color(0xFF9354B9);
   static const Color colorSelect = Color(0xFF4894FE);
   static const Color colorUnselect = Color(0xFF8696BB);
   static const Color colorDashboard = Color(0xFFF5EEFA);

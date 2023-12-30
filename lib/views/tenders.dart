@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/tender_response.dart';
@@ -107,7 +108,7 @@ class _TenderState extends State<Tenders> {
                 controller: _searchController,
                 autofocus: true,
                 decoration: InputDecoration(
-                  hintText: 'keyword',
+                  hintText: 'Enter keyword ...',
                   border: InputBorder.none,
                 ),
                 onSubmitted: (value) {
@@ -225,21 +226,214 @@ class TenderDetailPage extends StatelessWidget {
         title: Text('Tender Details'),
       ),
       body: SingleChildScrollView(
-        padding: EdgeInsets.all(16.0),
+        padding: EdgeInsets.fromLTRB(8, 0, 8, 60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            Text('Reference No: ${item.refNo}'),
-            Text('Authority: ${item.authority}'),
-            Text('Brief: ${item.brief}'),
-            Text('Open Date: ${item.openDate.toLocal()}'),
-            Text('Close Date: ${item.closeDate.toLocal()}'),
-            SizedBox(height: 20),
+            Text(
+              item.title,
+              style: TextStyle(
+                  fontSize: 20,
+                  fontFamily: 'Avenir',
+                  color: Const.primaryTextColor,
+                  fontWeight: FontWeight.w900),
+              textAlign: TextAlign.left,
+            ),
+            const Divider(
+              color: Colors.black38,
+            ),
+            Table(
+              columnWidths: const {
+                0: FractionColumnWidth(0.3), // 30% of the table width for keys
+                1: FractionColumnWidth(
+                    0.7), // 70% of the table width for values
+              },
+              children: [
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text('Tender Type'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text(item.tenderType.name,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text('TDR NO'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(item.refNo,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text('Tender Brief'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(item.brief,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text('Competition Type'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(item.state.country.name,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text('State'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(item.state.name,
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+                TableRow(
+                  children: [
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text('Open Date'),
+                      ),
+                    ),
+                    TableCell(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8),
+                        child: Text(Utils.formatDateToDMY(item.openDate),
+                            style: TextStyle(fontWeight: FontWeight.bold)),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            // Text(
+            //   item.brief,
+            //   style: TextStyle(
+            //       fontSize: 15,
+            //       fontFamily: 'Avenir',
+            //       color: Const.primaryTextColor,
+            //       fontWeight: FontWeight.w300),
+            //   textAlign: TextAlign.left,
+            // ),
+            const Divider(
+              color: Colors.black38,
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: 'Tender Detail',
+                    style: TextStyle(
+                      color: Color(0xFF22212E),
+                      fontSize: 16,
+                      fontFamily: 'Inter',
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(
+              height: 10,
+            ),
+            HtmlWidget(
+              item.detail,
+            ),
+            // SizedBox(
+            //   height: 140,
+            //   width: MediaQuery.of(context).size.width * 0.95,
+            //   child: SingleChildScrollView(
+            //     physics: const BouncingScrollPhysics(),
+            //     scrollDirection: Axis.vertical,
+            //     child: Html(
+            //       data: item.detail,
+            //       // Optionally set styles for different HTML elements
+            //       style: {
+            //         "div": Style(
+            //           textAlign: TextAlign.center,
+            //           color: Colors.black, // Replace with your color constant
+            //           fontFamily: 'Avenir',
+            //           fontSize: FontSize(20),
+            //           fontWeight: FontWeight.w300,
+            //         ),
+            //         // Add more styles for other tags if needed
+            //       },
+            //     ),
+            //     // child: Text(
+            //     //   item.detail,
+            //     //   style: TextStyle(
+            //     //       fontSize: 20,
+            //     //       overflow: TextOverflow.ellipsis,
+            //     //       fontFamily: 'Avenir',
+            //     //       color: Const.contentTextColor,
+            //     //       fontWeight: FontWeight.w400),
+            //     //   textAlign: TextAlign.left,
+            //     //   maxLines: 60,
+            //     // ),
+            //   ),
+            // ),
+            const SizedBox(
+              height: 15,
+            ),
+            const Divider(
+              color: Colors.black38,
+            ),
             if (item.documentFee?.url != null &&
                 item.documentFee!.url!.isNotEmpty)
               ElevatedButton(
                 onPressed: () {
-                  Utils.launchURL(context, item.documentFee!.url.toString());
+                  // Utils.launchURL(context, item.documentFee!.url.toString());
+                  Utils.openPDF(context, item.documentFee!.url.toString());
                 },
                 child: Text('View Document Fee'),
               ),

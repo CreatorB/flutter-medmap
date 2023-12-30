@@ -29,6 +29,9 @@ def keystoreProperties = new Properties()
    }
 
 android {
+    packagingOptions {
+        pickFirst 'lib/arm64-v8a/libc++_shared.so'
+    }
     namespace "org.medmap.app"
     compileSdkVersion flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
