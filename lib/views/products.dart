@@ -1,25 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../views/browse_products.dart' as browse_products;
 import '../main.dart';
 import '../views/details/detail_products.dart';
-
-// void main() {
-//   runApp(Products());
-// }
-
-// class Products extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       home: MyProducts(),
-//     );
-//   }
-// }
 
 class Products extends StatefulWidget {
   static const String route = '/products';

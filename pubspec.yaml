@@ -53,6 +53,7 @@ dev_dependencies:
   flutter_launcher_icons: ^0.13.1
   flutter_test:
     sdk: flutter
+  pretty_http_logger: 1.0.3
 
 flutter_launcher_icons:
   android: "ic_launcher"

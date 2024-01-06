@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
+// import 'dart:convert';
+// import 'package:http/http.dart' as http;
 import '../models/tender_response.dart';
 import '../const.dart';
+import '../api.dart';
 import '../utils.dart';
 
 class Tenders extends StatefulWidget {
@@ -12,9 +13,11 @@ class Tenders extends StatefulWidget {
 }
 
 class _TenderState extends State<Tenders> {
+  final api = Api();
   late TenderResponse tenderResponse;
   List<TenderData> tenders = [];
   int currentPage = 1;
+  int limitItem = 10;
   String keyword = "";
   bool hasMore = true;
   bool isLoading = false;
@@ -58,13 +61,12 @@ class _TenderState extends State<Tenders> {
     });
 
     try {
-      final response = await http.get(Uri.parse(
-          '${Const.URL_API}/tenders?page=$page&limit=5&keyword=$keyword'));
+      final response = await api.fetchData(
+          context, 'tenders?page=$page&limit=$limitItem&keyword=$keyword');
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
-        TenderResponse newTenderResponse =
-            TenderResponse.fromJson(jsonResponse);
+      if (response != null) {
+        // final Map<String, dynamic> jsonResponse = response.body;
+        TenderResponse newTenderResponse = TenderResponse.fromJson(response);
 
         setState(() {
           if (page == 1) {
@@ -74,11 +76,9 @@ class _TenderState extends State<Tenders> {
           }
           currentPage = page;
           // hasMore = newTenderResponse.data.isNotEmpty;
-          hasMore = newTenderResponse.data.length == 5;
+          hasMore = newTenderResponse.data.length == limitItem;
           isInitialLoad = false;
         });
-      } else {
-        Utils.showSnackBar(context, 'Failed to load data');
       }
     } catch (e) {
       Utils.showSnackBar(context, e.toString());
@@ -87,6 +87,40 @@ class _TenderState extends State<Tenders> {
         isLoading = false;
       });
     }
+
+    // try {
+    //   final response = await http.get(Uri.parse(
+    //       '${Const.URL_API}/tenders?page=$page&limit=$limitItem&keyword=$keyword'));
+
+    //   // print('cekResponse: $response');
+
+    //   if (response.statusCode == 200) {
+    //     final Map<String, dynamic> jsonResponse = json.decode(response.body);
+
+    //     TenderResponse newTenderResponse =
+    //         TenderResponse.fromJson(jsonResponse);
+
+    //     setState(() {
+    //       if (page == 1) {
+    //         tenders = newTenderResponse.data;
+    //       } else {
+    //         tenders.addAll(newTenderResponse.data);
+    //       }
+    //       currentPage = page;
+    //       // hasMore = newTenderResponse.data.isNotEmpty;
+    //       hasMore = newTenderResponse.data.length == limitItem;
+    //       isInitialLoad = false;
+    //     });
+    //   } else {
+    //     Utils.showSnackBar(context, 'Failed to load data');
+    //   }
+    // } catch (e) {
+    //   Utils.showSnackBar(context, e.toString());
+    // } finally {
+    //   setState(() {
+    //     isLoading = false;
+    //   });
+    // }
   }
 
   void _updateSearchKeyword(String newKeyword) {
@@ -182,7 +216,7 @@ class _TenderState extends State<Tenders> {
                               ),
                             ),
                             subtitle: Text(
-                              'Start: ${Utils.formatDateToDMY(tender.openDate)} | Close: ${Utils.formatDateToDMY(tender.closeDate)}',
+                              'Start  : ${Utils.formatDateToDMY(tender.openDate)}\nClose : ${Utils.formatDateToDMY(tender.closeDate)}',
                               style: TextStyle(
                                 color: Color(0xFF797979),
                                 fontSize: 14,
