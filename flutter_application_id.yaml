@@ -1,0 +1,7 @@
+flutter_application_id:
+  android:
+    id: "org.medmap.app"
+    name: "Medmap"
+  ios:
+    id: "org.medmap.app"
+    name: "Medmap"
