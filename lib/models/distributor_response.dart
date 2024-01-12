@@ -1,38 +1,33 @@
 import 'dart:convert';
 
-DistributorResponse distributorResponseFromJson(String str) =>
-    DistributorResponse.fromJson(json.decode(str));
-
-String distributorResponseToJson(DistributorResponse data) =>
-    json.encode(data.toJson());
-
 class DistributorResponse {
-  Meta? meta;
-  List<Datum>? data;
+  Meta meta;
+  List<Data> data;
 
   DistributorResponse({
-    this.meta,
-    this.data,
+    required this.meta,
+    required this.data,
   });
+
+  factory DistributorResponse.fromRawJson(String str) =>
+      DistributorResponse.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory DistributorResponse.fromJson(Map<String, dynamic> json) =>
       DistributorResponse(
-        meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
-        data: json["data"] == null
-            ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+        meta: Meta.fromJson(json["meta"]),
+        data: List<Data>.from(json["data"]!.map((x) => Data.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
-        "meta": meta?.toJson(),
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "meta": meta.toJson(),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
-class Datum {
-  int? id;
+class Data {
+  int id;
   String? name;
   String? slug;
   String? address;
@@ -46,14 +41,14 @@ class Datum {
   String? contactUrl;
   DateTime? createdAt;
   DateTime? updatedAt;
-  User? user;
   Logo? logo;
-  List<DistributorCategoryTag>? distributorCategoryTags;
+  User? user;
   Country? country;
+  List<DistributorCategoryTag>? distributorCategoryTags;
   Logo? profileFile;
 
-  Datum({
-    this.id,
+  Data({
+    required this.id,
     this.name,
     this.slug,
     this.address,
@@ -67,14 +62,18 @@ class Datum {
     this.contactUrl,
     this.createdAt,
     this.updatedAt,
-    this.user,
     this.logo,
-    this.distributorCategoryTags,
+    this.user,
     this.country,
+    this.distributorCategoryTags,
     this.profileFile,
   });
 
-  factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+  factory Data.fromRawJson(String str) => Data.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
+  factory Data.fromJson(Map<String, dynamic> json) => Data(
         id: json["id"],
         name: json["name"],
         slug: json["slug"],
@@ -93,15 +92,15 @@ class Datum {
         updatedAt: json["updated_at"] == null
             ? null
             : DateTime.parse(json["updated_at"]),
-        user: json["user"] == null ? null : User.fromJson(json["user"]),
         logo: json["logo"] == null ? null : Logo.fromJson(json["logo"]),
+        user: json["user"] == null ? null : User.fromJson(json["user"]),
+        country:
+            json["country"] == null ? null : Country.fromJson(json["country"]),
         distributorCategoryTags: json["distributor_category_tags"] == null
             ? []
             : List<DistributorCategoryTag>.from(
                 json["distributor_category_tags"]!
                     .map((x) => DistributorCategoryTag.fromJson(x))),
-        country:
-            json["country"] == null ? null : Country.fromJson(json["country"]),
         profileFile: json["profile_file"] == null
             ? null
             : Logo.fromJson(json["profile_file"]),
@@ -122,13 +121,13 @@ class Datum {
         "contact_url": contactUrl,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        "user": user?.toJson(),
         "logo": logo?.toJson(),
+        "user": user?.toJson(),
+        "country": country?.toJson(),
         "distributor_category_tags": distributorCategoryTags == null
             ? []
             : List<dynamic>.from(
                 distributorCategoryTags!.map((x) => x.toJson())),
-        "country": country?.toJson(),
         "profile_file": profileFile?.toJson(),
       };
 }
@@ -149,6 +148,10 @@ class Country {
     this.createdAt,
     this.updatedAt,
   });
+
+  factory Country.fromRawJson(String str) => Country.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Country.fromJson(Map<String, dynamic> json) => Country(
         id: json["id"],
@@ -186,6 +189,11 @@ class DistributorCategoryTag {
     this.updatedAt,
   });
 
+  factory DistributorCategoryTag.fromRawJson(String str) =>
+      DistributorCategoryTag.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory DistributorCategoryTag.fromJson(Map<String, dynamic> json) =>
       DistributorCategoryTag(
         id: json["id"],
@@ -208,8 +216,8 @@ class DistributorCategoryTag {
 
 class Logo {
   int? id;
-  Extname? extname;
-  Type? type;
+  String? extname;
+  String? type;
   String? path;
   DateTime? createdAt;
   DateTime? updatedAt;
@@ -225,10 +233,14 @@ class Logo {
     this.url,
   });
 
+  factory Logo.fromRawJson(String str) => Logo.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory Logo.fromJson(Map<String, dynamic> json) => Logo(
         id: json["id"],
-        extname: extnameValues.map[json["extname"]]!,
-        type: typeValues.map[json["type"]]!,
+        extname: json["extname"],
+        type: json["type"],
         path: json["path"],
         createdAt: json["created_at"] == null
             ? null
@@ -241,24 +253,14 @@ class Logo {
 
   Map<String, dynamic> toJson() => {
         "id": id,
-        "extname": extnameValues.reverse[extname],
-        "type": typeValues.reverse[type],
+        "extname": extname,
+        "type": type,
         "path": path,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
         "url": url,
       };
 }
-
-enum Extname { PDF, PNG, WEBP }
-
-final extnameValues =
-    EnumValues({"pdf": Extname.PDF, "png": Extname.PNG, "webp": Extname.WEBP});
-
-enum Type { APPLICATION, IMAGE }
-
-final typeValues =
-    EnumValues({"application": Type.APPLICATION, "image": Type.IMAGE});
 
 class User {
   int? id;
@@ -267,7 +269,7 @@ class User {
   String? username;
   dynamic description;
   bool? isVerified;
-  Role? role;
+  String? role;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -283,6 +285,10 @@ class User {
     this.updatedAt,
   });
 
+  factory User.fromRawJson(String str) => User.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
+
   factory User.fromJson(Map<String, dynamic> json) => User(
         id: json["id"],
         creatorId: json["creator_id"],
@@ -290,7 +296,7 @@ class User {
         username: json["username"],
         description: json["description"],
         isVerified: json["is_verified"],
-        role: roleValues.map[json["role"]]!,
+        role: json["role"],
         createdAt: json["created_at"] == null
             ? null
             : DateTime.parse(json["created_at"]),
@@ -306,15 +312,11 @@ class User {
         "username": username,
         "description": description,
         "is_verified": isVerified,
-        "role": roleValues.reverse[role],
+        "role": role,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
       };
 }
-
-enum Role { DISTRIBUTOR }
-
-final roleValues = EnumValues({"distributor": Role.DISTRIBUTOR});
 
 class Meta {
   int? total;
@@ -324,7 +326,7 @@ class Meta {
   int? firstPage;
   String? firstPageUrl;
   String? lastPageUrl;
-  String? nextPageUrl;
+  dynamic nextPageUrl;
   dynamic previousPageUrl;
 
   Meta({
@@ -338,6 +340,10 @@ class Meta {
     this.nextPageUrl,
     this.previousPageUrl,
   });
+
+  factory Meta.fromRawJson(String str) => Meta.fromJson(json.decode(str));
+
+  String toRawJson() => json.encode(toJson());
 
   factory Meta.fromJson(Map<String, dynamic> json) => Meta(
         total: json["total"],

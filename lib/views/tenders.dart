@@ -75,7 +75,7 @@ class _TenderState extends State<Tenders> {
             tenders.addAll(newTenderResponse.data);
           }
           currentPage = page;
-          // hasMore = newTenderResponse.data.isNotEmpty;
+          hasMore = newTenderResponse.data.isNotEmpty;
           hasMore = newTenderResponse.data.length == limitItem;
           isInitialLoad = false;
         });

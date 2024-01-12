@@ -21,10 +21,13 @@ Fix latest bug reported in WAG
 ### Added
  
 ### Changed
+
+- [x] [Distributor Detail] Change network image to custom network image fallback with placeholder
  
 ### Fixed
 
-- [Browse Product] The product name is hidden , and should have more space 
+- [x] [Browse Product] The product name is hidden , and should have more space 
+- [x] [Distributor] Fix stuck list on load more
  
 ## [1.0.0] - 2024-01-12
   

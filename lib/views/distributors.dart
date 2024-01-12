@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'dart:convert';
-import 'package:http/http.dart' as http;
 import '../models/distributor_response.dart';
-import '../const.dart';
 import '../utils.dart';
 import '../api.dart';
+import '../widgets/network_image_global.dart';
 
 class Distributors extends StatefulWidget {
   @override
@@ -15,7 +13,7 @@ class Distributors extends StatefulWidget {
 class _DistributorState extends State<Distributors> {
   final api = Api();
   late DistributorResponse distributorResponse;
-  List<Datum> datum = [];
+  List<Data> datum = [];
   int currentPage = 1;
   int limitItem = 10;
   String keyword = "";
@@ -61,31 +59,33 @@ class _DistributorState extends State<Distributors> {
     });
 
     try {
-      final response = await http.get(Uri.parse(
-          '${Const.URL_API}/distributor/lists?page=$page&limit=5&sort=created_at&order=desc&keyword=$keyword'));
+      // final response = await http.get(Uri.parse(
+      //     '${Const.URL_API}/distributor/lists?page=$page&limit=5&sort=created_at&order=desc&keyword=$keyword'));
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> jsonResponse = json.decode(response.body);
+      final response = await api.fetchData(context,
+          'distributor/lists?page=$page&limit=$limitItem&sort=created_at&order=desc&keyword=$keyword');
+
+      if (response != null) {
         DistributorResponse newResponse =
-            DistributorResponse.fromJson(jsonResponse);
+            DistributorResponse.fromJson(response);
 
         setState(() {
           if (page == 1) {
-            datum = newResponse.data!;
+            datum = newResponse.data;
           } else {
-            datum.addAll(newResponse.data!);
+            datum.addAll(newResponse.data);
           }
           currentPage = page;
           // hasMore = newResponse.data.isNotEmpty;
-          hasMore = newResponse.data!.length == 5;
+          hasMore = newResponse.data.length == limitItem;
           isInitialLoad = false;
         });
       } else {
         Utils.showSnackBar(context, 'Failed to load data');
       }
     } catch (e) {
-      // Utils.showSnackBar(context, e.toString());
-      isLoading = false;
+      Utils.showSnackBar(context, e.toString());
+      // isLoading = false;
     } finally {
       setState(() {
         isLoading = false;
@@ -301,7 +301,7 @@ class _DistributorState extends State<Distributors> {
 }
 
 class DetailPage extends StatelessWidget {
-  final Datum item;
+  final Data item;
 
   DetailPage({Key? key, required this.item});
 
@@ -317,15 +317,20 @@ class DetailPage extends StatelessWidget {
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
-                title: Text(
-                  item.name ?? 'Not provided',
-                  style: TextStyle(
-                    color: Colors.purple, // Changed color to purple
-                  ),
-                ),
-                background: Image.network(
-                  item.logo?.url ?? '',
-                  fit: BoxFit.fitWidth,
+                // title: Text(
+                //   item.name ?? 'Not provided',
+                //   style: TextStyle(
+                //     color: Colors.white, // Changed color to purple
+                //   ),
+                // ),
+                // background: Image.network(
+                //   item.logo?.url ?? '',
+                //   fit: BoxFit.fitWidth,
+                // ),
+                background: NetworkImageGlobal(
+                  imageUrl: item.logo?.url ?? '',
+                  imageHeight: double.infinity,
+                  imageWidth: double.infinity,
                 ),
               ),
             ),
@@ -335,6 +340,16 @@ class DetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
+                    Text(
+                      item.name ?? 'Not provided',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 20,
+                        fontFamily: 'Inter',
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 1.5,
+                      ),
+                    ),
                     Text(
                       'Overview',
                       style: TextStyle(
