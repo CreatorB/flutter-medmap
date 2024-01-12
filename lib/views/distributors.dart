@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/distributor_response.dart';
 import '../const.dart';
 import '../utils.dart';
+import '../api.dart';
 
 class Distributors extends StatefulWidget {
   @override
@@ -12,9 +13,11 @@ class Distributors extends StatefulWidget {
 }
 
 class _DistributorState extends State<Distributors> {
+  final api = Api();
   late DistributorResponse distributorResponse;
   List<Datum> datum = [];
   int currentPage = 1;
+  int limitItem = 10;
   String keyword = "";
   bool hasMore = true;
   bool isLoading = false;

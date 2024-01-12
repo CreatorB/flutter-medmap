@@ -177,6 +177,7 @@ class _MyProductState extends State<BrowseProducts> {
                   children: [
                     Expanded(
                       child: GridView.builder(
+                        shrinkWrap: true,
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 2,
                           crossAxisSpacing: 8.0,
@@ -264,25 +265,26 @@ class GridItem extends StatelessWidget {
           //   alignment: Alignment.center,
           // ),
           SizedBox(height: 8.0),
-          Flexible(
+          Container(
               // child: Text(item.name),
+              width: double.infinity,
               child: Padding(
-            padding: const EdgeInsets.all(8.0), // Adjust padding as needed
-            child: Text(
-              item.name ?? 'Not provided',
-              overflow: TextOverflow
-                  .ellipsis, // This will cut off extra text with ellipsis
-              maxLines: 2, // Limits the number of lines displayed
-              // style: TextStyle(fontSize: 16.0), // Adjust font size as needed
-              style: TextStyle(
-                color: Color(0xFF18181B),
-                fontSize: 12,
-                fontFamily: 'Inter',
-                fontWeight: FontWeight.w700,
-                // height: 0.11,
-              ),
-            ),
-          )),
+                padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+                child: Text(
+                  item.name ?? 'Not provided',
+                  overflow: TextOverflow
+                      .ellipsis, // This will cut off extra text with ellipsis
+                  maxLines: 1, // Limits the number of lines displayed
+                  // style: TextStyle(fontSize: 16.0), // Adjust font size as needed
+                  style: TextStyle(
+                    color: Color(0xFF18181B),
+                    fontSize: 12,
+                    fontFamily: 'Inter',
+                    fontWeight: FontWeight.w700,
+                    // height: 0.11,
+                  ),
+                ),
+              )),
         ],
       ),
     );

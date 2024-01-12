@@ -15,7 +15,7 @@ class NetworkImageWithLocalFallback extends StatelessWidget {
       imageUrl,
       fit: BoxFit.cover,
       width: double.infinity,
-      height: 130.0,
+      height: 100.0,
       alignment: Alignment.center,
       loadingBuilder: (BuildContext context, Widget child,
           ImageChunkEvent? loadingProgress) {
@@ -39,7 +39,7 @@ class NetworkImageWithLocalFallback extends StatelessWidget {
           localAsset,
           fit: BoxFit.cover,
           width: double.infinity,
-          height: 130.0,
+          height: 100.0,
           alignment: Alignment.center,
         );
       },
