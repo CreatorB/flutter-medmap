@@ -10,33 +10,41 @@ Mobile apps for https://www.med-map.org
 
 # Change Log
 All notable changes to this project will be documented in this file.
- 
+
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
- 
+
 ## [1.0.0] - 2024-01-12
 
 Fix latest bug reported in WAG
- 
+
 ### Added
- 
+
+- [ ] [Events / News] Lists.
+- [ ] [Events / News] Detail List.
+- [ ] [APK] Upload latest apk.
+
 ### Changed
 
-- [x] [Distributor Detail] Change network image to custom network image fallback with placeholder
- 
+- [x] [Distributor Detail] Change network image to custom network image fallback with placeholder.
+- [x] [HOME] Replace distributor and events icon.
+
 ### Fixed
 
-- [x] [Browse Product] The product name is hidden , and should have more space 
-- [x] [Distributor] Fix stuck list on load more
- 
+- [x] [Browse Product] The product name is hidden , and should have more space.
+- [x] [Distributor] Fix stuck list on load more.
+- [x] [PRODUCTS] Remove shadow icon to make icon doesn't look dull.
+- [ ] [PRODUCTS category] on click not work.
+- [x] [PRODUCTS category] title getting cut off.
+
 ## [1.0.0] - 2024-01-12
-  
+
 Here we started changelog for people to keep in track this project easily.
- 
+
 ### Added
 
-- Create Changelog
- 
+- Create Changelog.
+
 ### Changed
 
 ### Fixed

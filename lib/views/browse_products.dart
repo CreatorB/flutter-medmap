@@ -249,7 +249,7 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
+      elevation: 1,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

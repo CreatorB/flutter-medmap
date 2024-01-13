@@ -203,7 +203,7 @@ class _MyProductState extends State<Products> {
             : SingleChildScrollView(
                 child: Container(
                   margin: EdgeInsets.fromLTRB(
-                      20, 0, 20, 60.0), // Adds bottom margin of 16.0
+                      20, 0, 20, 100.0), // Adds bottom margin of 16.0
                   // height: MediaQuery.of(context)
                   //     .size
                   //     .height, // Set height to screen height
@@ -289,42 +289,60 @@ class _MyProductState extends State<Products> {
                         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                           crossAxisCount: 3,
                           crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
+                          mainAxisSpacing: 20,
                         ),
                         itemBuilder: (BuildContext context, int index) {
                           return GestureDetector(
                             onTap: () {
                               // Handle item tap
+                              if (itemCategories[index]['title'] == 'All') {
+                                navbarVisibility(true);
+                                final back = Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          browse_products.BrowseProducts()),
+                                );
+                                if (back == 'back') {
+                                  navbarVisibility(false);
+                                }
+                              }
                             },
-                            child: Column(
-                              // crossAxisAlignment: CrossAxisAlignment.stretch,
-                              // mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Card(
-                                  elevation: 3,
-                                  color: itemCategories[index]['color'],
-                                  child: Image.asset(
-                                    itemCategories[index]['image']!,
-                                    fit: BoxFit.cover,
-                                    alignment: Alignment.center,
-                                    width: 75,
-                                    height: 75,
-                                  ),
-                                ),
-                                Flexible(
-                                  child: Text(
-                                    itemCategories[index]['title'],
-                                    textAlign: TextAlign.center,
-                                    style: TextStyle(
-                                      color: Color(0xFF18181B),
-                                      fontSize: 12,
-                                      fontFamily: 'Inter',
-                                      fontWeight: FontWeight.w400,
-                                      // height: 0.11,
+                            child: Container(
+                              padding: EdgeInsets.only(bottom: 8),
+                              child: Column(
+                                // crossAxisAlignment: CrossAxisAlignment.stretch,
+                                // mainAxisAlignment: MainAxisAlignment.center,
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  Card(
+                                    elevation: 0,
+                                    color: itemCategories[index]['color'],
+                                    child: Image.asset(
+                                      itemCategories[index]['image']!,
+                                      fit: BoxFit.cover,
+                                      alignment: Alignment.center,
+                                      width: 75,
+                                      height: 75,
                                     ),
                                   ),
-                                )
-                              ],
+                                  SizedBox(height: 4),
+                                  Expanded(
+                                    child: Text(
+                                      itemCategories[index]['title'],
+                                      textAlign: TextAlign.center,
+                                      overflow: TextOverflow.visible,
+                                      style: TextStyle(
+                                        color: Color(0xFF18181B),
+                                        fontSize: 12,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        // height: 0.11,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           );
                         },
@@ -431,7 +449,7 @@ class GridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      elevation: 2.0,
+      elevation: 1,
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [

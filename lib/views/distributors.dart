@@ -63,7 +63,7 @@ class _DistributorState extends State<Distributors> {
       //     '${Const.URL_API}/distributor/lists?page=$page&limit=5&sort=created_at&order=desc&keyword=$keyword'));
 
       final response = await api.fetchData(context,
-          'distributor/lists?page=$page&limit=$limitItem&sort=created_at&order=desc&keyword=$keyword');
+          'distributor/lists?page=$page&limit=$limitItem&keyword=$keyword');
 
       if (response != null) {
         DistributorResponse newResponse =

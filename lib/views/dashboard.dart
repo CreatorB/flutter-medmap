@@ -205,7 +205,7 @@ class _MyAppState extends State<Dashboard> {
                           height:
                               20.0), // Add some space between image and text
                       Text(
-                        'Registration',
+                        'Events',
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF333333),
