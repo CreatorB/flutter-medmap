@@ -306,6 +306,20 @@ class _MyProductState extends State<Products> {
                                 if (back == 'back') {
                                   navbarVisibility(false);
                                 }
+                              } else {
+                                navbarVisibility(true);
+                                final back = Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) =>
+                                          browse_products.BrowseProducts(
+                                              title: itemCategories[index]
+                                                  ['title'],
+                                              categoryId: index.toString())),
+                                );
+                                if (back == 'back') {
+                                  navbarVisibility(false);
+                                }
                               }
                             },
                             child: Container(

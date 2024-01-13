@@ -20,9 +20,8 @@ Fix latest bug reported in WAG
 
 ### Added
 
-- [ ] [Events / News] Lists.
-- [ ] [Events / News] Detail List.
-- [ ] [APK] Upload latest apk.
+- [x] [Events / News] Load web.
+- [x] [APK] Upload latest apk.
 
 ### Changed
 
@@ -34,7 +33,7 @@ Fix latest bug reported in WAG
 - [x] [Browse Product] The product name is hidden , and should have more space.
 - [x] [Distributor] Fix stuck list on load more.
 - [x] [PRODUCTS] Remove shadow icon to make icon doesn't look dull.
-- [ ] [PRODUCTS category] on click not work.
+- [x] [PRODUCTS category] on click not work.
 - [x] [PRODUCTS category] title getting cut off.
 
 ## [1.0.0] - 2024-01-12

@@ -6,7 +6,7 @@ import '../default_page.dart';
 import '../main.dart';
 import '../views/products.dart';
 import '../views/browse_products.dart';
-// import '../views/myblog.dart';
+import '../widgets/webview_activity.dart';
 
 class Dashboard extends StatefulWidget {
   static const String route = '/dashboard';
@@ -189,8 +189,16 @@ class _MyAppState extends State<Dashboard> {
                   onTap: () {
                     Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => DefaultPage()),
+                      MaterialPageRoute(
+                        builder: (context) => WebViewActivity(
+                            title: 'Events & News',
+                            url: Const.URL_WEB + '/all-news'),
+                      ),
                     );
+                    // Navigator.push(
+                    //   context,
+                    //   MaterialPageRoute(builder: (context) => DefaultPage()),
+                    // );
                   },
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,

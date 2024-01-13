@@ -8,6 +8,11 @@ import '../utils.dart';
 
 class BrowseProducts extends StatefulWidget {
   static const String route = '/dashboard/browse-products';
+  final String? title;
+  final String? categoryId;
+
+  BrowseProducts({Key? key, this.title, this.categoryId}) : super(key: key);
+
   @override
   _MyProductState createState() => _MyProductState();
 }
@@ -83,8 +88,8 @@ class _MyProductState extends State<BrowseProducts> {
     });
 
     try {
-      final response = await api.fetchData(
-          context, 'products?page=$page&limit=$limitItem&keyword=$keyword');
+      final response = await api.fetchData(context,
+          'products?page=$page&limit=$limitItem&keyword=$keyword&category_ids=${widget.categoryId ?? ""}');
       if (response != null) {
         ProductResponse newProductResponse = ProductResponse.fromJson(response);
 
@@ -142,7 +147,7 @@ class _MyProductState extends State<BrowseProducts> {
                   _updateSearchKeyword(value);
                 },
               )
-            : Text('Browse Products'),
+            : Text(widget.title ?? 'All Products'),
         actions: [
           isSearching
               ? IconButton(
@@ -167,44 +172,47 @@ class _MyProductState extends State<BrowseProducts> {
       ),
       body: isInitialLoad
           ? Center(child: CircularProgressIndicator())
-          : RefreshIndicator(
-              onRefresh: () => fetchData(page: 1),
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, 0, 0, 60.0), // Adds bottom margin of 16.0
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Expanded(
-                      child: GridView.builder(
-                        shrinkWrap: true,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 8.0,
-                          mainAxisSpacing: 8.0,
-                        ),
-                        itemCount: products.length,
-                        controller: _scrollController,
-                        itemBuilder: (BuildContext context, int index) {
-                          return GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      DetailProducts(item: products[index]),
-                                ),
+          : products.isEmpty
+              ? Center(child: Text('No data available'))
+              : RefreshIndicator(
+                  onRefresh: () => fetchData(page: 1),
+                  child: Container(
+                    margin: EdgeInsets.fromLTRB(
+                        0, 0, 0, 60.0), // Adds bottom margin of 16.0
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Expanded(
+                          child: GridView.builder(
+                            shrinkWrap: true,
+                            gridDelegate:
+                                SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              crossAxisSpacing: 8.0,
+                              mainAxisSpacing: 8.0,
+                            ),
+                            itemCount: products.length,
+                            controller: _scrollController,
+                            itemBuilder: (BuildContext context, int index) {
+                              return GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) =>
+                                          DetailProducts(item: products[index]),
+                                    ),
+                                  );
+                                },
+                                child: GridItem(item: products[index]),
                               );
                             },
-                            child: GridItem(item: products[index]),
-                          );
-                        },
-                      ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              ),
-            ),
       // body: isLoading
       //     ? Center(child: CircularProgressIndicator())
       //     : Container(
