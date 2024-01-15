@@ -25,61 +25,73 @@ class _MyProductState extends State<Products> {
       'image': 'assets/icons/ctg_all.png',
       'title': 'All',
       'color': Color(0xFFE0E0E0),
+      'id': '',
     },
     {
       'image': 'assets/icons/ctg_medical_equipment.png',
       'title': 'Medical Equipment',
       'color': Color(0xFFF6EFC6),
+      'id': '1',
     },
     {
       'image': 'assets/icons/ctg_medical_consumables.png',
       'title': 'Medical Consumables',
       'color': Color(0xFFFCEEE1),
+      'id': '2',
     },
     {
       'image': 'assets/icons/ctg_molecular_instrument.png',
       'title': 'Molecular Instrument',
       'color': Color(0xFFDAE1FD),
+      'id': '3',
     },
     {
       'image': 'assets/icons/ctg_prescription_drug.png',
       'title': 'Prescription Drug',
       'color': Color(0xFFE3F2E9),
+      'id': '9',
     },
     {
       'image': 'assets/icons/ctg_immunohisto_chemistry.png',
       'title': 'Immunohisto chemistry',
       'color': Color(0xFFFFE7E7),
+      'id': '4',
     },
     {
       'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
       'title': 'Imaging and Diagnostics',
       'color': Color(0xFFFFE7E7),
+      'id': '5',
     },
     {
       'image': 'assets/icons/ctg_laboratory_furniture.png',
       'title': 'Laboratory Furniture',
       'color': Color(0xFFF6EFC6),
+      'id': '7',
     },
     {
       'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
       'title': 'Physiotherapy Rehabilitation',
       'color': Color(0xFFE4ECFE),
+      'id': '6',
     },
     {
       'image': 'assets/icons/ctg_software_database.png',
       'title': 'Software & Database',
       'color': Color(0xFFFCEEE1),
+      'id': '8',
     },
     {
       'image': 'assets/icons/ctg_otc_drug.png',
       'title': 'OTC Drug',
       'color': Color(0xFFE4ECFE),
+      'id': '10',
     },
     {
       'image': 'assets/icons/ctg_vaccine.png',
       'title': 'Vaccine',
       'color': Color(0xFFFFE7E7),
+      'id': '11',
     },
   ];
 
@@ -295,7 +307,7 @@ class _MyProductState extends State<Products> {
                           return GestureDetector(
                             onTap: () {
                               // Handle item tap
-                              if (itemCategories[index]['title'] == 'All') {
+                              if (itemCategories[index]['id'] == '0') {
                                 navbarVisibility(true);
                                 final back = Navigator.push(
                                   context,
@@ -315,7 +327,8 @@ class _MyProductState extends State<Products> {
                                           browse_products.BrowseProducts(
                                               title: itemCategories[index]
                                                   ['title'],
-                                              categoryId: index.toString())),
+                                              categoryId: itemCategories[index]
+                                                  ['id'])),
                                 );
                                 if (back == 'back') {
                                   navbarVisibility(false);
