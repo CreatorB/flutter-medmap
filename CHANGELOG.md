@@ -22,10 +22,11 @@ Fix latest bug reported in WAG
 
 ### Changed
 
-- [x] [PRODUCTS category] (fix) Wrong directions onclick PRODUCTS category.
 - [x] [APK] Upload latest apk.
 
 ### Fixed
+
+- [x] [PRODUCTS category] (fix) Wrong directions onclick PRODUCTS category.
 
 ## [1.0.0] - 2024-01-12
 
