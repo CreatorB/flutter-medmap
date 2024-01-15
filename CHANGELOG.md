@@ -14,6 +14,19 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-01-15
+
+Fix latest bug reported in WAG
+
+### Added
+
+### Changed
+
+- [x] [PRODUCTS category] (fix) Wrong directions onclick PRODUCTS category.
+- [x] [APK] Upload latest apk.
+
+### Fixed
+
 ## [1.0.0] - 2024-01-12
 
 Fix latest bug reported in WAG
