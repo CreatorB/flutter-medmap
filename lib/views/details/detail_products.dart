@@ -105,185 +105,189 @@ class _DetailProductsState extends State<DetailProducts> {
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Image Slider
-                    // SliderImages(
-                    //   images: [
-                    //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
-                    //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
-                    //   ],
-                    // ),
-                    SliderImages(images: imageUrls),
-                    // Padding(
-                    //   padding: EdgeInsets.symmetric(horizontal: 4.0),
-                    //   child: Wrap(
-                    //     spacing: 8.0,
-                    //     children: (item['tags'] as List<dynamic>).map((tag) {
-                    //       return Chip(
-                    //         label: Text(tag['name']),
-                    //         backgroundColor: Colors.blue,
-                    //         labelStyle: TextStyle(color: Colors.white),
-                    //       );
-                    //     }).toList(),
-                    //   ),
-                    // ),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
-                      child: Container(
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: ShapeDecoration(
-                          color: Color(0x334894FE),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      0, 0, 0, 60.0), // Adds bottom margin of 16.0
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image Slider
+                      // SliderImages(
+                      //   images: [
+                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
+                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
+                      //   ],
+                      // ),
+                      SliderImages(images: imageUrls),
+                      // Padding(
+                      //   padding: EdgeInsets.symmetric(horizontal: 4.0),
+                      //   child: Wrap(
+                      //     spacing: 8.0,
+                      //     children: (item['tags'] as List<dynamic>).map((tag) {
+                      //       return Chip(
+                      //         label: Text(tag['name']),
+                      //         backgroundColor: Colors.blue,
+                      //         labelStyle: TextStyle(color: Colors.white),
+                      //       );
+                      //     }).toList(),
+                      //   ),
+                      // ),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
+                        child: Container(
+                          height: 30,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: ShapeDecoration(
+                            color: Color(0x334894FE),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (item.tags).map((tag) {
-                            // children: (item.tags as List<dynamic>).map((tag) {
-                            // return Chip(
-                            //   label: Text(tag['name']),
-                            //   backgroundColor: Colors.blue,
-                            //   labelStyle: TextStyle(color: Colors.white),
-                            // );
-                            return Text(
-                              tag.name,
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            );
-                          }).toList(),
-                          // children: [
-                          //   Text(
-                          //     item.tags[0].name,
-                          //     style: TextStyle(
-                          //       color: Colors.black,
-                          //       fontSize: 14,
-                          //       fontFamily: 'Inter',
-                          //       fontWeight: FontWeight.w400,
-                          //       height: 0,
-                          //     ),
-                          //   ),
-                          // ],
-                        ),
-                      ),
-                    ),
-                    // Title
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        item.name,
-                        style: TextStyle(
-                          color: Color(0xFF18181B),
-                          fontSize: 24,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: SizedBox(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Category: ',
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextSpan(
-                                text: item.category.name,
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: SizedBox(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: item.manufacturer != null
-                                    ? 'Manufacturer: '
-                                    : 'Distributor: ',
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextSpan(
-                                text: item.manufacturer != null
-                                    ? item.manufacturer?.name
-                                    : item.distributor?.name,
-                                style: TextStyle(
-                                  color: Color(0xFF4894FE),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: SizedBox(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Product Details\n',
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: (item.tags).map((tag) {
+                              // children: (item.tags as List<dynamic>).map((tag) {
+                              // return Chip(
+                              //   label: Text(tag['name']),
+                              //   backgroundColor: Colors.blue,
+                              //   labelStyle: TextStyle(color: Colors.white),
+                              // );
+                              return Text(
+                                tag.name,
                                 style: TextStyle(
                                   color: Colors.black,
-                                  fontSize: 12,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.15,
-                                ),
-                              ),
-                              TextSpan(
-                                text: item.description,
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 12,
+                                  fontSize: 14,
                                   fontFamily: 'Inter',
                                   fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.15,
+                                  height: 0,
                                 ),
-                              ),
-                            ],
+                              );
+                            }).toList(),
+                            // children: [
+                            //   Text(
+                            //     item.tags[0].name,
+                            //     style: TextStyle(
+                            //       color: Colors.black,
+                            //       fontSize: 14,
+                            //       fontFamily: 'Inter',
+                            //       fontWeight: FontWeight.w400,
+                            //       height: 0,
+                            //     ),
+                            //   ),
+                            // ],
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                      // Title
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          item.name,
+                          style: TextStyle(
+                            color: Color(0xFF18181B),
+                            fontSize: 24,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: SizedBox(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Category: ',
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: item.category.name,
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: SizedBox(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: item.manufacturer != null
+                                      ? 'Manufacturer: '
+                                      : 'Distributor: ',
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: item.manufacturer != null
+                                      ? item.manufacturer?.name
+                                      : item.distributor?.name,
+                                  style: TextStyle(
+                                    color: Color(0xFF4894FE),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: SizedBox(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Product Details\n',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.15,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: item.description,
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 0.15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             );

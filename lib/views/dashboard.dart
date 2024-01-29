@@ -52,15 +52,13 @@ class _MyAppState extends State<Dashboard> {
                 onPressed: () async {
                   // NavigationHistory.addContext(context);
                   // print("cekDashboard : ${context}");
-
-                  navbarVisibility(true);
                   final back = await Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => BrowseProducts()),
                   );
-                  if (back == 'back') {
-                    navbarVisibility(false);
-                  }
+                  // if (back == 'back') {
+                  //   navbarVisibility(false);
+                  // }
                 },
                 // color: Colors.white,
               ),

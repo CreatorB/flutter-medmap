@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import '../views/browse_products.dart' as browse_products;
-import '../main.dart';
+// import '../main.dart';
 import '../views/details/detail_products.dart';
 
 class Products extends StatefulWidget {
@@ -189,15 +189,15 @@ class _MyProductState extends State<Products> {
             onPressed: () {
               // NavigationHistory.addContext(context);
               // print("cekCtxProducts : ${context}");
-              navbarVisibility(true);
+              // navbarVisibility(true);
               final back = Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => browse_products.BrowseProducts()),
               );
-              if (back == 'back') {
-                navbarVisibility(false);
-              }
+              // if (back == 'back') {
+              //   navbarVisibility(false);
+              // }
               // showSearch(
               //     context: context,
               //     delegate: ItemSearchDelegate(allItems, searchItems));
@@ -308,18 +308,18 @@ class _MyProductState extends State<Products> {
                             onTap: () {
                               // Handle item tap
                               if (itemCategories[index]['id'] == '0') {
-                                navbarVisibility(true);
+                                // navbarVisibility(true);
                                 final back = Navigator.push(
                                   context,
                                   MaterialPageRoute(
                                       builder: (context) =>
                                           browse_products.BrowseProducts()),
                                 );
-                                if (back == 'back') {
-                                  navbarVisibility(false);
-                                }
+                                // if (back == 'back') {
+                                //   navbarVisibility(false);
+                                // }
                               } else {
-                                navbarVisibility(true);
+                                // navbarVisibility(true);
                                 final back = Navigator.push(
                                   context,
                                   MaterialPageRoute(
@@ -330,9 +330,9 @@ class _MyProductState extends State<Products> {
                                               categoryId: itemCategories[index]
                                                   ['id'])),
                                 );
-                                if (back == 'back') {
-                                  navbarVisibility(false);
-                                }
+                                // if (back == 'back') {
+                                //   navbarVisibility(false);
+                                // }
                               }
                             },
                             child: Container(

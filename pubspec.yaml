@@ -47,6 +47,7 @@ dependencies:
   path: ^1.8.3
   flutter_widget_from_html: ^0.14.9
   webview_flutter: ^4.4.4
+  share_plus: ^7.2.1
 
 dev_dependencies:
   flutter_application_id: ^2.0.0-dev

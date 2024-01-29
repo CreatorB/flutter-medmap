@@ -16,7 +16,7 @@ class _SliderImagesWidgetState extends State<SliderImages> {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 200,
+        height: 150,
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
@@ -28,6 +28,14 @@ class _SliderImagesWidgetState extends State<SliderImages> {
                 });
               },
               itemBuilder: (BuildContext context, int index) {
+                return GestureDetector(
+                  onTap: () => _openImageFullscreen(widget.images[index]),
+                  child: Image.network(
+                    widget.images[index],
+                    fit: BoxFit.cover,
+                  ),
+                );
+
                 // return CompressedImage(
                 //   imageUrl: widget.images[index],
                 //   width: MediaQuery.of(context)
@@ -35,11 +43,12 @@ class _SliderImagesWidgetState extends State<SliderImages> {
                 //       .width, // Full width of the screen
                 //   height: 200, // Replace with your desired height
                 // );
-                return Image.network(
-                  widget.images[
-                      index], // Use widget.images[index] for network images
-                  fit: BoxFit.cover,
-                );
+
+                // return Image.network(
+                //   widget.images[
+                //       index], // Use widget.images[index] for network images
+                //   fit: BoxFit.cover,
+                // );
               },
             ),
             _buildDotsIndicator(),
@@ -66,5 +75,25 @@ class _SliderImagesWidgetState extends State<SliderImages> {
         }).toList(),
       ),
     );
+  }
+
+  void _openImageFullscreen(String imageUrl) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Image Preview'),
+        ),
+        body: Center(
+          child: InteractiveViewer(
+            child: CompressedImage(
+              imageUrl: imageUrl,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+              // fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      );
+    }));
   }
 }

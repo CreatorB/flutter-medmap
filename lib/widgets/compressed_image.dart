@@ -20,7 +20,7 @@ class CompressedImage extends StatefulWidget {
 }
 
 class _CompressedNetworkImageState extends State<CompressedImage> {
-  late List<int> compressedImageData;
+  late List<int> compressedImageData = [];
 
   @override
   void initState() {
@@ -30,19 +30,25 @@ class _CompressedNetworkImageState extends State<CompressedImage> {
   }
 
   Future<void> _compressImage() async {
-    final originalImageData = await http.get(Uri.parse(widget.imageUrl));
-    final originalData = originalImageData.bodyBytes;
+    try {
+      final originalImageData = await http.get(Uri.parse(widget.imageUrl));
+      final originalData = originalImageData.bodyBytes;
 
-    final result = await FlutterImageCompress.compressWithList(
-      originalData,
-      minHeight: 800,
-      minWidth: 800,
-      quality: 50,
-    );
+      final result = await FlutterImageCompress.compressWithList(
+        originalData,
+        minHeight: 800,
+        minWidth: 800,
+        quality: 50,
+      );
 
-    setState(() {
-      compressedImageData = result;
-    });
+      if (mounted) {
+        setState(() {
+          compressedImageData = result;
+        });
+      }
+    } catch (e) {
+      print('Error compressing image: $e');
+    }
   }
 
   @override

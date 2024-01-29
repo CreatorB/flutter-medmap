@@ -14,6 +14,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-01-29
+
+Follow up PM noted
+
+### Added
+
+- :construction: [Detail Products] Add more part of detail product. ( _Work in
+    progress ..._ )
+- [x] [Detail Products] Add share button.
+- [ ] [App] Add more language support.
+- [x] [APK] Upload latest apk.
+
+### Changed
+
+- [x] [Detail Products] Change size image slider to smaller.
+
+### Fixed
+
+- [x] [Bottom Navigation] (fix) sometime dissapear.
+
 ## [1.0.0] - 2024-01-15
 
 Fix latest bug reported in WAG
