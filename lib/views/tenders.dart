@@ -6,6 +6,7 @@ import '../models/tender_response.dart';
 import '../const.dart';
 import '../api.dart';
 import '../utils.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Tenders extends StatefulWidget {
   @override
@@ -253,11 +254,22 @@ class TenderDetailPage extends StatelessWidget {
 
   TenderDetailPage({Key? key, required this.item});
 
+  void _shareProduct() {
+    final String productUrl = 'https://med-map.org/tender/detail/${item.id}';
+    Share.share(productUrl, subject: '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Tender Details'),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: _shareProduct,
+          ),
+        ],
       ),
       body: SingleChildScrollView(
         padding: EdgeInsets.fromLTRB(8, 0, 8, 60),

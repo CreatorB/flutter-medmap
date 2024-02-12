@@ -313,7 +313,7 @@ class DetailPage extends StatelessWidget {
         child: CustomScrollView(
           slivers: <Widget>[
             SliverAppBar(
-              expandedHeight: 200.0,
+              expandedHeight: 150,
               floating: false,
               pinned: true,
               flexibleSpace: FlexibleSpaceBar(
@@ -329,8 +329,8 @@ class DetailPage extends StatelessWidget {
                 // ),
                 background: NetworkImageGlobal(
                   imageUrl: item.logo?.url ?? '',
-                  imageHeight: double.infinity,
                   imageWidth: double.infinity,
+                  imageHeight: double.infinity,
                 ),
               ),
             ),

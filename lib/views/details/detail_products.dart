@@ -4,10 +4,12 @@ import '../../widgets/slider_images.dart';
 import 'package:flutter/material.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:share_plus/share_plus.dart';
 
 //start model
 class Item {
   final String name;
+  final String slug;
   final String url;
   final int id;
   List<Tag> tags;
@@ -15,6 +17,7 @@ class Item {
 
   Item({
     required this.name,
+    required this.slug,
     required this.url,
     required this.id,
     required this.tags,
@@ -26,6 +29,7 @@ class Item {
     // print(json['thumbnail']['url']);
     return Item(
       name: json['name'],
+      slug: json['slug'],
       url: json['thumbnail']['url'],
       id: json['id'],
       tags: List<Tag>.from(json['tags'].map((x) => Tag.fromJson(x))),
@@ -79,6 +83,12 @@ class _DetailProductsState extends State<DetailProducts> {
     }
   }
 
+  void _shareProduct() {
+    final String productUrl =
+        'https://med-map.org/product-detail/${widget.item.slug}';
+    Share.share(productUrl, subject: '');
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -90,6 +100,12 @@ class _DetailProductsState extends State<DetailProducts> {
             Navigator.pop(context, 'back');
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: _shareProduct,
+          ),
+        ],
       ),
       body: FutureBuilder<Product>(
         future: itemDetails,

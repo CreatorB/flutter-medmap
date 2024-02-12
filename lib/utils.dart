@@ -9,6 +9,15 @@ import 'package:path/path.dart';
 import 'views/pdf_screen.dart';
 
 class Utils {
+  static void changeLanguage(BuildContext context, String languageCode) {
+    Locale newLocale = Locale(languageCode);
+    Localizations.localeOf(context);
+    Localizations.override(
+      context: context,
+      locale: newLocale,
+    );
+  }
+
   static String formatDateToDMY(DateTime date) {
     return DateFormat('dd/MM/yyyy').format(date).toString();
   }

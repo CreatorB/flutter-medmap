@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../const.dart';
+import '../utils.dart';
 import '../default_page.dart';
 import '../main.dart';
 import '../views/products.dart';
@@ -44,9 +45,29 @@ class _MyAppState extends State<Dashboard> {
             ),
           ),
           actions: [
-            Container(
-              margin:
-                  EdgeInsets.only(right: 16.0), // Adjust the margin as needed
+            // IconButton(
+            //   icon: Icon(Icons.person),
+            //   onPressed: () async {},
+            // ),
+            PopupMenuButton<String>(
+              icon: Icon(Icons.language),
+              onSelected: (String value) {
+                Utils.changeLanguage(context, value);
+              },
+              itemBuilder: (BuildContext context) => [
+                PopupMenuItem<String>(
+                  value: 'en',
+                  child: Text('English'),
+                ),
+                PopupMenuItem<String>(
+                  value: 'zn',
+                  child: Text('Chinese'),
+                ),
+                // Add more language options as needed
+              ],
+            ),
+            Padding(
+              padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(
                 icon: Icon(Icons.search),
                 onPressed: () async {

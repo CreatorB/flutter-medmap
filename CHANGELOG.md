@@ -14,6 +14,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-01-02
+
+Updated
+
+### Added
+
+- :construction: [Detail Products] Add more part of detail product. ( _Work in
+    progress ..._ )
+- [x] [Detail Products Distributor] Add share button.
+- [x] [App] Add more language support.
+- [ ] [APK] Upload latest apk.
+
+### Changed
+
+- [x] [Detail Products Distributor] Change size image header to smaller.
+
+### Fixed
+
 ## [1.0.0] - 2024-01-29
 
 Follow up PM noted

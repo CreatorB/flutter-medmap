@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'compressed_image.dart';
 
 class NetworkImageGlobal extends StatelessWidget {
   final String imageUrl;
@@ -7,44 +8,64 @@ class NetworkImageGlobal extends StatelessWidget {
 
   NetworkImageGlobal({
     required this.imageUrl,
-    required this.imageHeight,
     required this.imageWidth,
+    required this.imageHeight,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Image.network(
-      imageUrl,
-      fit: BoxFit.fitWidth,
-      width: imageWidth,
-      height: imageHeight,
-      alignment: Alignment.center,
-      loadingBuilder: (BuildContext context, Widget child,
-          ImageChunkEvent? loadingProgress) {
-        if (loadingProgress == null) return child;
-        return Center(
-          child: CircularProgressIndicator(
-            value: loadingProgress.expectedTotalBytes != null
-                ? loadingProgress.cumulativeBytesLoaded /
-                    loadingProgress.expectedTotalBytes!
-                : null,
-          ),
-        );
-      },
-      errorBuilder:
-          (BuildContext context, Object exception, StackTrace? stackTrace) {
-        // Here we can log the error to our analytics or error monitoring service.
-        print('Error loading $imageUrl: $exception');
-
-        // Returning a local asset image
-        return Image.asset(
-          'assets/images/no_img.jpg',
-          fit: BoxFit.cover,
-          width: imageWidth,
-          height: imageHeight,
-          alignment: Alignment.center,
-        );
-      },
+    return GestureDetector(
+      // onTap: () => _openImageFullscreen(context, imageUrl),
+      child: Image.network(
+        imageUrl,
+        // fit: BoxFit.fitWidth,
+        width: imageWidth,
+        height: imageHeight,
+        alignment: Alignment.center,
+        loadingBuilder: (BuildContext context, Widget child,
+            ImageChunkEvent? loadingProgress) {
+          if (loadingProgress == null) return child;
+          return Center(
+            child: CircularProgressIndicator(
+              value: loadingProgress.expectedTotalBytes != null
+                  ? loadingProgress.cumulativeBytesLoaded /
+                      loadingProgress.expectedTotalBytes!
+                  : null,
+            ),
+          );
+        },
+        errorBuilder:
+            (BuildContext context, Object exception, StackTrace? stackTrace) {
+          print('Error loading $imageUrl: $exception');
+          return Image.asset(
+            'assets/images/no_img.jpg',
+            fit: BoxFit.cover,
+            width: imageWidth,
+            height: imageHeight,
+            alignment: Alignment.center,
+          );
+        },
+      ),
     );
+  }
+
+  void _openImageFullscreen(BuildContext context, String imageUrl) {
+    Navigator.of(context).push(MaterialPageRoute(builder: (context) {
+      return Scaffold(
+        appBar: AppBar(
+          title: Text('Image Preview'),
+        ),
+        body: Center(
+          child: InteractiveViewer(
+            child: CompressedImage(
+              imageUrl: imageUrl,
+              width: MediaQuery.of(context).size.width,
+              height: MediaQuery.of(context).size.width,
+              // fit: BoxFit.contain,
+            ),
+          ),
+        ),
+      );
+    }));
   }
 }
