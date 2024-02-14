@@ -34,9 +34,19 @@ class NavigationHistory {
   }
 }
 
-void main() {
-  runApp(MyApp());
+// void main() {
+//   runApp(MyApp());
+// }
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  AppLanguage appLanguage = AppLanguage();
+  await appLanguage.fetchLocale();
+  runApp(MyApp(
+    appLanguage: appLanguage,
+  ));
 }
+
 
 void selectTab(int index) {
   NavbarNotifier.index = index;
@@ -62,8 +72,15 @@ void navbarVisibility(bool status) {
   // }
 }
 
+void changeLang(BuildContext context, String lang) {
+  var appLanguage = Provider.of<AppLanguage>(context);
+  appLanguage.changeLanguage(Locale(lang));
+}
+
 class MyApp extends StatefulWidget {
-  MyApp({Key? key}) : super(key: key);
+  final AppLanguage appLanguage;
+  MyApp({required this.appLanguage});
+  // MyApp({Key? key}) : super(key: key);
   final List<Color> colors = [Colors.white];
 
   @override
@@ -245,9 +262,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       NavbarItem(
           IconMedmap.home, AppLocalizations.of(context)!.translate('tab_home')),
       // NavbarItem(IconMedmap.home, 'Home'),
-      NavbarItem(IconMedmap.tenders, 'Tenders'),
-      NavbarItem(IconMedmap.products, 'Products'),
-      NavbarItem(IconMedmap.distributors, 'Distributor'),
+      NavbarItem(IconMedmap.tenders, AppLocalizations.of(context)!.translate('tab_tenders')),
+      NavbarItem(IconMedmap.products, AppLocalizations.of(context)!.translate('tab_products')),
+      NavbarItem(IconMedmap.distributors, AppLocalizations.of(context)!.translate('tab_distributors')),
     ];
   }
 

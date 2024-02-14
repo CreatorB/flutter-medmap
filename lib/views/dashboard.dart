@@ -9,6 +9,11 @@ import '../views/products.dart';
 import '../views/browse_products.dart';
 import '../widgets/webview_activity.dart';
 
+import 'package:flutter_localizations/flutter_localizations.dart';
+import '../../AppLanguage.dart';
+import '../app_localizations.dart';
+import 'package:provider/provider.dart';
+
 class Dashboard extends StatefulWidget {
   static const String route = '/dashboard';
   Dashboard({
@@ -45,27 +50,30 @@ class _MyAppState extends State<Dashboard> {
             ),
           ),
           actions: [
-            // IconButton(
-            //   icon: Icon(Icons.person),
-            //   onPressed: () async {},
+            // PopupMenuButton<String>(
+            //   icon: Icon(Icons.language),
+            //   onSelected: (String value) {
+            //     // Utils.changeLanguage(context, value);
+            //     // changeLang(context, value);
+            //     // var appLanguage = Provider.of<AppLanguage>(context);
+            //     // appLanguage.changeLanguage(Locale(value));
+            //   },
+            //   itemBuilder: (BuildContext context) => [
+            //     PopupMenuItem<String>(
+            //       value: 'en',
+            //       child: Text('English'),
+            //     ),
+            //     PopupMenuItem<String>(
+            //       value: 'zh',
+            //       child: Text('Chinese'),
+            //     ),
+            //     PopupMenuItem<String>(
+            //       value: 'id',
+            //       child: Text('Indonesia'),
+            //     ),
+            //     // Add more language options as needed
+            //   ],
             // ),
-            PopupMenuButton<String>(
-              icon: Icon(Icons.language),
-              onSelected: (String value) {
-                Utils.changeLanguage(context, value);
-              },
-              itemBuilder: (BuildContext context) => [
-                PopupMenuItem<String>(
-                  value: 'en',
-                  child: Text('English'),
-                ),
-                PopupMenuItem<String>(
-                  value: 'zn',
-                  child: Text('Chinese'),
-                ),
-                // Add more language options as needed
-              ],
-            ),
             Padding(
               padding: const EdgeInsets.only(right: 16.0),
               child: IconButton(

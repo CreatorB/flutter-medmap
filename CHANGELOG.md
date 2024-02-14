@@ -23,7 +23,7 @@ Updated
 - :construction: [Detail Products] Add more part of detail product. ( _Work in
     progress ..._ )
 - [x] [Detail Products Distributor] Add share button.
-- [x] [App] Add more language support.
+- [x] [App] Add more locale language support.
 - [ ] [APK] Upload latest apk.
 
 ### Changed
