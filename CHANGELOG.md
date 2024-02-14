@@ -24,7 +24,7 @@ Updated
     progress ..._ )
 - [x] [Detail Products Distributor] Add share button.
 - [x] [App] Add more locale language support.
-- [ ] [APK] Upload latest apk.
+- [x] [APK] Upload latest apk.
 
 ### Changed
 
