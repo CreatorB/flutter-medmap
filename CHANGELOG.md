@@ -14,6 +14,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-02-15
+
+Updated
+
+### Added
+
+- :construction: [Detail Products] Add more part of detail product. ( _Work in
+  progress ..._ )
+- [x] [Dashboard] updated language dashboard menu.
+- [ ] [Dashboard] add new menu
+- [x] [APK] Upload latest apk.
+
+### Changed
+
+- [x] [Products] Exclude OTP from dashboard products.
+- [x] [Navigation] Change “home” should be “首页” in Chinese.
+
+### Fixed
+
 ## [1.0.0] - 2024-01-02
 
 Updated

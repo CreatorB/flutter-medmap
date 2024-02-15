@@ -42,9 +42,15 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   AppLanguage appLanguage = AppLanguage();
   await appLanguage.fetchLocale();
-  runApp(MyApp(
-    appLanguage: appLanguage,
-  ));
+  // runApp(MyApp(
+  //   appLanguage: appLanguage,
+  // ));
+  runApp(
+    ChangeNotifierProvider(
+      create: (context) => AppLanguage(),
+      child: MyApp(appLanguage: appLanguage),
+    ),
+  );
 }
 
 

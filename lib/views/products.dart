@@ -46,12 +46,12 @@ class _MyProductState extends State<Products> {
       'color': Color(0xFFDAE1FD),
       'id': '3',
     },
-    {
-      'image': 'assets/icons/ctg_prescription_drug.png',
-      'title': 'Prescription Drug',
-      'color': Color(0xFFE3F2E9),
-      'id': '9',
-    },
+    // {
+    //   'image': 'assets/icons/ctg_prescription_drug.png',
+    //   'title': 'Prescription Drug',
+    //   'color': Color(0xFFE3F2E9),
+    //   'id': '9',
+    // },
     {
       'image': 'assets/icons/ctg_immunohisto_chemistry.png',
       'title': 'Immunohisto chemistry',
@@ -82,12 +82,12 @@ class _MyProductState extends State<Products> {
       'color': Color(0xFFFCEEE1),
       'id': '8',
     },
-    {
-      'image': 'assets/icons/ctg_otc_drug.png',
-      'title': 'OTC Drug',
-      'color': Color(0xFFE4ECFE),
-      'id': '10',
-    },
+    // {
+    //   'image': 'assets/icons/ctg_otc_drug.png',
+    //   'title': 'OTC Drug',
+    //   'color': Color(0xFFE4ECFE),
+    //   'id': '10',
+    // },
     {
       'image': 'assets/icons/ctg_vaccine.png',
       'title': 'Vaccine',

@@ -49,50 +49,50 @@ class _MyAppState extends State<Dashboard> {
               ],
             ),
           ),
-          actions: [
-            // PopupMenuButton<String>(
-            //   icon: Icon(Icons.language),
-            //   onSelected: (String value) {
-            //     // Utils.changeLanguage(context, value);
-            //     // changeLang(context, value);
-            //     // var appLanguage = Provider.of<AppLanguage>(context);
-            //     // appLanguage.changeLanguage(Locale(value));
-            //   },
-            //   itemBuilder: (BuildContext context) => [
-            //     PopupMenuItem<String>(
-            //       value: 'en',
-            //       child: Text('English'),
-            //     ),
-            //     PopupMenuItem<String>(
-            //       value: 'zh',
-            //       child: Text('Chinese'),
-            //     ),
-            //     PopupMenuItem<String>(
-            //       value: 'id',
-            //       child: Text('Indonesia'),
-            //     ),
-            //     // Add more language options as needed
-            //   ],
-            // ),
-            Padding(
-              padding: const EdgeInsets.only(right: 16.0),
-              child: IconButton(
-                icon: Icon(Icons.search),
-                onPressed: () async {
-                  // NavigationHistory.addContext(context);
-                  // print("cekDashboard : ${context}");
-                  final back = await Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => BrowseProducts()),
-                  );
-                  // if (back == 'back') {
-                  //   navbarVisibility(false);
-                  // }
-                },
-                // color: Colors.white,
-              ),
-            )
-          ],
+          // actions: [
+          //   PopupMenuButton<String>(
+          //     icon: Icon(Icons.language),
+          //     onSelected: (String value) {
+          //       // Utils.changeLanguage(context, value);
+          //       // changeLang(context, value);
+          //       var appLanguage = Provider.of<AppLanguage>(context);
+          //       appLanguage.changeLanguage(Locale(value));
+          //     },
+          //     itemBuilder: (BuildContext context) => [
+          //       PopupMenuItem<String>(
+          //         value: 'en',
+          //         child: Text('English'),
+          //       ),
+          //       PopupMenuItem<String>(
+          //         value: 'zh',
+          //         child: Text('Chinese'),
+          //       ),
+          //       PopupMenuItem<String>(
+          //         value: 'id',
+          //         child: Text('Indonesia'),
+          //       ),
+          //       // Add more language options as needed
+          //     ],
+          //   ),
+          //   Padding(
+          //     padding: const EdgeInsets.only(right: 16.0),
+          //     child: IconButton(
+          //       icon: Icon(Icons.search),
+          //       onPressed: () async {
+          //         // NavigationHistory.addContext(context);
+          //         // print("cekDashboard : ${context}");
+          //         final back = await Navigator.push(
+          //           context,
+          //           MaterialPageRoute(builder: (context) => BrowseProducts()),
+          //         );
+          //         // if (back == 'back') {
+          //         //   navbarVisibility(false);
+          //         // }
+          //       },
+          //       // color: Colors.white,
+          //     ),
+          //   )
+          // ],
         ),
         // backgroundColor: Colors.blue[100],
         // backgroundColor: Colors.white70,
@@ -131,7 +131,7 @@ class _MyAppState extends State<Dashboard> {
                           height:
                               20.0), // Add some space between image and text
                       Text(
-                        'Tenders',
+                        AppLocalizations.of(context)!.translate('tab_tenders'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF333333),
@@ -166,7 +166,7 @@ class _MyAppState extends State<Dashboard> {
                           height:
                               20.0), // Add some space between image and text
                       Text(
-                        'Distributors',
+                        AppLocalizations.of(context)!.translate('tab_distributors'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF333333),
@@ -199,7 +199,7 @@ class _MyAppState extends State<Dashboard> {
                           height:
                               20.0), // Add some space between image and text
                       Text(
-                        'Products',
+                        AppLocalizations.of(context)!.translate('tab_products'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF333333),
@@ -240,7 +240,7 @@ class _MyAppState extends State<Dashboard> {
                           height:
                               20.0), // Add some space between image and text
                       Text(
-                        'Events',
+                        AppLocalizations.of(context)!.translate('menu_events'),
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: Color(0xFF333333),
