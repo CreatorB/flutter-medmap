@@ -19,6 +19,8 @@ class Const {
   static const String imgMenuProducts = 'assets/images/menu_products.png';
   static const String imgMenuRegistrations =
       'assets/images/menu_registrations.png';
+  static const String imgMenuDrugs = 'assets/images/menu_phar.png';
+  static const String imgMenuServices = 'assets/images/menu_services.png';
 
   static const String URL_WEB = 'https://med-map.org';
   static const String BASE_URL = 'https://api-medmap.mandatech.co.id';

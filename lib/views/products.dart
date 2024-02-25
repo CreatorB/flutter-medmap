@@ -88,12 +88,12 @@ class _MyProductState extends State<Products> {
     //   'color': Color(0xFFE4ECFE),
     //   'id': '10',
     // },
-    {
-      'image': 'assets/icons/ctg_vaccine.png',
-      'title': 'Vaccine',
-      'color': Color(0xFFFFE7E7),
-      'id': '11',
-    },
+    // {
+    //   'image': 'assets/icons/ctg_vaccine.png',
+    //   'title': 'Vaccine',
+    //   'color': Color(0xFFFFE7E7),
+    //   'id': '11',
+    // },
   ];
 
   @override

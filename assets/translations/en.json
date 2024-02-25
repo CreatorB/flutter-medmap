@@ -3,5 +3,7 @@
   "tab_tenders": "Tenders",
   "tab_products": "Products",
   "tab_distributors": "Distributor",
-  "menu_events": "Events"
+  "menu_events": "Events",
+  "menu_drugs": "Drugs",
+  "menu_services": "Services"
 }
