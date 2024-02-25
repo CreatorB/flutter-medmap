@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/product_response.dart';
-
+import '../models/specification.dart';
+import '../models/clinical.dart';
 import '../widgets/slider_images.dart';
 import '../widgets/network_image_local_fallback.dart';
 import '../api.dart';
 import '../utils.dart';
+import '../const.dart';
+import 'package:http/http.dart' as http;
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'dart:convert';
 
 class BrowseProducts extends StatefulWidget {
   static const String route = '/dashboard/browse-products';
@@ -310,6 +315,8 @@ class DetailProducts extends StatefulWidget {
 
 class _DetailProductsState extends State<DetailProducts> {
   late Future<Map<String, dynamic>> itemDetails;
+  late Future<List<Specification>> specs;
+  late Future<List<Clinical>> clinicals;
   late List<String> imageUrls = [];
   final api = Api();
   bool isLoading = true;
@@ -318,6 +325,38 @@ class _DetailProductsState extends State<DetailProducts> {
   void initState() {
     super.initState();
     itemDetails = fetchItemDetails(widget.item.id);
+    specs = fetchSpec(widget.item.id);
+    clinicals = fetchClinicals(widget.item.id);
+  }
+
+  Future<List<Specification>> fetchSpec(int itemId) async {
+    final apiUrl =
+        '${Const.URL_API}/products/$itemId/specifications?page=1&limit=10';
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<dynamic> specsJson = jsonData['data'];
+      return specsJson
+          .map((specJson) => Specification.fromJson(specJson))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<Clinical>> fetchClinicals(int itemId) async {
+    final apiUrl =
+        '${Const.URL_API}/products/$itemId/clinical-applications?page=1&limit=10';
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<dynamic> itemsJson = jsonData['data'];
+      return itemsJson.map((itemJson) => Clinical.fromJson(itemJson)).toList();
+    } else {
+      return [];
+    }
   }
 
   Future<Map<String, dynamic>> fetchItemDetails(int itemId) async {
@@ -368,8 +407,10 @@ class _DetailProductsState extends State<DetailProducts> {
           ),
         ],
       ),
-      body: FutureBuilder<Map<String, dynamic>>(
-        future: itemDetails,
+      body: FutureBuilder<List<dynamic>>(
+        future: Future.wait([itemDetails, specs, clinicals]),
+        // body: FutureBuilder<Map<String, dynamic>>(
+        //   future: itemDetails,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -378,7 +419,11 @@ class _DetailProductsState extends State<DetailProducts> {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No data available'));
           } else {
-            final item = snapshot.data!;
+            final List<dynamic> results = snapshot.data!;
+            final item = results[0];
+            final List<Specification> specifications =
+                results[1] as List<Specification>;
+            final List<Clinical> clinicals = results[2] as List<Clinical>;
             return SingleChildScrollView(
               child: Container(
                 margin: EdgeInsets.fromLTRB(
@@ -409,36 +454,27 @@ class _DetailProductsState extends State<DetailProducts> {
                           mainAxisSize: MainAxisSize.min,
                           mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (item['tags'] as List<dynamic>).map((tag) {
-                            // children: (item.tags as List<dynamic>).map((tag) {
-                            // return Chip(
-                            //   label: Text(tag['name']),
-                            //   backgroundColor: Colors.blue,
-                            //   labelStyle: TextStyle(color: Colors.white),
-                            // );
-                            return Text(
-                              tag['name'],
-                              style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 14,
-                                fontFamily: 'Inter',
-                                fontWeight: FontWeight.w400,
-                                height: 0,
-                              ),
-                            );
-                          }).toList(),
-                          // children: [
-                          //   Text(
-                          //     item.tags[0].name,
-                          //     style: TextStyle(
-                          //       color: Colors.black,
-                          //       fontSize: 14,
-                          //       fontFamily: 'Inter',
-                          //       fontWeight: FontWeight.w400,
-                          //       height: 0,
-                          //     ),
-                          //   ),
-                          // ],
+                          children: (item['tags'] != null &&
+                                  item['tags'].isNotEmpty)
+                              ? item['tags'].map<Widget>((tag) {
+                                  print(
+                                      'Tag: $tag'); // Debugging: Print the tag to see its structure
+                                  if (tag is Map && tag.containsKey('name')) {
+                                    return Text(
+                                      tag['name'],
+                                      style: TextStyle(
+                                        color: Colors.black,
+                                        fontSize: 14,
+                                        fontFamily: 'Inter',
+                                        fontWeight: FontWeight.w400,
+                                        height: 0,
+                                      ),
+                                    );
+                                  } else {
+                                    return Text('Tag not found');
+                                  }
+                                }).toList()
+                              : [Text('No tags available')],
                         ),
                       ),
                     ),
@@ -546,6 +582,55 @@ class _DetailProductsState extends State<DetailProducts> {
                         ),
                       ),
                     ),
+                    SizedBox(height: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        'Product Specifications',
+                        style: TextStyle(
+                          color: Color(0xFF18181B),
+                          fontSize: 15,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 8.0),
+                      child: DataTable(
+                        columns: const <DataColumn>[
+                          DataColumn(
+                            label: Text('Name'),
+                          ),
+                          DataColumn(
+                            label: Text('Value'),
+                          ),
+                        ],
+                        rows: specifications
+                            .map((spec) => DataRow(
+                                  cells: <DataCell>[
+                                    DataCell(Text(spec.name)),
+                                    DataCell(Text(spec.value)),
+                                  ],
+                                ))
+                            .toList(),
+                      ),
+                    ),
+                    SizedBox(height: 16.0),
+                    Padding(
+                      padding: const EdgeInsets.all(0),
+                      child: Text(
+                        'Clinical Application',
+                        style: TextStyle(
+                          color: Color(0xFF18181B),
+                          fontSize: 15,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
+                    HtmlWidget(clinicals[0].content ??
+                        'No clinical content available'),
                   ],
                 ),
               ),

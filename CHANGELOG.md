@@ -14,6 +14,24 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-02-25
+
+Updated
+
+### Added
+
+- [x] [Detail Products] Add more part of detail product.
+- [x] [Dashboard] add new menu
+- [x] [Drugs] Add more part of detail product to drugs.
+- [ ] [Services] (Waiting layout sent from corina).
+- [x] [APK] Upload latest apk.
+
+### Changed
+
+- [x] [Products] Exclude Vaccine from dashboard products.
+
+### Fixed
+
 ## [1.0.0] - 2024-02-15
 
 Updated

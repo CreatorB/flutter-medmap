@@ -1,7 +1,10 @@
 import '../../models/product.dart';
+import '../../models/specification.dart';
+import '../../models/clinical.dart';
 import '../../const.dart';
 import '../../widgets/slider_images.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
@@ -50,11 +53,45 @@ class DetailProducts extends StatefulWidget {
 
 class _DetailProductsState extends State<DetailProducts> {
   late Future<Product> itemDetails;
+  late Future<List<Specification>> specs;
+  late Future<List<Clinical>> clinicals;
   late List<String> imageUrls = [];
   @override
   void initState() {
     super.initState();
     itemDetails = fetchItemDetails(widget.item.id);
+    specs = fetchSpec(widget.item.id);
+    clinicals = fetchClinicals(widget.item.id);
+  }
+
+  Future<List<Specification>> fetchSpec(int itemId) async {
+    final apiUrl =
+        '${Const.URL_API}/products/$itemId/specifications?page=1&limit=10';
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<dynamic> specsJson = jsonData['data'];
+      return specsJson
+          .map((specJson) => Specification.fromJson(specJson))
+          .toList();
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<Clinical>> fetchClinicals(int itemId) async {
+    final apiUrl =
+        '${Const.URL_API}/products/$itemId/clinical-applications?page=1&limit=10';
+    final response = await http.get(Uri.parse(apiUrl));
+
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      final List<dynamic> itemsJson = jsonData['data'];
+      return itemsJson.map((itemJson) => Clinical.fromJson(itemJson)).toList();
+    } else {
+      return [];
+    }
   }
 
   Future<Product> fetchItemDetails(int itemId) async {
@@ -107,8 +144,10 @@ class _DetailProductsState extends State<DetailProducts> {
           ),
         ],
       ),
-      body: FutureBuilder<Product>(
-        future: itemDetails,
+      // body: FutureBuilder<Product>(
+      //   future: itemDetails,
+      body: FutureBuilder<List<dynamic>>(
+        future: Future.wait([itemDetails, specs, clinicals]),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(child: CircularProgressIndicator());
@@ -117,7 +156,16 @@ class _DetailProductsState extends State<DetailProducts> {
           } else if (!snapshot.hasData) {
             return Center(child: Text('No data available'));
           } else {
-            final item = snapshot.data!;
+            // final item = snapshot.data!;
+            final List<dynamic> results = snapshot.data!;
+            final item = results[0];
+            // final specs = results[1];
+            final List<Specification> specifications =
+                results[1] as List<Specification>;
+            final List<Clinical> clinicals = results[2]
+                as List<Clinical>; // Cast specs to List<Specification>
+            // Print the result string
+            // print(item.category.name);
             return SingleChildScrollView(
               child: Padding(
                 padding: const EdgeInsets.all(8.0),
@@ -127,27 +175,7 @@ class _DetailProductsState extends State<DetailProducts> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      // Image Slider
-                      // SliderImages(
-                      //   images: [
-                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
-                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
-                      //   ],
-                      // ),
                       SliderImages(images: imageUrls),
-                      // Padding(
-                      //   padding: EdgeInsets.symmetric(horizontal: 4.0),
-                      //   child: Wrap(
-                      //     spacing: 8.0,
-                      //     children: (item['tags'] as List<dynamic>).map((tag) {
-                      //       return Chip(
-                      //         label: Text(tag['name']),
-                      //         backgroundColor: Colors.blue,
-                      //         labelStyle: TextStyle(color: Colors.white),
-                      //       );
-                      //     }).toList(),
-                      //   ),
-                      // ),
                       Padding(
                         padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
                         child: Container(
@@ -163,27 +191,28 @@ class _DetailProductsState extends State<DetailProducts> {
                             mainAxisSize: MainAxisSize.min,
                             mainAxisAlignment: MainAxisAlignment.start,
                             crossAxisAlignment: CrossAxisAlignment.center,
-                            children: (item.tags).map((tag) {
-                              // children: (item.tags as List<dynamic>).map((tag) {
-                              // return Chip(
-                              //   label: Text(tag['name']),
-                              //   backgroundColor: Colors.blue,
-                              //   labelStyle: TextStyle(color: Colors.white),
-                              // );
-                              return Text(
-                                tag.name,
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 14,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  height: 0,
-                                ),
-                              );
-                            }).toList(),
-                            // children: [
-                            //   Text(
-                            //     item.tags[0].name,
+                            children:
+                                (item.tags != null && item.tags.isNotEmpty)
+                                    ? item.tags.map<Widget>((tag) {
+                                        if (tag is Tag) {
+                                          return Text(
+                                            tag.name,
+                                            style: TextStyle(
+                                              color: Colors.black,
+                                              fontSize: 14,
+                                              fontFamily: 'Inter',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
+                                          );
+                                        } else {
+                                          return Text('Tag not found');
+                                        }
+                                      }).toList()
+                                    : [Text('No tags available')],
+                            // children: (item.tags).map((tag) {
+                            //   return Text(
+                            //     tag.name,
                             //     style: TextStyle(
                             //       color: Colors.black,
                             //       fontSize: 14,
@@ -191,8 +220,8 @@ class _DetailProductsState extends State<DetailProducts> {
                             //       fontWeight: FontWeight.w400,
                             //       height: 0,
                             //     ),
-                            //   ),
-                            // ],
+                            //   );
+                            // }).toList(),
                           ),
                         ),
                       ),
@@ -302,6 +331,55 @@ class _DetailProductsState extends State<DetailProducts> {
                           ),
                         ),
                       ),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          'Product Specifications',
+                          style: TextStyle(
+                            color: Color(0xFF18181B),
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: DataTable(
+                          columns: const <DataColumn>[
+                            DataColumn(
+                              label: Text('Name'),
+                            ),
+                            DataColumn(
+                              label: Text('Value'),
+                            ),
+                          ],
+                          rows: specifications
+                              .map((spec) => DataRow(
+                                    cells: <DataCell>[
+                                      DataCell(Text(spec.name)),
+                                      DataCell(Text(spec.value)),
+                                    ],
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.all(0),
+                        child: Text(
+                          'Clinical Application',
+                          style: TextStyle(
+                            color: Color(0xFF18181B),
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      HtmlWidget(clinicals[0].content ??
+                          'No clinical content available'),
                     ],
                   ),
                 ),
