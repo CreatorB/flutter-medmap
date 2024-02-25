@@ -53,30 +53,30 @@ class _MyAppState extends State<Dashboard> {
                 ),
               ),
               actions: [
-                PopupMenuButton<String>(
-                  icon: Icon(Icons.language),
-                  onSelected: (String value) {
-                    // Utils.changeLanguage(context, value);
-                    // changeLang(context, value);
-                    // var appLanguage = Provider.of<AppLanguage>(context);
-                    appLanguage.changeLanguage(Locale(value));
-                  },
-                  itemBuilder: (BuildContext context) => [
-                    PopupMenuItem<String>(
-                      value: 'en',
-                      child: Text('English'),
-                    ),
-                    PopupMenuItem<String>(
-                      value: 'zh',
-                      child: Text('Chinese'),
-                    ),
-                    PopupMenuItem<String>(
-                      value: 'id',
-                      child: Text('Indonesia'),
-                    ),
-                    // Add more language options as needed
-                  ],
-                ),
+                // PopupMenuButton<String>(
+                //   icon: Icon(Icons.language),
+                //   onSelected: (String value) {
+                //     // Utils.changeLanguage(context, value);
+                //     // changeLang(context, value);
+                //     // var appLanguage = Provider.of<AppLanguage>(context);
+                //     appLanguage.changeLanguage(Locale(value));
+                //   },
+                //   itemBuilder: (BuildContext context) => [
+                //     PopupMenuItem<String>(
+                //       value: 'en',
+                //       child: Text('English'),
+                //     ),
+                //     PopupMenuItem<String>(
+                //       value: 'zh',
+                //       child: Text('Chinese'),
+                //     ),
+                //     PopupMenuItem<String>(
+                //       value: 'id',
+                //       child: Text('Indonesia'),
+                //     ),
+                //     // Add more language options as needed
+                //   ],
+                // ),
                 Padding(
                   padding: const EdgeInsets.only(right: 16.0),
                   child: IconButton(
