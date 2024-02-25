@@ -59,7 +59,7 @@ class _MyAppState extends State<Dashboard> {
                     // Utils.changeLanguage(context, value);
                     // changeLang(context, value);
                     // var appLanguage = Provider.of<AppLanguage>(context);
-                    appLanguage.changeLanguage(Locale(value));
+                    appLanguage.changeLanguage(context,Locale(value));
                   },
                   itemBuilder: (BuildContext context) => [
                     PopupMenuItem<String>(

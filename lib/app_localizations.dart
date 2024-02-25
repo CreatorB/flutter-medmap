@@ -3,6 +3,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:medmap/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AppLocalizations {
   final Locale locale;
@@ -16,11 +18,32 @@ class AppLocalizations {
     return Localizations.of<AppLocalizations>(context, AppLocalizations);
   }
 
+  // store and read locale from shared preferences
+  void keepLocalKey(String localKey) async {
+    final _prefs = await SharedPreferences.getInstance();
+    await _prefs.remove('language_code');
+    await _prefs.setString('language_code', localKey);
+  }
+
+  Future<String> readLocalKey() async {
+    final _prefs = await SharedPreferences.getInstance();
+
+    return _prefs.getString('language_code') ?? 'en';
+  }
+  // end store and read locale from shared preferences
+
+  void setLocale(BuildContext context, Locale locale){
+    // keep value in shared preferences
+    keepLocalKey(locale.languageCode);
+    // Load the language JSON file from the "translations" folder
+    MyApp.setLocale(context, locale);
+  }
   // Static member to have a simple access to the delegate from the MaterialApp
   static const LocalizationsDelegate<AppLocalizations> delegate =
   _AppLocalizationsDelegate();
 
   Future<bool> load() async {
+    print('load ${locale.languageCode}');
     // Load the language JSON file from the "lang" folder
     String jsonString =
     await rootBundle.loadString('assets/translations/${locale.languageCode}.json');
