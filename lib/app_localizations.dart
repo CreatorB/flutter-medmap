@@ -43,7 +43,6 @@ class AppLocalizations {
   _AppLocalizationsDelegate();
 
   Future<bool> load() async {
-    print('load ${locale.languageCode}');
     // Load the language JSON file from the "lang" folder
     String jsonString =
     await rootBundle.loadString('assets/translations/${locale.languageCode}.json');
