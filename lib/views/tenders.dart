@@ -279,7 +279,7 @@ class TenderDetailPage extends StatelessWidget {
             Text(
               item.title,
               style: TextStyle(
-                  fontSize: 20,
+                  fontSize: 13,
                   fontFamily: 'Avenir',
                   color: Const.primaryTextColor,
                   fontWeight: FontWeight.w900),

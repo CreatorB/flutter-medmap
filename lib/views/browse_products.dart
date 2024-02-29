@@ -425,213 +425,216 @@ class _DetailProductsState extends State<DetailProducts> {
                 results[1] as List<Specification>;
             final List<Clinical> clinicals = results[2] as List<Clinical>;
             return SingleChildScrollView(
-              child: Container(
-                margin: EdgeInsets.fromLTRB(
-                    0, 0, 0, 60.0), // Adds bottom margin of 16.0
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    // Image Slider
-                    // SliderImages(
-                    //   images: [
-                    //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
-                    //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
-                    //   ],
-                    // ),
-                    SliderImages(images: imageUrls),
-                    Padding(
-                      padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
-                      child: Container(
-                        height: 30,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: ShapeDecoration(
-                          color: Color(0x334894FE),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Container(
+                  margin: EdgeInsets.fromLTRB(
+                      0, 0, 0, 60.0), // Adds bottom margin of 16.0
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Image Slider
+                      // SliderImages(
+                      //   images: [
+                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1bl8005a0lp0a8sc0qv0.jpg',
+                      //     'https://api-medmap.mandatech.co.id/uploads/product-media/cl2vb1jh6005c0lp070mo6xlf.jpg',
+                      //   ],
+                      // ),
+                      SliderImages(images: imageUrls),
+                      Padding(
+                        padding: const EdgeInsets.fromLTRB(8, 11, 8, 0),
+                        child: Container(
+                          height: 30,
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          decoration: ShapeDecoration(
+                            color: Color(0x334894FE),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
                           ),
-                        ),
-                        child: Row(
-                          mainAxisSize: MainAxisSize.min,
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: (item['tags'] != null &&
-                                  item['tags'].isNotEmpty)
-                              ? item['tags'].map<Widget>((tag) {
-                                  print(
-                                      'Tag: $tag'); // Debugging: Print the tag to see its structure
-                                  if (tag is Map && tag.containsKey('name')) {
-                                    return Text(
-                                      tag['name'],
-                                      style: TextStyle(
-                                        color: Colors.black,
-                                        fontSize: 14,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
-                                      ),
-                                    );
-                                  } else {
-                                    return Text('Tag not found');
-                                  }
-                                }).toList()
-                              : [Text('No tags available')],
-                        ),
-                      ),
-                    ),
-                    // Title
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Text(
-                        item['name'],
-                        style: TextStyle(
-                            fontSize: 24, fontWeight: FontWeight.bold),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: SizedBox(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Category: ',
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                              TextSpan(
-                                text: item['category']['name'],
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                ),
-                              ),
-                            ],
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: (item['tags'] != null &&
+                                    item['tags'].isNotEmpty)
+                                ? item['tags'].map<Widget>((tag) {
+                                    print(
+                                        'Tag: $tag'); // Debugging: Print the tag to see its structure
+                                    if (tag is Map && tag.containsKey('name')) {
+                                      return Text(
+                                        tag['name'],
+                                        style: TextStyle(
+                                          color: Colors.black,
+                                          fontSize: 14,
+                                          fontFamily: 'Inter',
+                                          fontWeight: FontWeight.w400,
+                                          height: 0,
+                                        ),
+                                      );
+                                    } else {
+                                      return Text('Tag not found');
+                                    }
+                                  }).toList()
+                                : [Text('No tags available')],
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8),
-                      child: SizedBox(
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: item['manufacturer'] != null
-                                    ? 'Manufacturer: '
-                                    : 'Distributor: ',
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
+                      // Title
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          item['name'],
+                          style: TextStyle(
+                              fontSize: 24, fontWeight: FontWeight.bold),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: SizedBox(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Category: ',
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: item['manufacturer'] != null
-                                    ? item['manufacturer']['name']
-                                    : item['distributor']['name'],
-                                style: TextStyle(
-                                  color: Color(0xFF4894FE),
-                                  fontSize: 13,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
+                                TextSpan(
+                                  text: item['category']['name'],
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(left: 8, top: 13),
-                      child: SizedBox(
-                        // width: 334,
-                        // height: 244,
-                        child: Text.rich(
-                          TextSpan(
-                            children: [
-                              TextSpan(
-                                text: 'Product Details\n',
-                                style: TextStyle(
-                                  color: Colors.black,
-                                  fontSize: 12,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 0.15,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8),
+                        child: SizedBox(
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: item['manufacturer'] != null
+                                      ? 'Manufacturer: '
+                                      : 'Distributor: ',
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                  ),
                                 ),
-                              ),
-                              TextSpan(
-                                text: item['description'],
-                                style: TextStyle(
-                                  color: Color(0xFF757575),
-                                  fontSize: 12,
-                                  fontFamily: 'Inter',
-                                  fontWeight: FontWeight.w400,
-                                  letterSpacing: 0.15,
+                                TextSpan(
+                                  text: item['manufacturer'] != null
+                                      ? item['manufacturer']['name']
+                                      : item['distributor']['name'],
+                                  style: TextStyle(
+                                    color: Color(0xFF4894FE),
+                                    fontSize: 13,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                  ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                    SizedBox(height: 16.0),
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Text(
-                        'Product Specifications',
-                        style: TextStyle(
-                          color: Color(0xFF18181B),
-                          fontSize: 15,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w700,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, top: 13),
+                        child: SizedBox(
+                          // width: 334,
+                          // height: 244,
+                          child: Text.rich(
+                            TextSpan(
+                              children: [
+                                TextSpan(
+                                  text: 'Product Details\n',
+                                  style: TextStyle(
+                                    color: Colors.black,
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 0.15,
+                                  ),
+                                ),
+                                TextSpan(
+                                  text: item['description'],
+                                  style: TextStyle(
+                                    color: Color(0xFF757575),
+                                    fontSize: 12,
+                                    fontFamily: 'Inter',
+                                    fontWeight: FontWeight.w400,
+                                    letterSpacing: 0.15,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 8.0),
-                      child: DataTable(
-                        columns: const <DataColumn>[
-                          DataColumn(
-                            label: Text('Name'),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 8, top: 13),
+                        child: Text(
+                          'Product Specifications',
+                          style: TextStyle(
+                            color: Color(0xFF18181B),
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
                           ),
-                          DataColumn(
-                            label: Text('Value'),
-                          ),
-                        ],
-                        rows: specifications
-                            .map((spec) => DataRow(
-                                  cells: <DataCell>[
-                                    DataCell(Text(spec.name)),
-                                    DataCell(Text(spec.value)),
-                                  ],
-                                ))
-                            .toList(),
-                      ),
-                    ),
-                    SizedBox(height: 16.0),
-                    Padding(
-                      padding: const EdgeInsets.all(0),
-                      child: Text(
-                        'Clinical Application',
-                        style: TextStyle(
-                          color: Color(0xFF18181B),
-                          fontSize: 15,
-                          fontFamily: 'Inter',
-                          fontWeight: FontWeight.w700,
                         ),
                       ),
-                    ),
-                    HtmlWidget(clinicals[0].content ??
-                        'No clinical content available'),
-                  ],
+                      Padding(
+                        padding: const EdgeInsets.only(top: 8.0),
+                        child: DataTable(
+                          columns: const <DataColumn>[
+                            DataColumn(
+                              label: Text('Name'),
+                            ),
+                            DataColumn(
+                              label: Text('Value'),
+                            ),
+                          ],
+                          rows: specifications
+                              .map((spec) => DataRow(
+                                    cells: <DataCell>[
+                                      DataCell(Text(spec.name)),
+                                      DataCell(Text(spec.value)),
+                                    ],
+                                  ))
+                              .toList(),
+                        ),
+                      ),
+                      SizedBox(height: 16.0),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 13, bottom: 8),
+                        child: Text(
+                          'Clinical Application',
+                          style: TextStyle(
+                            color: Color(0xFF18181B),
+                            fontSize: 15,
+                            fontFamily: 'Inter',
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
+                      HtmlWidget(clinicals[0].content ??
+                          'No clinical content available'),
+                    ],
+                  ),
                 ),
               ),
             );

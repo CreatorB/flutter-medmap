@@ -6,6 +6,7 @@ import 'dart:io';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 
+import 'package:flutter/services.dart';
 import 'views/pdf_screen.dart';
 
 class Utils {
@@ -52,6 +53,24 @@ class Utils {
   static void openPDF(BuildContext context, String url) async {
     try {
       final file = await pdfFetch(url);
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (_) => PDFScreen(path: file.path),
+        ),
+      );
+    } catch (e) {
+      // Handle errors
+      print(e.toString());
+    }
+  }
+
+  static void openPDFFromAssets(BuildContext context, String assetPath) async {
+    try {
+      final dir = await getTemporaryDirectory();
+      final file = File('${dir.path}/${basename(assetPath)}');
+      final ByteData byteData = await rootBundle.load(assetPath);
+      final List<int> bytes = byteData.buffer.asUint8List();
+      await file.writeAsBytes(bytes, flush: true);
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (_) => PDFScreen(path: file.path),

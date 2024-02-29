@@ -92,6 +92,7 @@ flutter:
     - assets/fonts/
     - assets/images/
     - assets/jsons/
+    - assets/pdfs/content_service.pdf
     # - assets/
     # - lib/
     # - assets/icons/medmap_logo.svg

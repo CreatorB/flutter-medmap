@@ -17,17 +17,19 @@ class _PDFScreenState extends State<PDFScreen> {
       appBar: AppBar(
         title: Text('Document Preview'),
       ),
-      body: PDFView(
-        filePath: widget.path,
-        enableSwipe: true,
-        swipeHorizontal: true,
-        autoSpacing: false,
-        pageFling: true,
-        pageSnap: true,
-        defaultPage: 0,
-        fitPolicy: FitPolicy.BOTH,
-        preventLinkNavigation:
-            false, // if set to true the link is handled in flutter
+      body: Padding(
+        padding: const EdgeInsets.only(bottom: 70.0),
+        child: PDFView(
+          filePath: widget.path,
+          enableSwipe: true,
+          swipeHorizontal: true,
+          autoSpacing: false,
+          pageFling: true,
+          pageSnap: true,
+          defaultPage: 0,
+          fitPolicy: FitPolicy.BOTH,
+          preventLinkNavigation: false,
+        ),
       ),
     );
   }

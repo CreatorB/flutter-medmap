@@ -53,7 +53,6 @@ void main() async {
   );
 }
 
-
 void selectTab(int index) {
   NavbarNotifier.index = index;
 }
@@ -80,7 +79,7 @@ void navbarVisibility(bool status) {
 
 void changeLang(BuildContext context, String lang) {
   var appLanguage = Provider.of<AppLanguage>(context);
-  appLanguage.changeLanguage(Locale(lang));
+  appLanguage.changeLanguage(context, Locale(lang));
 }
 
 class MyApp extends StatefulWidget {
@@ -91,10 +90,23 @@ class MyApp extends StatefulWidget {
 
   @override
   _MyAppState createState() => _MyAppState();
+
+  static void setLocale(BuildContext context, Locale newLocale) {
+    _MyAppState? state = context.findAncestorStateOfType<_MyAppState>();
+    state!.changeLanguage(newLocale);
+  }
 }
 
 class _MyAppState extends State<MyApp> {
   late AppLocalizations localizations;
+  Locale _locale = const Locale('en');
+
+  void changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
+
   @override
   void initState() {
     super.initState();
@@ -146,8 +158,10 @@ class _MyAppState extends State<MyApp> {
               //     colorScheme:
               //         ColorScheme.fromSeed(seedColor: appSetting.themeSeed)),
               // home: const HomePage());
+              locale: _locale,
               localizationsDelegates: [
-                AppLocalizations.delegate, // Add this line to use AppLocalizations
+                AppLocalizations
+                    .delegate, // Add this line to use AppLocalizations
                 GlobalMaterialLocalizations.delegate,
                 GlobalWidgetsLocalizations.delegate,
                 GlobalCupertinoLocalizations.delegate,
@@ -268,9 +282,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       NavbarItem(
           IconMedmap.home, AppLocalizations.of(context)!.translate('tab_home')),
       // NavbarItem(IconMedmap.home, 'Home'),
-      NavbarItem(IconMedmap.tenders, AppLocalizations.of(context)!.translate('tab_tenders')),
-      NavbarItem(IconMedmap.products, AppLocalizations.of(context)!.translate('tab_products')),
-      NavbarItem(IconMedmap.distributors, AppLocalizations.of(context)!.translate('tab_distributors')),
+      NavbarItem(IconMedmap.tenders,
+          AppLocalizations.of(context)!.translate('tab_tenders')),
+      NavbarItem(IconMedmap.products,
+          AppLocalizations.of(context)!.translate('tab_products')),
+      NavbarItem(IconMedmap.distributors,
+          AppLocalizations.of(context)!.translate('tab_distributors')),
     ];
   }
 

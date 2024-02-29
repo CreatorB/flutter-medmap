@@ -301,7 +301,7 @@ class _DetailProductsState extends State<DetailProducts> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
+                        padding: const EdgeInsets.only(left: 8, top: 13),
                         child: SizedBox(
                           child: Text.rich(
                             TextSpan(
@@ -333,7 +333,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       ),
                       SizedBox(height: 16.0),
                       Padding(
-                        padding: const EdgeInsets.all(0),
+                        padding: const EdgeInsets.only(left: 8, top: 13),
                         child: Text(
                           'Product Specifications',
                           style: TextStyle(
@@ -367,7 +367,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       ),
                       SizedBox(height: 16.0),
                       Padding(
-                        padding: const EdgeInsets.all(0),
+                        padding: const EdgeInsets.only(top: 13),
                         child: Text(
                           'Clinical Application',
                           style: TextStyle(
