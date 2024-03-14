@@ -17,6 +17,7 @@ import 'views/browse_products.dart';
 import './AppLanguage.dart';
 import 'app_localizations.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter/services.dart';
 
 class NavigationHistory {
   static List<BuildContext> _history = [];
@@ -110,6 +111,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      SystemNavigator.pop();
+    });
     // Initialize anything you need in initState
 
     // Example: Initialize appSetting or other dependencies
