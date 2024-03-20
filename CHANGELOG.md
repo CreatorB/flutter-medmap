@@ -20,6 +20,20 @@ Updated
 
 ### Added
 
+- [x] [Dashboard] New icon.
+- [ ] [Tenders] WIP API.
+- [ ] [Affairs] WIP API.
+
+### Changed
+
+### Fixed
+
+## [1.0.0] - 2024-03-15
+
+Updated
+
+### Added
+
 - [x] [Dashboard] New design.
 
 ### Changed
