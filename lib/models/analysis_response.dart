@@ -1,3 +1,5 @@
+// https://javiercbk.github.io/json_to_dart/
+
 class AnalysisResponse {
   Meta? meta;
   List<Data>? data;

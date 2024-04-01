@@ -8,6 +8,9 @@ import '../main.dart';
 import '../views/products.dart';
 import '../views/browse_products.dart';
 import '../views/drugs.dart';
+import '../views/analysis.dart' as listAnalysis;
+import '../views/affair.dart' as listAffair;
+import '../views/news.dart' as listNews;
 import '../widgets/webview_activity.dart';
 
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -221,11 +224,16 @@ class _MyAppState extends State<Dashboard> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => WebViewActivity(
-                                  title: 'Events & News',
-                                  url: Const.URL_WEB + '/all-news'),
-                            ),
+                                builder: (context) => listNews.News()),
                           );
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //     builder: (context) => WebViewActivity(
+                          //         title: 'Events & News',
+                          //         url: Const.URL_WEB + '/all-news'),
+                          //   ),
+                          // );
                         },
                         iconPath: 'assets/icons/ic_events.png',
                         title: 'Events',
@@ -258,14 +266,24 @@ class _MyAppState extends State<Dashboard> {
                         child: Padding(
                           padding:
                               const EdgeInsets.only(right: 16.0, top: 16.0),
-                          child: Text(
-                            'View All',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              // fontSize: 13,
-                              fontFamily: 'Inter',
-                              height: 0,
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        listAnalysis.Analysis()),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                // fontSize: 13,
+                                fontFamily: 'Inter',
+                                height: 0,
+                              ),
                             ),
                           ),
                         ),
@@ -289,7 +307,15 @@ class _MyAppState extends State<Dashboard> {
                           color: Colors.white,
                           margin: EdgeInsets.all(8.0),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      listAnalysis.DetailPage(item: item),
+                                ),
+                              );
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(
@@ -394,15 +420,25 @@ class _MyAppState extends State<Dashboard> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding: const EdgeInsets.only(right: 16.0),
-                          child: Text(
-                            'View All',
-                            textAlign: TextAlign.right,
-                            style: TextStyle(
-                              color: Colors.grey,
-                              // fontSize: 13,
-                              fontFamily: 'Inter',
-                              height: 0,
+                          padding:
+                              const EdgeInsets.only(right: 16.0, top: 16.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => listAffair.Affair()),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                // fontSize: 13,
+                                fontFamily: 'Inter',
+                                height: 0,
+                              ),
                             ),
                           ),
                         ),
@@ -426,7 +462,15 @@ class _MyAppState extends State<Dashboard> {
                           color: Colors.white,
                           margin: EdgeInsets.all(8.0),
                           child: InkWell(
-                            onTap: () {},
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      listAffair.DetailPage(item: item),
+                                ),
+                              );
+                            },
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
                               child: Column(

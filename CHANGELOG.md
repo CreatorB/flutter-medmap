@@ -23,9 +23,18 @@ manufacturer and distributor with variant fields.
 
 - [x] [Dashboard] List Analysis.
 - [x] [Dashboard] List Affairs.
+- [x] [View All] List Case Analysis.
+- [x] [View All] List Medical Policy Affairs.
+- [x] [Detail Page] Analysis.
+- [x] [Detail Page] Affairs.
+- [x] [APK] Upload latest apk.
 
 ### Changed
 
+- [x] [Events] Change webview events to native app.
+- [x] [View All] List Events.
+- [x] [Detail Page] Events.
+-
 ### Fixed
 
 - [x] [Product] Search and Latest Product.
