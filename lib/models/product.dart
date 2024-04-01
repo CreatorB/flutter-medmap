@@ -8,7 +8,7 @@ class Product {
   DateTime updatedAt;
   Category category;
   List<Media> media;
-  List<Tag> tags;
+  List<Tag>? tags;
   Manufacturer? manufacturer;
   Distributor? distributor;
   // dynamic distributor;
@@ -40,7 +40,9 @@ class Product {
         updatedAt: DateTime.parse(json['updated_at']),
         category: Category.fromJson(json['category']),
         media: List<Media>.from(json['media'].map((x) => Media.fromJson(x))),
-        tags: List<Tag>.from(json['tags'].map((x) => Tag.fromJson(x))),
+        tags: json["tags"] == null
+            ? []
+            : List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))),
         manufacturer: json['manufacturer'] != null
             ? Manufacturer.fromJson(json['manufacturer'])
             : null,
@@ -94,9 +96,6 @@ class Distributor {
   String? contactUrl;
   DateTime? createdAt;
   DateTime? updatedAt;
-  User? user;
-  Country? country;
-  Thumbnail? logo;
 
   Distributor({
     this.id,
@@ -113,9 +112,6 @@ class Distributor {
     this.contactUrl,
     this.createdAt,
     this.updatedAt,
-    this.user,
-    this.country,
-    this.logo,
   });
 
   factory Distributor.fromJson(Map<String, dynamic> json) => Distributor(
@@ -131,11 +127,12 @@ class Distributor {
         contactEmail: json["contact_email"],
         contactMobile: json["contact_mobile"],
         contactUrl: json["contact_url"],
-        createdAt: DateTime.parse(json["created_at"]),
-        updatedAt: DateTime.parse(json["updated_at"]),
-        // user: User.fromJson(json["user"]),
-        // country: Country.fromJson(json["country"]),
-        // logo: Thumbnail.fromJson(json["logo"]),
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
 
   Map<String, dynamic> toJson() => {
@@ -153,9 +150,6 @@ class Distributor {
         "contact_url": contactUrl,
         "created_at": createdAt?.toIso8601String(),
         "updated_at": updatedAt?.toIso8601String(),
-        // "user": user.toJson(),
-        // "country": country.toJson(),
-        // "logo": logo.toJson(),
       };
 }
 
@@ -187,75 +181,95 @@ class Media {
 }
 
 class Tag {
-  int id;
-  String name;
-  DateTime createdAt;
-  DateTime updatedAt;
+  int? id;
+  String? name;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Tag({
-    required this.id,
-    required this.name,
-    required this.createdAt,
-    required this.updatedAt,
+    this.id,
+    this.name,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Tag.fromJson(Map<String, dynamic> json) => Tag(
-        id: json['id'],
-        name: json['name'],
-        createdAt: DateTime.parse(json['created_at']),
-        updatedAt: DateTime.parse(json['updated_at']),
+        id: json["id"],
+        name: json["name"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 }
 
 class Manufacturer {
-  int id;
-  String name;
-  String picName;
-  String description;
-  String address;
-  String website;
-  String video;
-  String about;
-  int userId;
-  DateTime createdAt;
-  DateTime updatedAt;
-  User user;
-  Thumbnail logo;
-  Country country;
+  int? id;
+  String? name;
+  String? picName;
+  String? description;
+  String? address;
+  String? website;
+  String? video;
+  String? about;
+  int? userId;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   Manufacturer({
-    required this.id,
-    required this.name,
-    required this.picName,
-    required this.description,
-    required this.address,
-    required this.website,
-    required this.video,
-    required this.about,
-    required this.userId,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.user,
-    required this.logo,
-    required this.country,
+    this.id,
+    this.name,
+    this.picName,
+    this.description,
+    this.address,
+    this.website,
+    this.video,
+    this.about,
+    this.userId,
+    this.createdAt,
+    this.updatedAt,
   });
 
   factory Manufacturer.fromJson(Map<String, dynamic> json) => Manufacturer(
-        id: json['id'],
-        name: json['name'],
-        picName: json['pic_name'],
-        description: json['description'],
-        address: json['address'],
-        website: json['website'],
-        video: json['video'],
-        about: json['about'],
-        userId: json['user_id'],
-        createdAt: DateTime.parse(json['created_at']),
-        updatedAt: DateTime.parse(json['updated_at']),
-        user: User.fromJson(json['user']),
-        logo: Thumbnail.fromJson(json['logo']),
-        country: Country.fromJson(json['country']),
+        id: json["id"],
+        name: json["name"],
+        picName: json["pic_name"],
+        description: json["description"],
+        address: json["address"],
+        website: json["website"],
+        video: json["video"],
+        about: json["about"],
+        userId: json["user_id"],
+        createdAt: json["created_at"] == null
+            ? null
+            : DateTime.parse(json["created_at"]),
+        updatedAt: json["updated_at"] == null
+            ? null
+            : DateTime.parse(json["updated_at"]),
       );
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "name": name,
+        "pic_name": picName,
+        "description": description,
+        "address": address,
+        "website": website,
+        "video": video,
+        "about": about,
+        "user_id": userId,
+        "created_at": createdAt?.toIso8601String(),
+        "updated_at": updatedAt?.toIso8601String(),
+      };
 }
 
 class User {

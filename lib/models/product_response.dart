@@ -12,26 +12,24 @@ String productResponseToJson(ProductResponse data) =>
 
 class ProductResponse {
   Meta? meta;
-  List<Datum>? data;
+  List<Datum> data;
 
   ProductResponse({
     this.meta,
-    this.data,
-  });
+    List<Datum>? data,
+  }) : this.data = data ?? [];
 
   factory ProductResponse.fromJson(Map<String, dynamic> json) =>
       ProductResponse(
         meta: json["meta"] == null ? null : Meta.fromJson(json["meta"]),
         data: json["data"] == null
             ? []
-            : List<Datum>.from(json["data"]!.map((x) => Datum.fromJson(x))),
+            : List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
       );
 
   Map<String, dynamic> toJson() => {
         "meta": meta?.toJson(),
-        "data": data == null
-            ? []
-            : List<dynamic>.from(data!.map((x) => x.toJson())),
+        "data": List<dynamic>.from(data.map((x) => x.toJson())),
       };
 }
 
@@ -81,7 +79,7 @@ class Datum {
             : Category.fromJson(json["category"]),
         tags: json["tags"] == null
             ? []
-            : List<Tag>.from(json["tags"]!.map((x) => Tag.fromJson(x))),
+            : List<Tag>.from(json["tags"].map((x) => Tag.fromJson(x))),
         thumbnail: json["thumbnail"] == null
             ? null
             : Thumbnail.fromJson(json["thumbnail"]),
@@ -114,8 +112,8 @@ class Datum {
 class Category {
   int? id;
   Name? name;
-  dynamic description;
-  dynamic categoryId;
+  String? description;
+  int? categoryId;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -130,7 +128,7 @@ class Category {
 
   factory Category.fromJson(Map<String, dynamic> json) => Category(
         id: json["id"],
-        name: nameValues.map[json["name"]]!,
+        name: nameValues.map[json["name"]] ?? Name.NOT_LISTED_IN_APP,
         description: json["description"],
         categoryId: json["category_id"],
         createdAt: json["created_at"] == null
@@ -158,7 +156,8 @@ enum Name {
   MEDICAL_CONSUMABLES,
   MEDICAL_EQUIPMENT,
   MOLECULAR_DIAGNOSTIC_INSTRUMENT_AND_KITS,
-  PRESCRIPTION_DRUG
+  PRESCRIPTION_DRUG,
+  NOT_LISTED_IN_APP,
 }
 
 final nameValues = EnumValues({
@@ -169,7 +168,8 @@ final nameValues = EnumValues({
   "Medical equipment": Name.MEDICAL_EQUIPMENT,
   "Molecular diagnostic instrument and kits":
       Name.MOLECULAR_DIAGNOSTIC_INSTRUMENT_AND_KITS,
-  "Prescription Drug": Name.PRESCRIPTION_DRUG
+  "Prescription Drug": Name.PRESCRIPTION_DRUG,
+  "Not listed in app": Name.NOT_LISTED_IN_APP
 });
 
 class Distributor {
@@ -397,8 +397,8 @@ class Meta {
   int? firstPage;
   String? firstPageUrl;
   String? lastPageUrl;
-  dynamic nextPageUrl;
-  dynamic previousPageUrl;
+  String? nextPageUrl;
+  String? previousPageUrl;
 
   Meta({
     this.total,

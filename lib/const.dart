@@ -24,6 +24,7 @@ class Const {
 
   static const String URL_WEB = 'https://med-map.org';
   static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
+  // static const String BASE_URL = 'https://be-mdmap.mandatech.co.id/';
   static const String URL_API = BASE_URL + '/v1';
   static const String API_PRODUCTS = URL_API + '/products/';
 }

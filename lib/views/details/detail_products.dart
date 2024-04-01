@@ -11,20 +11,22 @@ import 'package:share_plus/share_plus.dart';
 
 //start model
 class Item {
-  final String name;
-  final String slug;
-  final String url;
+  final String? name;
+  final String? slug;
+  final String? url;
   final int id;
-  List<Tag> tags;
+  List<Tag>? tags;
   Manufacturer? manufacturer;
+  Distributor? distributor;
 
   Item({
-    required this.name,
-    required this.slug,
-    required this.url,
     required this.id,
-    required this.tags,
+    this.name,
+    this.slug,
+    this.url,
+    this.tags,
     this.manufacturer,
+    this.distributor,
   });
 
   factory Item.fromJson(Map<String, dynamic> json) {
@@ -38,6 +40,9 @@ class Item {
       tags: List<Tag>.from(json['tags'].map((x) => Tag.fromJson(x))),
       manufacturer: json['manufacturer'] != null
           ? Manufacturer.fromJson(json['manufacturer'])
+          : null,
+      distributor: json['distributor'] != null
+          ? Distributor.fromJson(json['distributor'])
           : null,
     );
   }
@@ -196,7 +201,7 @@ class _DetailProductsState extends State<DetailProducts> {
                                     ? item.tags.map<Widget>((tag) {
                                         if (tag is Tag) {
                                           return Text(
-                                            tag.name,
+                                            tag.name!,
                                             style: TextStyle(
                                               color: Colors.black,
                                               fontSize: 14,

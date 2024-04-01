@@ -93,27 +93,50 @@ class _MyProductState extends State<BrowseProducts> {
       }
     });
 
+    // debugging
+    // final response = await api.fetchData(context,
+    //     'products?page=$page&limit=$limitItem&keyword=$keyword&category_ids=${widget.categoryId ?? ""}');
+    // print("cekResponse : " + response.toString());
+
+    // if (response is Map<String, dynamic>) {
+    //   ProductResponse newProductResponse = ProductResponse.fromJson(response);
+    //   print('Meta Total: ${newProductResponse.meta?.total}');
+    // } else {
+    //   print("Ternyata Error: Response is not a Map<String, dynamic>");
+    // }
+    // end debugging
+
     try {
       final response = await api.fetchData(context,
           'products?page=$page&limit=$limitItem&keyword=$keyword&category_ids=${widget.categoryId ?? ""}');
-      if (response != null) {
+      // print("cekResponse : " + response.toString());
+
+      if (response is Map<String, dynamic>) {
         ProductResponse newProductResponse = ProductResponse.fromJson(response);
+        // print('Meta Total: ${newProductResponse.meta?.total}');
 
         setState(() {
           if (page == 1) {
-            // products = newProductResponse.data ?? [];
             products.clear();
           }
-          products.addAll(newProductResponse.data ?? []);
-          currentPage = page;
-          // hasMore = newProductResponse.data!.isNotEmpty;
-          hasMore = newProductResponse.data?.length == limitItem;
+          // Check if newProductResponse is not null before accessing its data
+          if (newProductResponse.data.isNotEmpty) {
+            products.addAll(newProductResponse.data);
+            currentPage = page;
+            hasMore = newProductResponse.data.length == limitItem;
+          } else {
+            // Handle the case where newProductResponse is null or its data is empty
+            hasMore = false;
+          }
           isLoading = false;
           isInitialLoad = false;
         });
+      } else {
+        Utils.showSnackBar(
+            context, 'error api products : $response.toString()');
       }
     } catch (error) {
-      print('failed fetch product : $error');
+      print('failed fetch products : $error');
       Utils.showSnackBar(context, error.toString());
       setState(() {
         isLoading = false;

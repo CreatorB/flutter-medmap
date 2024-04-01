@@ -9,7 +9,7 @@ class Api {
   final String baseUrl = Const.URL_API;
   HttpClientWithMiddleware _client =
       HttpClientWithMiddleware.build(middlewares: [
-    HttpLogger(logLevel: LogLevel.BODY),
+    // HttpLogger(logLevel: LogLevel.BODY),
   ]);
 
   // Example: GET request

@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 
 import '../views/browse_products.dart' as browse_products;
-// import '../main.dart';
+import '../main.dart';
 import '../views/details/detail_products.dart';
 
 class Products extends StatefulWidget {
@@ -17,7 +17,7 @@ class Products extends StatefulWidget {
 }
 
 class _MyProductState extends State<Products> {
-  late List<Item> allItems;
+  late List<Item?> allItems = [];
   List<Item> displayedItems = [];
   bool isLoading = true;
 
@@ -106,18 +106,28 @@ class _MyProductState extends State<Products> {
     try {
       final response = await http.get(Uri.parse(
           'https://api-medmap.mandatech.co.id/v1/products?page=1&limit=4'));
+      print("cekProductResponse : " + response.body);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
-        // Check if the 'items' key exists and is not null
-        if (jsonData['data'] != null) {
+        if (jsonData.containsKey('data') && jsonData['data'] != null) {
           final itemsData = jsonData['data'];
-
-          // Check if itemsData is a List
           if (itemsData is List) {
             setState(() {
-              allItems = itemsData.map((item) => Item.fromJson(item)).toList();
+              allItems = itemsData
+                  .map((item) {
+                    if (item == null || item is! Map<String, dynamic>) {
+                      print('Skipping item due to null or incorrect type');
+                      return null;
+                    }
+                    return Item.fromJson(item);
+                  })
+                  .where((item) => item != null)
+                  .toList()
+                  .cast<Item>();
               displayedItems = List.from(allItems);
               isLoading = false;
+              // print('All Items: $allItems');
+              // print('Displayed Items: $displayedItems');
             });
           } else {
             print('Invalid data format: data key is not a List');
@@ -131,13 +141,6 @@ class _MyProductState extends State<Products> {
             isLoading = false;
           });
         }
-        //old
-        // setState(() {
-        //   allItems = (jsonData['items'] as List)
-        //       .map((item) => Item.fromJson(item))
-        //       .toList();
-        //   displayedItems = List.from(allItems);
-        // });
       } else {
         print('Failed to load data. Status Code: ${response.statusCode}');
         setState(() {
@@ -150,29 +153,16 @@ class _MyProductState extends State<Products> {
         isLoading = false;
       });
     }
-    // final response = await http.get(Uri.parse(
-    //     'https://api-medmap.mandatech.co.id/v1/products?page=1&limit=10'));
-    // // print("cekAPI: '$response'");
-    // // print('Response Body: ${response.body}');
-    // // print('Response Code: ${response.statusCode}');
-    // if (response.statusCode == 200) {
-    //   final jsonData = json.decode(response.body);
-    //   setState(() {
-    //     allItems = (jsonData['data'] as List)
-    //         .map((item) => Item.fromJson(item))
-    //         .toList();
-    //     // final List<dynamic> jsonList = json.decode(jsonData['data']);
-    //   });
-    // } else {
-    //   throw Exception('Failed to load data');
-    // }
   }
 
   void searchItems(String query) {
     setState(() {
+      // Use the null-aware operator to safely access the 'name' property
       displayedItems = allItems
-          .where(
-              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+          .where((item) =>
+              item?.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+          .map((item) =>
+              item!) // This is safe now because we've filtered out nulls
           .toList();
       isLoading = false;
     });
@@ -190,15 +180,15 @@ class _MyProductState extends State<Products> {
             onPressed: () {
               // NavigationHistory.addContext(context);
               // print("cekCtxProducts : ${context}");
-              // navbarVisibility(true);
+              navbarVisibility(true);
               final back = Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => browse_products.BrowseProducts()),
               );
-              // if (back == 'back') {
-              //   navbarVisibility(false);
-              // }
+              if (back == 'back') {
+                navbarVisibility(false);
+              }
               // showSearch(
               //     context: context,
               //     delegate: ItemSearchDelegate(allItems, searchItems));
@@ -457,11 +447,11 @@ class ItemSearchDelegate extends SearchDelegate<String> {
       itemCount: items.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(items[index].name),
+          title: Text(items[index].name ?? 'Null'),
           onTap: () {
-            query = items[index].name;
+            query = items[index].name ?? "";
             searchCallback(query);
-            close(context, items[index].name);
+            close(context, items[index].name ?? "");
           },
         );
       },
@@ -482,7 +472,7 @@ class GridItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
-            item.url,
+            item.url!,
             fit: BoxFit.cover,
             width: double.infinity,
             height: 100.0,
@@ -495,7 +485,7 @@ class GridItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0), // Adjust padding as needed
                 child: Text(
-                  item.name,
+                  item.name!,
                   overflow: TextOverflow
                       .ellipsis, // This will cut off extra text with ellipsis
                   maxLines: 1, // Limits the number of lines displayed

@@ -49,9 +49,12 @@ class _MyState extends State<Drugs> {
 
   void searchItems(String query) {
     setState(() {
+      // Use the null-aware operator to safely access the 'name' property
       displayedItems = allItems
-          .where(
-              (item) => item.name.toLowerCase().contains(query.toLowerCase()))
+          .where((item) =>
+              item.name?.toLowerCase().contains(query.toLowerCase()) ?? false)
+          .map((item) =>
+              item) // This is safe now because we've filtered out nulls
           .toList();
       isLoading = false;
     });
@@ -242,11 +245,11 @@ class ItemSearchDelegate extends SearchDelegate<String> {
       itemCount: items.length,
       itemBuilder: (context, index) {
         return ListTile(
-          title: Text(items[index].name),
+          title: Text(items[index].name ?? 'Null'),
           onTap: () {
-            query = items[index].name;
+            query = items[index].name ?? "";
             searchCallback(query);
-            close(context, items[index].name);
+            close(context, items[index].name ?? 'Null');
           },
         );
       },
@@ -267,7 +270,7 @@ class GridItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.network(
-            item.url,
+            item.url!,
             fit: BoxFit.cover,
             width: double.infinity,
             height: 100.0,
@@ -280,7 +283,7 @@ class GridItem extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(8.0), // Adjust padding as needed
                 child: Text(
-                  item.name,
+                  item.name!,
                   overflow: TextOverflow
                       .ellipsis, // This will cut off extra text with ellipsis
                   maxLines: 1, // Limits the number of lines displayed
