@@ -106,7 +106,7 @@ class _MyProductState extends State<Products> {
     try {
       final response = await http.get(Uri.parse(
           'https://api-medmap.mandatech.co.id/v1/products?page=1&limit=4'));
-      print("cekProductResponse : " + response.body);
+      // print("cekProductResponse : " + response.body);
       if (response.statusCode == 200) {
         final jsonData = json.decode(response.body);
         if (jsonData.containsKey('data') && jsonData['data'] != null) {

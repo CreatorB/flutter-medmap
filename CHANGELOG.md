@@ -21,6 +21,9 @@ manufacturer and distributor with variant fields.
 
 ### Added
 
+- [x] [Dashboard] List Analysis.
+- [x] [Dashboard] List Affairs.
+
 ### Changed
 
 ### Fixed

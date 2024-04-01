@@ -15,7 +15,8 @@ import '../AppLanguage.dart';
 import '../app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../api.dart';
-import '../models/affair_response.dart';
+import '../models/analysis_response.dart' as analysis;
+import '../models/affair_response.dart' as affair;
 
 class Dashboard extends StatefulWidget {
   static const String route = '/dashboard';
@@ -28,8 +29,10 @@ class Dashboard extends StatefulWidget {
 
 class _MyAppState extends State<Dashboard> {
   final api = Api();
-  late AffairResponse affairResponse;
-  List<Data> datum = [];
+  late analysis.AnalysisResponse analysisResponse;
+  late affair.AffairResponse affairResponse;
+  List<analysis.Data> datum = [];
+  List<affair.Data> datumAffair = [];
   int currentPage = 1;
   int limitItem = 3;
   String keyword = "";
@@ -41,20 +44,44 @@ class _MyAppState extends State<Dashboard> {
   @override
   void initState() {
     super.initState();
-    fetchData();
+    getAnalysis();
+    getAffairs();
   }
 
-  Future<void> fetchData({int page = 1}) async {
+  Future<void> getAnalysis({int page = 1}) async {
     try {
       final response = await api.fetchData(
-          context, 'gov-affairs?page=$page&limit=$limitItem');
+          context, 'cases-analysis?page=$page&limit=$limitItem');
       if (response != null) {
-        AffairResponse newResponse = AffairResponse.fromJson(response);
+        analysisResponse = analysis.AnalysisResponse.fromJson(response);
         setState(() {
           if (page == 1) {
-            datum = newResponse.data ?? [];
+            datum = analysisResponse.data ?? [];
           } else {
-            datum.addAll(newResponse.data ?? []);
+            datum.addAll(analysisResponse.data ?? []);
+          }
+          currentPage = page;
+        });
+      } else {
+        Utils.showSnackBar(context, 'Failed to load data');
+      }
+    } catch (e) {
+      Utils.showSnackBar(context, e.toString());
+      // isLoading = false;
+    }
+  }
+
+  Future<void> getAffairs({int page = 1}) async {
+    try {
+      final response = await api.fetchData(context,
+          'gov-affairs?sort=created_at&order=desc&page=$page&limit=$limitItem');
+      if (response != null) {
+        affairResponse = affair.AffairResponse.fromJson(response);
+        setState(() {
+          if (page == datumAffair) {
+            datumAffair = affairResponse.data ?? [];
+          } else {
+            datumAffair.addAll(affairResponse.data ?? []);
           }
           currentPage = page;
         });
@@ -117,256 +144,363 @@ class _MyAppState extends State<Dashboard> {
           ),
           body: Container(
             margin: EdgeInsets.fromLTRB(0, 0, 0, 60),
-            color: Colors
-                .white, // Replace with your Const.colorDashboard if it's defined
-            child: Column(
-              children: [
-                // SearchInputBox(),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CircularIconWithTitle(
-                      onTap: () {
-                        selectTab(1);
-                      },
-                      iconPath:
-                          'assets/icons/ic_tenders.png', // Replace with your actual image path
-                      title: 'Tenders',
-                      backgroundColor: Color(0xFFDCE3FD),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                    CircularIconWithTitle(
-                      onTap: () {
-                        selectTab(3);
-                      },
-                      iconPath:
-                          'assets/icons/ic_distributors.png', // Replace with your actual image path
-                      title: 'Distributors',
-                      backgroundColor: Color(0xFFFFE7E7),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                    CircularIconWithTitle(
-                      onTap: () {
-                        selectTab(2);
-                      },
-                      iconPath:
-                          'assets/icons/ic_products.png', // Replace with your actual image path
-                      title: 'Products',
-                      backgroundColor: Color(0xFFFCEEE1),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    CircularIconWithTitle(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Drugs()),
-                        );
-                      },
-                      iconPath: 'assets/icons/ic_pharmacy.png',
-                      title: 'e-Pharmacy',
-                      backgroundColor: Color(0xFFF6EFC6),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                    CircularIconWithTitle(
-                      onTap: () {
-                        Utils.openPDFFromAssets(
-                            context, 'assets/pdfs/content_service.pdf');
-                      },
-                      iconPath: 'assets/icons/ic_services.png',
-                      title: 'Services',
-                      backgroundColor: Color(0xFFE3F3EA),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                    CircularIconWithTitle(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => WebViewActivity(
-                                title: 'Events & News',
-                                url: Const.URL_WEB + '/all-news'),
-                          ),
-                        );
-                      },
-                      iconPath: 'assets/icons/ic_events.png',
-                      title: 'Events',
-                      backgroundColor: Color(0xFFD3F2FF),
-                      // iconColor: Colors.white,
-                      titleColor: Colors.black,
-                    ),
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0, top: 16.0),
-                        child: Text(
-                          'Recommended Tenders',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.black,
-                            // fontSize: 14,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
-                          ),
-                        ),
+            color: Colors.white,
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  // SearchInputBox(),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircularIconWithTitle(
+                        onTap: () {
+                          selectTab(1);
+                        },
+                        iconPath:
+                            'assets/icons/ic_tenders.png', // Replace with your actual image path
+                        title: 'Tenders',
+                        backgroundColor: Color(0xFFDCE3FD),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
                       ),
-                    ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16.0, top: 16.0),
-                        child: Text(
-                          'View All',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            // fontSize: 13,
-                            fontFamily: 'Inter',
-                            height: 0,
-                          ),
-                        ),
+                      CircularIconWithTitle(
+                        onTap: () {
+                          selectTab(3);
+                        },
+                        iconPath:
+                            'assets/icons/ic_distributors.png', // Replace with your actual image path
+                        title: 'Distributors',
+                        backgroundColor: Color(0xFFFFE7E7),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Expanded(
-                  child: ListView.separated(
-                    controller: _scrollController,
-                    itemCount: datum.length,
-                    itemBuilder: (context, index) {
-                      if (index == datum.length) {
-                        return Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      final item = datum[index];
-                      return Card(
-                        color: Colors.white,
-                        margin: EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Padding(
-                            padding: const EdgeInsets.all(16.0),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      item.title ?? 'Not provided',
-                                      style: TextStyle(
-                                        color: Color(0xFF150A33),
-                                        fontSize: 14,
-                                        fontFamily: 'Inter',
-                                        fontWeight: FontWeight.w700,
-                                      ),
-                                    ),
-                                    // Three-dot menu
-                                    PopupMenuButton<String>(
-                                      onSelected: (String result) {
-                                        // Handle menu item selection
-                                      },
-                                      itemBuilder: (BuildContext context) =>
-                                          <PopupMenuEntry<String>>[],
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  item.country?.name ?? 'Not provided',
-                                  style: TextStyle(
-                                    color: Color(0xFF514A6B),
-                                    fontSize: 12,
-                                    fontFamily: 'Open Sans',
-                                    fontWeight: FontWeight.w400,
-                                    height: 0,
-                                  ),
-                                ),
-                              ],
+                      CircularIconWithTitle(
+                        onTap: () {
+                          selectTab(2);
+                        },
+                        iconPath:
+                            'assets/icons/ic_products.png', // Replace with your actual image path
+                        title: 'Products',
+                        backgroundColor: Color(0xFFFCEEE1),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircularIconWithTitle(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Drugs()),
+                          );
+                        },
+                        iconPath: 'assets/icons/ic_pharmacy.png',
+                        title: 'e-Pharmacy',
+                        backgroundColor: Color(0xFFF6EFC6),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
+                      ),
+                      CircularIconWithTitle(
+                        onTap: () {
+                          Utils.openPDFFromAssets(
+                              context, 'assets/pdfs/content_service.pdf');
+                        },
+                        iconPath: 'assets/icons/ic_services.png',
+                        title: 'Services',
+                        backgroundColor: Color(0xFFE3F3EA),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
+                      ),
+                      CircularIconWithTitle(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => WebViewActivity(
+                                  title: 'Events & News',
+                                  url: Const.URL_WEB + '/all-news'),
+                            ),
+                          );
+                        },
+                        iconPath: 'assets/icons/ic_events.png',
+                        title: 'Events',
+                        backgroundColor: Color(0xFFD3F2FF),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                          child: Text(
+                            'Case Analysis',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black,
+                              // fontSize: 14,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
                             ),
                           ),
                         ),
-                      );
-                    },
-                    separatorBuilder: (context, index) => SizedBox(height: 0),
-                  ),
-                ),
-                // SizedBox(height: 10),
-                // Container(
-                //   margin: EdgeInsets.symmetric(horizontal: 16.0),
-                //   child: Card(
-                //     child: ListTile(
-                //       leading: Icon(Icons.image),
-                //       title: Text('Item Recommended Tenders'),
-                //       subtitle: Text('Coming soon.'),
-                //     ),
-                //   ),
-                // ),
-                SizedBox(height: 25),
-                Row(
-                  children: <Widget>[
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(left: 16.0),
-                        child: Text(
-                          'Medical Policy Affairs',
-                          textAlign: TextAlign.left,
-                          style: TextStyle(
-                            color: Colors.black,
-                            // fontSize: 14,
-                            fontFamily: 'Inter',
-                            fontWeight: FontWeight.w700,
-                            height: 0,
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(right: 16.0, top: 16.0),
+                          child: Text(
+                            'View All',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              // fontSize: 13,
+                              fontFamily: 'Inter',
+                              height: 0,
+                            ),
                           ),
                         ),
                       ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 300, // Specify the fixed height for the ListView
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      itemCount: datum.length,
+                      itemBuilder: (context, index) {
+                        if (index == datum.length) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final item = datum[index];
+                        return Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start, // Align items vertically at the start
+                                    children: [
+                                      if (item.image?.url != null)
+                                        Image.network(
+                                          item.image!.url!,
+                                          width:
+                                              50, // Adjust the width as needed
+                                          height:
+                                              50, // Adjust the height as needed
+                                          fit: BoxFit
+                                              .cover, // Adjust the fit as needed
+                                        ),
+                                      SizedBox(
+                                          width:
+                                              10), // Add some space between the image and the text
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              Utils.fmtToDMY(item.createdAt),
+                                              style: TextStyle(
+                                                color: Color(0xFF514A6B),
+                                                fontSize: 12,
+                                                fontFamily: 'Open Sans',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            Text(
+                                              Utils.trimString(item.title),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Color(0xFF150A33),
+                                                fontSize: 14,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              'Read More',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 11,
+                                                fontFamily: 'Open Sans',
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(height: 0),
                     ),
-                    Expanded(
-                      child: Padding(
-                        padding: const EdgeInsets.only(right: 16.0),
-                        child: Text(
-                          'View All',
-                          textAlign: TextAlign.right,
-                          style: TextStyle(
-                            color: Colors.grey,
-                            // fontSize: 13,
-                            fontFamily: 'Inter',
-                            height: 0,
+                  ),
+                  // SizedBox(height: 10),
+                  // Container(
+                  //   margin: EdgeInsets.symmetric(horizontal: 16.0),
+                  //   child: Card(
+                  //     child: ListTile(
+                  //       leading: Icon(Icons.image),
+                  //       title: Text('Item Recommended Tenders'),
+                  //       subtitle: Text('Coming soon.'),
+                  //     ),
+                  //   ),
+                  // ),
+                  SizedBox(height: 25),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0),
+                          child: Text(
+                            'Medical Policy Affairs',
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black,
+                              // fontSize: 14,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 10),
-                Container(
-                  margin: EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Card(
-                    child: ListTile(
-                      leading: Icon(Icons.image),
-                      title: Text('Item Medical Affairs'),
-                      subtitle: Text('Coming soon.'),
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(right: 16.0),
+                          child: Text(
+                            'View All',
+                            textAlign: TextAlign.right,
+                            style: TextStyle(
+                              color: Colors.grey,
+                              // fontSize: 13,
+                              fontFamily: 'Inter',
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 300, // Specify the fixed height for the ListView
+                    child: ListView.separated(
+                      controller: _scrollController,
+                      itemCount: datumAffair.length,
+                      itemBuilder: (context, index) {
+                        if (index == datumAffair.length) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final item = datumAffair[index];
+                        return Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {},
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start, // Align items vertically at the start
+                                    children: [
+                                      if (item.image?.url != null)
+                                        Image.network(
+                                          item.image!.url!,
+                                          width:
+                                              50, // Adjust the width as needed
+                                          height:
+                                              50, // Adjust the height as needed
+                                          fit: BoxFit
+                                              .cover, // Adjust the fit as needed
+                                        ),
+                                      SizedBox(
+                                          width:
+                                              10), // Add some space between the image and the text
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              Utils.fmtToDMY(item.createdAt),
+                                              style: TextStyle(
+                                                color: Color(0xFF514A6B),
+                                                fontSize: 12,
+                                                fontFamily: 'Open Sans',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            Text(
+                                              Utils.trimString(item.title),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Color(0xFF150A33),
+                                                fontSize: 14,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              'Read More',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 11,
+                                                fontFamily: 'Open Sans',
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(height: 0),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         );

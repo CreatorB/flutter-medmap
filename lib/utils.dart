@@ -81,4 +81,27 @@ class Utils {
       print(e.toString());
     }
   }
+
+  static String trimString(String? text) {
+    int maxChars = 40;
+    if (text != null) {
+      if (text.length > maxChars) {
+        return text.substring(0, maxChars) + ' ...';
+      } else {
+        return text;
+      }
+    } else {
+      return 'Not Available';
+    }
+  }
+
+  static String fmtToDMY(String? str) {
+    if (str != null) {
+      DateTime date = DateTime.parse(str);
+      String formattedDate = DateFormat('dd MMM yyyy hh:mm:ss').format(date);
+      return formattedDate;
+    } else {
+      return 'Not Available';
+    }
+  }
 }
