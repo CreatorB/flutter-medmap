@@ -154,7 +154,7 @@ class _AnalysisState extends State<Analysis> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'New Analysis',
+                        'Breakthrough Case Studies',
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,

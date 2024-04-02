@@ -14,6 +14,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-04-02
+
+Revision by small feedback
+
+### Added
+
+- [x] [APK] Upload latest apk.
+
+### Changed
+
+- [x] [Dashboard] changes header name Case Analysis to Breakthrough Case Studies
+- [x] [Dashboard] The gap between two sections (case and affairs) can be smaller
+
+### Fixed
+
+
 ## [1.0.0] - 2024-04-01
 
 Fix latest product and product not showing because new update product
@@ -34,7 +50,7 @@ manufacturer and distributor with variant fields.
 - [x] [Events] Change webview events to native app.
 - [x] [View All] List Events.
 - [x] [Detail Page] Events.
--
+
 ### Fixed
 
 - [x] [Product] Search and Latest Product.

@@ -250,11 +250,11 @@ class _MyAppState extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0, top: 16.0),
                           child: Text(
-                            'Case Analysis',
+                            'Breakthrough Case Studies',
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.black,
-                              // fontSize: 14,
+                              fontSize: 12,
                               fontFamily: 'Inter',
                               fontWeight: FontWeight.w700,
                               height: 0,
@@ -399,7 +399,7 @@ class _MyAppState extends State<Dashboard> {
                   //     ),
                   //   ),
                   // ),
-                  SizedBox(height: 25),
+                  SizedBox(height: 15),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -420,8 +420,7 @@ class _MyAppState extends State<Dashboard> {
                       ),
                       Expanded(
                         child: Padding(
-                          padding:
-                              const EdgeInsets.only(right: 16.0, top: 16.0),
+                          padding: const EdgeInsets.only(right: 16.0),
                           child: InkWell(
                             onTap: () {
                               Navigator.push(
