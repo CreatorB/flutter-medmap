@@ -277,24 +277,32 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        // title: Text('Second Page'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+      ),
       body: Container(
         margin: EdgeInsets.only(bottom: 60),
-        child: CustomScrollView(
-          slivers: <Widget>[
-            SliverAppBar(
-              expandedHeight: 150,
-              floating: false,
-              pinned: true,
-              flexibleSpace: FlexibleSpaceBar(
-                background: NetworkImageGlobal(
-                  imageUrl: item.image?.url ?? '',
-                  imageWidth: double.infinity,
-                  imageHeight: double.infinity,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              if (item.image?.url != null)
+                Image.network(
+                  item.image?.url ?? '',
+                  width: MediaQuery.of(context)
+                      .size
+                      .width, // Set the width to full screen width
+                  height: 200, // Adjust the height as needed
+                  fit: BoxFit
+                      .cover, // Use BoxFit.cover to maintain the aspect ratio
                 ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
+              Padding(
                 padding: EdgeInsets.all(16.0),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -320,16 +328,7 @@ class DetailPage extends StatelessWidget {
                       ),
                     ),
                     Text(item.shortDescription ?? 'Not provided'),
-                  ],
-                ),
-              ),
-            ),
-            SliverToBoxAdapter(
-              child: Container(
-                padding: EdgeInsets.all(16.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
+                    SizedBox(height: 20), // Add some space between sections
                     Text(
                       'About',
                       style: TextStyle(
@@ -345,10 +344,88 @@ class DetailPage extends StatelessWidget {
                   ],
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
   }
+
+  // @override
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     body: Container(
+  //       margin: EdgeInsets.only(bottom: 60),
+  //       child: CustomScrollView(
+  //         slivers: <Widget>[
+  //           SliverAppBar(
+  //             expandedHeight: 150,
+  //             floating: false,
+  //             pinned: true,
+  //             flexibleSpace: FlexibleSpaceBar(
+  //               background: NetworkImageGlobal(
+  //                 imageUrl: item.image?.url ?? '',
+  //                 imageWidth: double.infinity,
+  //                 imageHeight: double.infinity,
+  //               ),
+  //             ),
+  //           ),
+  //           SliverToBoxAdapter(
+  //             child: Container(
+  //               padding: EdgeInsets.all(16.0),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: <Widget>[
+  //                   Text(
+  //                     item.title ?? 'Not provided',
+  //                     style: TextStyle(
+  //                       color: Colors.grey,
+  //                       fontSize: 20,
+  //                       fontFamily: 'Inter',
+  //                       fontWeight: FontWeight.bold,
+  //                       letterSpacing: 1.5,
+  //                     ),
+  //                   ),
+  //                   SizedBox(height: 10),
+  //                   Text(
+  //                     'Overview',
+  //                     style: TextStyle(
+  //                       color: Color(0xFF22212E),
+  //                       fontSize: 18,
+  //                       fontFamily: 'Inter',
+  //                       fontWeight: FontWeight.w800,
+  //                     ),
+  //                   ),
+  //                   Text(item.shortDescription ?? 'Not provided'),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //           SliverToBoxAdapter(
+  //             child: Container(
+  //               padding: EdgeInsets.all(16.0),
+  //               child: Column(
+  //                 crossAxisAlignment: CrossAxisAlignment.start,
+  //                 children: <Widget>[
+  //                   Text(
+  //                     'About',
+  //                     style: TextStyle(
+  //                       color: Color(0xFF22212E),
+  //                       fontSize: 18,
+  //                       fontFamily: 'Inter',
+  //                       fontWeight: FontWeight.w800,
+  //                     ),
+  //                   ),
+  //                   HtmlWidget(
+  //                     item.content ?? 'Not provided',
+  //                   ),
+  //                 ],
+  //               ),
+  //             ),
+  //           ),
+  //         ],
+  //       ),
+  //     ),
+  //   );
+  // }
 }

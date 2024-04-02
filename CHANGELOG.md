@@ -26,6 +26,7 @@ Revision by small feedback
 
 - [x] [Dashboard] changes header name Case Analysis to Breakthrough Case Studies
 - [x] [Dashboard] The gap between two sections (case and affairs) can be smaller
+- [x] [Detail Analysis, Affairs, News] Revert parallax effect to standard design
 
 ### Fixed
 
