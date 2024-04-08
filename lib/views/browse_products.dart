@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medmap/models/response_product_manual.dart';
+import 'package:medmap/widgets/button_download.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/product_response.dart';
 import '../models/specification.dart';
@@ -337,6 +339,7 @@ class DetailProducts extends StatefulWidget {
 }
 
 class _DetailProductsState extends State<DetailProducts> {
+  late ResponseProductManual productManual = ResponseProductManual();
   late Future<Map<String, dynamic>> itemDetails;
   late Future<List<Specification>> specs;
   late Future<List<Clinical>> clinicals;
@@ -347,9 +350,32 @@ class _DetailProductsState extends State<DetailProducts> {
   @override
   void initState() {
     super.initState();
+    fetchProductManual(widget.item.id).then((manual) {
+      setState(() {
+        productManual = manual;
+      });
+    }).catchError((error) {
+      print('Error fetching product manual: $error');
+    });
     itemDetails = fetchItemDetails(widget.item.id);
     specs = fetchSpec(widget.item.id);
     clinicals = fetchClinicals(widget.item.id);
+  }
+
+  Future<ResponseProductManual> fetchProductManual(int itemId) async {
+    final apiUrl = '${Const.URL_API}/products/$itemId/user-manual';
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      productManual = ResponseProductManual.fromJson(jsonData);
+      if (productManual.file == null) {
+        productManual.file = null;
+      }
+      return productManual;
+    } else {
+      productManual.file = null;
+      return productManual;
+    }
   }
 
   Future<List<Specification>> fetchSpec(int itemId) async {
@@ -655,7 +681,22 @@ class _DetailProductsState extends State<DetailProducts> {
                         ),
                       ),
                       HtmlWidget(clinicals[0].content ??
-                          'No clinical content available'),
+                          'No clinical application available'),
+                      Row(
+                        children: [
+                          Text(
+                            'User Manual : ',
+                            style: TextStyle(
+                              color: Color(0xFF18181B),
+                              fontSize: 15,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          ButtonDownload(productManual: productManual),
+                        ],
+                      ),
                     ],
                   ),
                 ),

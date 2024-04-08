@@ -180,15 +180,15 @@ class _MyProductState extends State<Products> {
             onPressed: () {
               // NavigationHistory.addContext(context);
               // print("cekCtxProducts : ${context}");
-              navbarVisibility(true);
+              // navbarVisibility(true);
               final back = Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => browse_products.BrowseProducts()),
               );
-              if (back == 'back') {
-                navbarVisibility(false);
-              }
+              // if (back == 'back') {
+              //   navbarVisibility(false);
+              // }
               // showSearch(
               //     context: context,
               //     delegate: ItemSearchDelegate(allItems, searchItems));

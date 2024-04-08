@@ -14,6 +14,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-04-07
+
+Revision DOC Feedback for medmap app 1.0.docx
+
+### Added
+
+- [ ] [APK] Upload latest apk.
+- [ ] WIP -- In ” Breakthrough case study” page, add share link button, change the title font and color  same as “Overview” header
+- [x] [Detail Products] Add user manual download button
+- [ ] [Detail Manufacturer / Distributor] Add new page designed at figma.
+
+### Changed
+
+- [ ] Enable manufacture/distributor link. If user click the company name system will open the company detail page
+
+### Fixed
+
+- [x] Once click “search product” button in product list page, system will lost the navigate  button in page the bottom, and can’t go back to home page anymore
+
+
 ## [1.0.0] - 2024-04-02
 
 Revision by small feedback

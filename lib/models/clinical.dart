@@ -10,4 +10,8 @@ class Clinical {
       content: json['content'],
     );
   }
+  @override
+  String toString() {
+    return 'Clinical{id: $id, content: $content}';
+  }
 }

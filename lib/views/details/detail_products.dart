@@ -1,3 +1,7 @@
+import 'package:medmap/models/response_product_manual.dart';
+import 'package:medmap/utils.dart';
+import 'package:medmap/widgets/button_download.dart';
+
 import '../../models/product.dart';
 import '../../models/specification.dart';
 import '../../models/clinical.dart';
@@ -57,6 +61,7 @@ class DetailProducts extends StatefulWidget {
 }
 
 class _DetailProductsState extends State<DetailProducts> {
+  late ResponseProductManual productManual = ResponseProductManual();
   late Future<Product> itemDetails;
   late Future<List<Specification>> specs;
   late Future<List<Clinical>> clinicals;
@@ -67,6 +72,29 @@ class _DetailProductsState extends State<DetailProducts> {
     itemDetails = fetchItemDetails(widget.item.id);
     specs = fetchSpec(widget.item.id);
     clinicals = fetchClinicals(widget.item.id);
+    fetchProductManual(widget.item.id).then((manual) {
+      setState(() {
+        productManual = manual;
+      });
+    }).catchError((error) {
+      print('Error fetching product manual: $error');
+    });
+  }
+
+  Future<ResponseProductManual> fetchProductManual(int itemId) async {
+    final apiUrl = '${Const.URL_API}/products/$itemId/user-manual';
+    final response = await http.get(Uri.parse(apiUrl));
+    if (response.statusCode == 200) {
+      final jsonData = json.decode(response.body);
+      productManual = ResponseProductManual.fromJson(jsonData);
+      if (productManual.file == null) {
+        productManual.file = null;
+      }
+      return productManual;
+    } else {
+      productManual.file = null;
+      return productManual;
+    }
   }
 
   Future<List<Specification>> fetchSpec(int itemId) async {
@@ -89,7 +117,6 @@ class _DetailProductsState extends State<DetailProducts> {
     final apiUrl =
         '${Const.URL_API}/products/$itemId/clinical-applications?page=1&limit=10';
     final response = await http.get(Uri.parse(apiUrl));
-
     if (response.statusCode == 200) {
       final jsonData = json.decode(response.body);
       final List<dynamic> itemsJson = jsonData['data'];
@@ -383,8 +410,23 @@ class _DetailProductsState extends State<DetailProducts> {
                           ),
                         ),
                       ),
-                      HtmlWidget(clinicals[0].content ??
-                          'No clinical content available'),
+                      HtmlWidget(clinicals[0].content ?? 'Not available'),
+                      SizedBox(height: 16.0),
+                      Row(
+                        children: [
+                          Text(
+                            'User Manual : ',
+                            style: TextStyle(
+                              color: Color(0xFF18181B),
+                              fontSize: 15,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                          SizedBox(width: 10),
+                          ButtonDownload(productManual: productManual),
+                        ],
+                      ),
                     ],
                   ),
                 ),

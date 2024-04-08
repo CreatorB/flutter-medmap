@@ -32,7 +32,11 @@ class Utils {
     if (await canLaunch(url)) {
       await launch(url);
     } else {
-      showSnackBar(context, 'Could not launch $url');
+      try {
+        await launch(url, forceSafariVC: false, forceWebView: false);
+      } catch (e) {
+        showSnackBar(context, '$e , Could not launch $url');
+      }
     }
   }
 

@@ -310,11 +310,10 @@ class DetailPage extends StatelessWidget {
                     Text(
                       item.title ?? 'Not provided',
                       style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
+                        color: Color(0xFF22212E),
+                        fontSize: 18,
                         fontFamily: 'Inter',
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
+                        fontWeight: FontWeight.w800,
                       ),
                     ),
                     SizedBox(height: 10),
