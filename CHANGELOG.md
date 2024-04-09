@@ -21,7 +21,7 @@ Revision DOC Feedback for medmap app 1.0.docx
 ### Added
 
 - [ ] [APK] Upload latest apk.
-- [ ] WIP -- In ” Breakthrough case study” page, add share link button, change the title font and color  same as “Overview” header
+- [x] In ”Breakthrough case study” page, add share link button, change the title font and color  same as “Overview” header
 - [x] [Detail Products] Add user manual download button
 - [ ] [Detail Manufacturer / Distributor] Add new page designed at figma.
 

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:medmap/const.dart';
 import '../models/analysis_response.dart';
 import '../utils.dart';
 import '../api.dart';
@@ -285,6 +286,14 @@ class DetailPage extends StatelessWidget {
             Navigator.pop(context);
           },
         ),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.share),
+            onPressed: () {
+              Utils.shareUrl('${Const.URL_WEB_DETAIL_CASE}/${item.slug}');
+            },
+          ),
+        ],
       ),
       body: Container(
         margin: EdgeInsets.only(bottom: 60),

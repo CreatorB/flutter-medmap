@@ -8,8 +8,13 @@ import 'package:path/path.dart';
 
 import 'package:flutter/services.dart';
 import 'views/pdf_screen.dart';
+import 'package:share_plus/share_plus.dart';
 
 class Utils {
+  static void shareUrl(String url) {
+    Share.share(url, subject: 'SHARE');
+  }
+
   static void changeLanguage(BuildContext context, String languageCode) {
     Locale newLocale = Locale(languageCode);
     Localizations.localeOf(context);
