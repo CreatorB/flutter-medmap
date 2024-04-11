@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Const {
+  static const Color primaryBlue = Color(0xFF4894FE);
   static const Color primaryTextColor = Color(0xFF414C6B);
   static const Color secondaryTextColor = Color(0xFFE4979E);
   static const Color titleTextColor = Colors.white;

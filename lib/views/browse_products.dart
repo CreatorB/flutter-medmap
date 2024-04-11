@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medmap/models/response_product_manual.dart';
+import 'package:medmap/views/profile.dart';
 import 'package:medmap/widgets/button_download.dart';
 import 'package:share_plus/share_plus.dart';
 import '../models/product_response.dart';
@@ -570,32 +571,42 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: SizedBox(
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: item['manufacturer'] != null
-                                      ? 'Manufacturer: '
-                                      : 'Distributor: ',
-                                  style: TextStyle(
-                                    color: Color(0xFF757575),
-                                    fontSize: 13,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Profile(),
                                 ),
-                                TextSpan(
-                                  text: item['manufacturer'] != null
-                                      ? item['manufacturer']['name']
-                                      : item['distributor']['name'],
-                                  style: TextStyle(
-                                    color: Color(0xFF4894FE),
-                                    fontSize: 13,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w400,
+                              );
+                            },
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: item['manufacturer'] != null
+                                        ? 'Manufacturer: '
+                                        : 'Distributor: ',
+                                    style: TextStyle(
+                                      color: Color(0xFF757575),
+                                      fontSize: 13,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  TextSpan(
+                                    text: item['manufacturer'] != null
+                                        ? item['manufacturer']['name']
+                                        : item['distributor']['name'],
+                                    style: TextStyle(
+                                      color: Color(0xFF4894FE),
+                                      fontSize: 13,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
