@@ -5,6 +5,7 @@ import '../const.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medmap/models/profile_manufacturer.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 
 class Profile extends StatefulWidget {
   final int id;
@@ -22,6 +23,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   String? profileName;
   String? cityName;
   String? webLink;
+  String? about;
   bool isLoading = true;
   TabController? _tabController;
 
@@ -37,6 +39,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               profileManufacturer?.manufacturer?.name ?? 'Not Available';
           cityName = profileManufacturer?.manufacturer?.country?.name;
           webLink = profileManufacturer?.manufacturer?.website;
+          about = profileManufacturer?.manufacturer?.about;
           isLoading = false;
         });
       });
@@ -48,6 +51,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
               profileDistributor?.distributor?.name ?? 'Not Available';
           cityName = profileDistributor?.distributor?.country?.name;
           webLink = profileDistributor?.distributor?.website;
+          about = profileDistributor?.distributor?.about;
           isLoading = false;
         });
       });
@@ -98,37 +102,30 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
             Navigator.of(context).pop();
           },
         ),
-        bottom: TabBar(
-          controller: _tabController,
-          tabs: [
-            Tab(text: 'About'),
-            Tab(text: 'Products'),
-            Tab(text: 'Videos'),
-          ],
-        ),
       ),
       body: SingleChildScrollView(
         child: isLoading
             ? Center(child: CircularProgressIndicator())
             : Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Container(
-                    height: 300,
+                    height: 200,
                     width: double.infinity,
                     child: Stack(
                       children: [
                         Container(
-                          height: 150,
+                          height: 100,
                           width: double.infinity,
                           color: Const.primaryBlue,
                         ),
                         Positioned(
-                          top: 150,
+                          top: 100,
                           left: 0,
                           right: 0,
                           bottom: 0,
                           child: Container(
-                            height: 150,
+                            height: 100,
                             width: double.infinity,
                             color: Colors.white,
                           ),
@@ -139,7 +136,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
                               SizedBox(
-                                height: 70,
+                                height: 50,
                               ),
                               Container(
                                 decoration: BoxDecoration(
@@ -152,8 +149,8 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 child: ClipOval(
                                   child: Image.asset(
                                     'assets/icons/favicon.ico',
-                                    width: 100,
-                                    height: 100,
+                                    width: 75,
+                                    height: 75,
                                     fit: BoxFit.cover,
                                   ),
                                 ),
@@ -161,7 +158,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               Text(
                                 profileName ?? 'Not Available',
                                 style: TextStyle(
-                                  fontSize: 24,
+                                  fontSize: 18,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold,
                                 ),
@@ -169,7 +166,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                               Text(
                                 cityName ?? 'Not Available',
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: 13,
                                 ),
                               ),
                               GestureDetector(
@@ -181,7 +178,7 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                 child: Text(
                                   webLink ?? 'Not Available',
                                   style: TextStyle(
-                                    fontSize: 16,
+                                    fontSize: 13,
                                     color: Colors.blue,
                                   ),
                                 ),
@@ -192,16 +189,40 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                       ],
                     ),
                   ),
+                  TabBar(
+                    controller: _tabController,
+                    tabs: [
+                      Tab(text: 'About'),
+                      Tab(text: 'Products'),
+                      Tab(text: 'Videos'),
+                    ],
+                  ),
                   SizedBox(
                     height: MediaQuery.of(context).size.height -
-                        300, // Adjust the height as needed
+                        200 - // height of the container with image
+                        kToolbarHeight - // height of the app bar
+                        kBottomNavigationBarHeight, // height of the bottom navigation bar
                     child: TabBarView(
                       controller: _tabController,
                       children: [
                         // About Tab content
-                        Container(
+                        ListView(
                           padding: EdgeInsets.all(16),
-                          child: Text('About Tab Content'),
+                          children: [
+                            Container(
+                              constraints: BoxConstraints(
+                                  maxHeight: MediaQuery.of(context)
+                                          .size
+                                          .height -
+                                      200 -
+                                      kToolbarHeight -
+                                      kBottomNavigationBarHeight -
+                                      48), // Adjust the maxHeight value according to your needs
+                              child: HtmlWidget(
+                                about ?? 'Not available',
+                              ),
+                            ),
+                          ],
                         ),
                         // Products Tab content
                         Container(
