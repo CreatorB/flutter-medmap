@@ -11,6 +11,33 @@ import 'views/pdf_screen.dart';
 import 'package:share_plus/share_plus.dart';
 
 class Utils {
+  // static void myLog(String message) {
+  //   final pattern = RegExp('.{1,800}');
+  //   pattern.allMatches(message).forEach((match) => print(match.group(0)));
+  // }
+
+  static void myLog(Object object) async {
+    int defaultPrintLength = 1020;
+    if (object == null || object.toString().length <= defaultPrintLength) {
+      print(object);
+    } else {
+      String log = object.toString();
+      int start = 0;
+      int endIndex = defaultPrintLength;
+      int logLength = log.length;
+      int tmpLogLength = log.length;
+      while (endIndex < logLength) {
+        print(log.substring(start, endIndex));
+        endIndex += defaultPrintLength;
+        start += defaultPrintLength;
+        tmpLogLength -= defaultPrintLength;
+      }
+      if (tmpLogLength > 0) {
+        print(log.substring(start, logLength));
+      }
+    }
+  }
+
   static void shareUrl(String url) {
     Share.share(url, subject: 'SHARE');
   }

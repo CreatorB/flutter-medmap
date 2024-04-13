@@ -509,8 +509,8 @@ class _DetailProductsState extends State<DetailProducts> {
                             children: (item['tags'] != null &&
                                     item['tags'].isNotEmpty)
                                 ? item['tags'].map<Widget>((tag) {
-                                    print(
-                                        'Tag: $tag'); // Debugging: Print the tag to see its structure
+                                    // print(
+                                    //     'Tag: $tag'); // Debugging: Print the tag to see its structure
                                     if (tag is Map && tag.containsKey('name')) {
                                       return Text(
                                         tag['name'],
@@ -576,7 +576,13 @@ class _DetailProductsState extends State<DetailProducts> {
                               Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                  builder: (context) => Profile(),
+                                  builder: (context) => Profile(
+                                      id: item['manufacturer'] != null
+                                          ? item['manufacturer']['user_id']
+                                          : item['distributor']['user_id'],
+                                      type: item['manufacturer'] != null
+                                          ? 'man'
+                                          : 'dis'),
                                 ),
                               );
                             },
