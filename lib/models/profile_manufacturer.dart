@@ -53,6 +53,11 @@ class ProfileManufacturer {
     }
     return data;
   }
+
+  @override
+  String toString() {
+    return 'ProfileManufacturer(id: $id, creatorId: $creatorId, email: $email, username: $username, description: $description, isVerified: $isVerified, role: $role, createdAt: $createdAt, updatedAt: $updatedAt, manufacturer: $manufacturer)';
+  }
 }
 
 class Manufacturer {
@@ -170,6 +175,11 @@ class Manufacturer {
       data['category_one_service'] = this.categoryOneService!.toJson();
     }
     return data;
+  }
+
+  @override
+  String toString() {
+    return 'Manufacturer(id: $id, name: $name, picName: $picName, description: $description, address: $address, website: $website, video: $video, about: $about, userId: $userId, createdAt: $createdAt, updatedAt: $updatedAt, logo: $logo, industryCategory: $industryCategory, country: $country, profileFile: $profileFile, categoryOne: $categoryOne, categoryTwo: $categoryTwo, categoryTwoService: $categoryTwoService, categoryOneService: $categoryOneService)';
   }
 }
 

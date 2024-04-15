@@ -14,20 +14,37 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.0] - 2024-04-13
+
+Multi Language
+
+### Added
+
+- [ ] [APK] Upload latest apk
+
+### Changed
+
+- [x] Update zh.json file
+
+### Fixed
+
+- [ ] Multi language not working
+
+
 ## [1.0.0] - 2024-04-07
 
 Revision DOC Feedback for medmap app 1.0.docx
 
 ### Added
 
-- [ ] [APK] Upload latest apk.
+- [x] [APK] Upload latest apk.
 - [x] In ”Breakthrough case study” page, add share link button, change the title font and color  same as “Overview” header
 - [x] [Detail Products] Add user manual download button
-- [ ] [Detail Manufacturer / Distributor] Add new page designed at figma.
+- [x] [Detail Manufacturer / Distributor] Add new page designed at figma.
 
 ### Changed
 
-- [ ] Enable manufacture/distributor link. If user click the company name system will open the company detail page
+- [x] Enable manufacture/distributor link. If user click the company name system will open the company detail page
 
 ### Fixed
 
