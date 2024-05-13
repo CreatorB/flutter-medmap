@@ -1,0 +1,13 @@
+{
+  "dart.flutterSdkPath": ".fvm/versions/3.19.5",
+  "dart.flutterSdkPaths": [
+    "/Users/macbook/fvm/versions"
+  ],
+  "search.exclude": {
+    "**/.fvm": true
+  },
+  "files.watcherExclude": {
+    "**/.fvm": true
+  },
+  "vim.digraphs": {}
+}

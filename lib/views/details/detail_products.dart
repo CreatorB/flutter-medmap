@@ -1,7 +1,6 @@
 import 'package:medmap/models/response_product_manual.dart';
-import 'package:medmap/utils.dart';
 import 'package:medmap/widgets/button_download.dart';
-
+import 'package:medmap/views/profile.dart';
 import '../../models/product.dart';
 import '../../models/specification.dart';
 import '../../models/clinical.dart';
@@ -302,32 +301,48 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8),
                         child: SizedBox(
-                          child: Text.rich(
-                            TextSpan(
-                              children: [
-                                TextSpan(
-                                  text: item.manufacturer != null
-                                      ? 'Manufacturer: '
-                                      : 'Distributor: ',
-                                  style: TextStyle(
-                                    color: Color(0xFF757575),
-                                    fontSize: 13,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                          child: GestureDetector(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => Profile(
+                                      id: item.manufacturer != null
+                                          ? item.manufacturer.userId
+                                          : item.distributor.userId,
+                                      type: item.manufacturer != null
+                                          ? 'man'
+                                          : 'dis'),
                                 ),
-                                TextSpan(
-                                  text: item.manufacturer != null
-                                      ? item.manufacturer?.name
-                                      : item.distributor?.name,
-                                  style: TextStyle(
-                                    color: Color(0xFF4894FE),
-                                    fontSize: 13,
-                                    fontFamily: 'Inter',
-                                    fontWeight: FontWeight.w400,
+                              );
+                            },
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: item.manufacturer != null
+                                        ? 'Manufacturer: '
+                                        : 'Distributor: ',
+                                    style: TextStyle(
+                                      color: Color(0xFF757575),
+                                      fontSize: 13,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w700,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                  TextSpan(
+                                    text: item.manufacturer != null
+                                        ? item.manufacturer.name
+                                        : item.distributor.name,
+                                    style: TextStyle(
+                                      color: Color(0xFF4894FE),
+                                      fontSize: 13,
+                                      fontFamily: 'Inter',
+                                      fontWeight: FontWeight.w400,
+                                    ),
+                                  ),
+                                ],
+                              ),
                             ),
                           ),
                         ),
@@ -427,6 +442,7 @@ class _DetailProductsState extends State<DetailProducts> {
                           ButtonDownload(productManual: productManual),
                         ],
                       ),
+                      SizedBox(height: 16.0),
                     ],
                   ),
                 ),

@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:medmap/models/profile_manufacturer.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import '../widgets/network_image_global.dart';
 
 import '../models/product_response.dart';
 import '../api.dart';
@@ -243,12 +244,17 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     shape: BoxShape.circle,
                                   ),
                                   child: ClipOval(
-                                    child: Image.asset(
-                                      'assets/icons/favicon.ico',
-                                      width: 75,
-                                      height: 75,
-                                      fit: BoxFit.cover,
-                                    ),
+                child: NetworkImageGlobal(
+                  imageUrl: profileManufacturer?.manufacturer?.logo?.url ?? profileDistributor?.distributor?.logo?.url,
+                  imageWidth: 75,
+                  imageHeight: 75,
+                ),
+                                    // child: Image.asset(
+                                    //   'assets/icons/favicon.ico',
+                                    //   width: 75,
+                                    //   height: 75,
+                                    //   fit: BoxFit.cover,
+                                    // ),
                                   ),
                                 ),
                                 Text(

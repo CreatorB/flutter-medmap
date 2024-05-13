@@ -714,6 +714,7 @@ class _DetailProductsState extends State<DetailProducts> {
                           ButtonDownload(productManual: productManual),
                         ],
                       ),
+                      SizedBox(height: 16.0),
                     ],
                   ),
                 ),

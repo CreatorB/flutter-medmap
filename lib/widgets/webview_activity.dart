@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import '../const.dart';
 
 class WebViewActivity extends StatefulWidget {
   final String title;

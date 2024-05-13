@@ -646,7 +646,7 @@ packages:
     source: hosted
     version: "3.7.3"
   pretty_http_logger:
-    dependency: "direct dev"
+    dependency: "direct main"
     description:
       name: pretty_http_logger
       sha256: a8bafed5e19c58d0082c71bf6ac9e26e2cf38cfb5428415283127bf23a2a6e50
@@ -1014,10 +1014,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: afe077240a270dcfd2aafe77602b4113645af95d0ad31128cc02bce5ac5d5152
+      sha256: "4188706108906f002b3a293509234588823c8c979dc83304e229ff400c996b05"
       url: "https://pub.dev"
     source: hosted
-    version: "0.3.0"
+    version: "0.4.2"
   webview_flutter:
     dependency: "direct main"
     description:

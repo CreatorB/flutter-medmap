@@ -1,21 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 import '../const.dart';
 import '../utils.dart';
-import '../default_page.dart';
 import '../main.dart';
-import '../views/products.dart';
 import '../views/browse_products.dart';
 import '../views/drugs.dart';
 import '../views/analysis.dart' as listAnalysis;
 import '../views/affair.dart' as listAffair;
 import '../views/news.dart' as listNews;
-import '../widgets/webview_activity.dart';
 
-import 'package:flutter_localizations/flutter_localizations.dart';
 import '../AppLanguage.dart';
-import '../app_localizations.dart';
 import 'package:provider/provider.dart';
 import '../api.dart';
 import '../models/analysis_response.dart' as analysis;

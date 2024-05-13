@@ -4,7 +4,6 @@ import 'package:medmap/const.dart';
 import '../models/analysis_response.dart';
 import '../utils.dart';
 import '../api.dart';
-import '../widgets/network_image_global.dart';
 
 class Analysis extends StatefulWidget {
   @override

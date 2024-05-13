@@ -3,7 +3,6 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import '../models/affair_response.dart';
 import '../utils.dart';
 import '../api.dart';
-import '../widgets/network_image_global.dart';
 
 class Affair extends StatefulWidget {
   @override
