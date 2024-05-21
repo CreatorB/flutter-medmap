@@ -28,7 +28,7 @@ Feedback for medmap v1.0.2.docx
 - [x] In product details page, please increase the margin space in the bottom. The download button is hidden always
 - [x] After user go to “Products” page, if user click the product under “Latest Product”, the manufacture link in the product detail page is not clickable. But the manufacture link in the product detail page under the “Category” section works very well.
 - [x] The logo for all of the manufacturer/distributor profile page should dispplay the manufacturer logo, not MedMap logo
-- [ ] In distributor list, display distributor company logo and company name. This will make the list more neat.
+- [x] In distributor list, display distributor company logo and company name. This will make the list more neat.
 - [ ] In Search box for distributor page， Current search keyword is based on distributor name. Add search distributor by “Distributor Tag”.
 - [ ] In tender list， add “Country Label” (e.g Singapore or Indonesia) under the “Close Date” label
 

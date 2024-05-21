@@ -190,96 +190,123 @@ class _DistributorState extends State<Distributors> {
                               },
                               child: Padding(
                                 padding: const EdgeInsets.all(16.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                child: Row(
                                   children: [
-                                    Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceBetween,
-                                      children: [
-                                        Text(
-                                          item.name ?? 'Not provided',
-                                          style: TextStyle(
-                                            color: Color(0xFF150A33),
-                                            fontSize: 14,
-                                            fontFamily: 'Inter',
-                                            fontWeight: FontWeight.w700,
-                                          ),
+                                    Padding(
+                                      padding: const EdgeInsets.all(
+                                          8.0), // Adjust the padding values as needed
+                                      child: ClipOval(
+                                        child: NetworkImageGlobal(
+                                          imageUrl: item?.logo?.url,
+                                          imageWidth: 75,
+                                          imageHeight: 75,
                                         ),
-                                        // Three-dot menu
-                                        PopupMenuButton<String>(
-                                          onSelected: (String result) {
-                                            // Handle menu item selection
-                                          },
-                                          itemBuilder: (BuildContext context) =>
-                                              <PopupMenuEntry<String>>[
-                                            // const PopupMenuItem<String>(
-                                            //   value: 'edit',
-                                            //   child: Text('Edit'),
-                                            // ),
-                                            // const PopupMenuItem<String>(
-                                            //   value: 'delete',
-                                            //   child: Text('Delete'),
-                                            // ),
-                                          ],
-                                        ),
-                                      ],
-                                    ),
-                                    Text(
-                                      item.country?.name ?? 'Not provided',
-                                      style: TextStyle(
-                                        color: Color(0xFF514A6B),
-                                        fontSize: 12,
-                                        fontFamily: 'Open Sans',
-                                        fontWeight: FontWeight.w400,
-                                        height: 0,
                                       ),
                                     ),
-                                    Padding(
-                                      padding: const EdgeInsets.fromLTRB(
-                                          8, 11, 8, 0),
-                                      child: Container(
-                                        height: 30,
-                                        child: ListView.builder(
-                                          scrollDirection: Axis.horizontal,
-                                          itemCount: item
-                                                  .distributorCategoryTags
-                                                  ?.length ??
-                                              0,
-                                          itemBuilder: (context, index) {
-                                            final tag =
-                                                item.distributorCategoryTags?[
-                                                    index];
-                                            if (tag == null) {
-                                              return SizedBox.shrink();
-                                            }
-                                            return Container(
-                                              margin: EdgeInsets.only(
-                                                  right:
-                                                      8), // Add spacing between tags if needed
-                                              padding:
-                                                  const EdgeInsets.symmetric(
-                                                      horizontal: 12),
-                                              decoration: ShapeDecoration(
-                                                color: Color(0x334894FE),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius:
-                                                      BorderRadius.circular(20),
-                                                ),
-                                              ),
-                                              alignment: Alignment.center,
-                                              child: Text(
-                                                tag.name ?? 'Not Provided',
+                                    Expanded(
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          // Your existing widgets here...
+                                          // The Row widget wrapping the Text and PopupMenuButton should now be inside this Column
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Text(
+                                                item.name ?? 'Not provided',
                                                 style: TextStyle(
-                                                  color: Colors.black,
+                                                  color: Color(0xFF150A33),
                                                   fontSize: 14,
                                                   fontFamily: 'Inter',
-                                                  fontWeight: FontWeight.w400,
+                                                  fontWeight: FontWeight.w700,
                                                 ),
                                               ),
-                                            );
-                                          },
-                                        ),
+                                              // Three-dot menu
+                                              PopupMenuButton<String>(
+                                                onSelected: (String result) {
+                                                  // Handle menu item selection
+                                                },
+                                                itemBuilder: (BuildContext
+                                                        context) =>
+                                                    <PopupMenuEntry<String>>[
+                                                  // const PopupMenuItem<String>(
+                                                  //   value: 'edit',
+                                                  //   child: Text('Edit'),
+                                                  // ),
+                                                  // const PopupMenuItem<String>(
+                                                  //   value: 'delete',
+                                                  //   child: Text('Delete'),
+                                                  // ),
+                                                ],
+                                              ),
+                                            ],
+                                          ),
+                                          Text(
+                                            item.country?.name ??
+                                                'Not provided',
+                                            style: TextStyle(
+                                              color: Color(0xFF514A6B),
+                                              fontSize: 12,
+                                              fontFamily: 'Open Sans',
+                                              fontWeight: FontWeight.w400,
+                                              height: 0,
+                                            ),
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.fromLTRB(
+                                                8, 11, 8, 0),
+                                            child: Container(
+                                              height: 30,
+                                              child: ListView.builder(
+                                                scrollDirection:
+                                                    Axis.horizontal,
+                                                itemCount: item
+                                                        .distributorCategoryTags
+                                                        ?.length ??
+                                                    0,
+                                                itemBuilder: (context, index) {
+                                                  final tag =
+                                                      item.distributorCategoryTags?[
+                                                          index];
+                                                  if (tag == null) {
+                                                    return SizedBox.shrink();
+                                                  }
+                                                  return Container(
+                                                    margin: EdgeInsets.only(
+                                                        right:
+                                                            8), // Add spacing between tags if needed
+                                                    padding: const EdgeInsets
+                                                        .symmetric(
+                                                        horizontal: 12),
+                                                    decoration: ShapeDecoration(
+                                                      color: Color(0x334894FE),
+                                                      shape:
+                                                          RoundedRectangleBorder(
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(20),
+                                                      ),
+                                                    ),
+                                                    alignment: Alignment.center,
+                                                    child: Text(
+                                                      tag.name ??
+                                                          'Not Provided',
+                                                      style: TextStyle(
+                                                        color: Colors.black,
+                                                        fontSize: 14,
+                                                        fontFamily: 'Inter',
+                                                        fontWeight:
+                                                            FontWeight.w400,
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                              ),
+                                            ),
+                                          ),
+                                        ],
                                       ),
                                     ),
                                   ],

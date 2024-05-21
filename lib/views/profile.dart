@@ -244,11 +244,14 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                     shape: BoxShape.circle,
                                   ),
                                   child: ClipOval(
-                child: NetworkImageGlobal(
-                  imageUrl: profileManufacturer?.manufacturer?.logo?.url ?? profileDistributor?.distributor?.logo?.url,
-                  imageWidth: 75,
-                  imageHeight: 75,
-                ),
+                                    child: NetworkImageGlobal(
+                                      imageUrl: profileManufacturer
+                                              ?.manufacturer?.logo?.url ??
+                                          profileDistributor
+                                              ?.distributor?.logo?.url,
+                                      imageWidth: 75,
+                                      imageHeight: 75,
+                                    ),
                                     // child: Image.asset(
                                     //   'assets/icons/favicon.ico',
                                     //   width: 75,
