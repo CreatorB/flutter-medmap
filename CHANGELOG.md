@@ -31,7 +31,6 @@ Feedback for medmap v1.0.2.docx
 - [x] In distributor list, display distributor company logo and company name. This will make the list more neat.
 - [ ] In Search box for distributor page， Current search keyword is based on distributor name. Add search distributor by “Distributor Tag”.
 - [ ] In tender list， add “Country Label” (e.g Singapore or Indonesia) under the “Close Date” label
-- [ ] Login system
 
 ### Fixed
 
