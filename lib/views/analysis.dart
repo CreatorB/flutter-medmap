@@ -215,6 +215,7 @@ class _AnalysisState extends State<Analysis> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              SizedBox(height: 10),
                                               Text(
                                                 Utils.fmtToDMY(item.createdAt),
                                                 style: TextStyle(

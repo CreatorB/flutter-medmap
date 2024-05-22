@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medmap/views/submenu.dart';
 
 import '../const.dart';
 import '../utils.dart';
@@ -122,13 +123,13 @@ class _MyAppState extends State<Dashboard> {
               Padding(
                 padding: const EdgeInsets.only(right: 16.0),
                 child: IconButton(
-                  icon: Icon(Icons.search),
+                  icon: Icon(Icons.perm_identity),
                   onPressed: () async {
                     // NavigationHistory.addContext(context);
                     // print("cekDashboard : ${context}");
                     final back = await Navigator.push(
                       context,
-                      MaterialPageRoute(builder: (context) => BrowseProducts()),
+                      MaterialPageRoute(builder: (context) => Submenu()),
                     );
                     // if (back == 'back') {
                     //   navbarVisibility(false);
@@ -145,7 +146,7 @@ class _MyAppState extends State<Dashboard> {
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  // SearchInputBox(),
+                  SearchInputBox(),
                   SizedBox(height: 20),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -337,6 +338,7 @@ class _MyAppState extends State<Dashboard> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            SizedBox(height: 10),
                                             Text(
                                               Utils.fmtToDMY(item.createdAt),
                                               style: TextStyle(
@@ -491,6 +493,7 @@ class _MyAppState extends State<Dashboard> {
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,
                                           children: [
+                                            SizedBox(height: 10),
                                             Text(
                                               Utils.fmtToDMY(item.createdAt),
                                               style: TextStyle(
@@ -616,22 +619,57 @@ class _SearchInputBoxState extends State<SearchInputBox> {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      controller: _controller, // Assign the controller to the TextField
-      onSubmitted: (value) {
-        // Handle search action here
-        print('Search submitted: $value');
-      },
-      decoration: InputDecoration(
-        prefixIcon: IconButton(
-          icon: Icon(Icons.search),
-          onPressed: () {
-            // Handle search action here
-            print('Search submitted: ${_controller.text}');
-          },
+    return Container(
+      margin: EdgeInsets.fromLTRB(
+          30.0, 20.0, 30.0, 10.0), // Set margin around the entire TextField
+      child: ClipRRect(
+        borderRadius: BorderRadius.only(
+          topLeft:
+              Radius.circular(50.0), // Adjust these values for the oval shape
+          topRight:
+              Radius.circular(50.0), // Adjust these values for the oval shape
+          bottomLeft:
+              Radius.circular(50.0), // Adjust these values for the oval shape
+          bottomRight:
+              Radius.circular(50.0), // Adjust these values for the oval shape
         ),
-        labelText: 'Search',
-        border: OutlineInputBorder(),
+        child: TextField(
+          controller: _controller, // Assign the controller to the TextField
+          onSubmitted: (value) {
+            // Handle search action here
+            // print('Search submitted: $value');
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                  builder: (context) => BrowseProducts(keyword: value)),
+            );
+          },
+          decoration: InputDecoration(
+            filled: true, // Enable filling the TextField with a color
+            fillColor: Colors.grey[100], // Set the background color to grey
+            contentPadding: EdgeInsets.fromLTRB(20.0, 15.0, 20.0, 15.0),
+            prefixIcon: IconButton(
+              icon: Icon(Icons.search),
+              onPressed: () {
+                // Handle search action here
+                print('Search submitted: ${_controller.text}');
+              },
+            ),
+            hintText: 'Search...',
+            border: InputBorder.none, // Remove border
+            focusedBorder: InputBorder.none, // Remove border when focused
+            enabledBorder: InputBorder.none, // Remove border when enabled
+            errorBorder:
+                InputBorder.none, // Remove border when there's an error
+            disabledBorder: InputBorder.none, // Remove border when disabled
+            // suffixIcon: IconButton(
+            //   icon: Icon(Icons.clear),
+            //   onPressed: () {
+            //     _controller.clear();
+            //   },
+            // ),
+          ),
+        ),
       ),
     );
   }

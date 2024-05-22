@@ -214,6 +214,7 @@ class _AffairState extends State<Affair> {
                                             crossAxisAlignment:
                                                 CrossAxisAlignment.start,
                                             children: [
+                                              SizedBox(height: 10),
                                               Text(
                                                 Utils.fmtToDMY(item.createdAt),
                                                 style: TextStyle(

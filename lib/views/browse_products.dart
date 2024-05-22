@@ -19,8 +19,9 @@ class BrowseProducts extends StatefulWidget {
   static const String route = '/dashboard/browse-products';
   final String? title;
   final String? categoryId;
+  final String? keyword;
 
-  BrowseProducts({Key? key, this.title, this.categoryId}) : super(key: key);
+  BrowseProducts({Key? key, this.title, this.categoryId, this.keyword}) : super(key: key);
 
   @override
   _MyProductState createState() => _MyProductState();
@@ -43,6 +44,11 @@ class _MyProductState extends State<BrowseProducts> {
   @override
   void initState() {
     super.initState();
+    if(widget.keyword != null){
+     _searchController.text = widget.keyword ?? '';
+      isSearching = true;
+      keyword = widget.keyword ?? ''; 
+    }
     fetchData();
     _scrollController.addListener(_onScroll);
   }

@@ -217,7 +217,7 @@ class _TenderState extends State<Tenders> {
                               ),
                             ),
                             subtitle: Text(
-                              'Start  : ${Utils.formatDateToDMY(tender.openDate)}\nClose : ${Utils.formatDateToDMY(tender.closeDate)}',
+                              'Start  : ${Utils.formatDateToDMY(tender.openDate)}\nClose : ${Utils.formatDateToDMY(tender.closeDate)}\nCountry : ${tender?.state?.country?.name}',
                               style: TextStyle(
                                 color: Color(0xFF797979),
                                 fontSize: 14,
