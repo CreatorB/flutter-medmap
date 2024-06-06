@@ -31,14 +31,14 @@ Feedback for medmap v1.0.2.docx
 - [x] In distributor list, display distributor company logo and company name. This will make the list more neat.
 - [ ] In Search box for distributor page， Current search keyword is based on distributor name. Add search distributor by “Distributor Tag”.
 - [x] In tender list， add “Country Label” (e.g Singapore or Indonesia) under the “Close Date” label
-- [ ] Click “user” button there are 4 sub-menu (login/logout, privacy policy, request Product Market study report, Request for Product Launch Event)
+- [x] Click “user” button there are 4 sub-menu (login/logout, privacy policy, request Product Market study report, Request for Product Launch Event)
 - [ ] “privacy policy” sub menu display the privacy policy information (required by Apple) 
 - [ ] Manufacture User can submit request for “Product Market study report ” to Medmap admin user.
 - [ ] The manufacture admin just need to input the product detail link and target country, admin user will get the request email automatically
 
 ### Fixed
 
-- [ ] Multi language not working
+- [x] Multi language not working
 
 
 ## [1.0.0] - 2024-04-13

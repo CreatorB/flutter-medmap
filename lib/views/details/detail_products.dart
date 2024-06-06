@@ -12,6 +12,9 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:share_plus/share_plus.dart';
 
+// multi language support
+import '../../app_localzations.dart';
+
 //start model
 class Item {
   final String? name;
@@ -65,9 +68,19 @@ class _DetailProductsState extends State<DetailProducts> {
   late Future<List<Specification>> specs;
   late Future<List<Clinical>> clinicals;
   late List<String> imageUrls = [];
+
+  // late AppLocalizations localizations;
+  // Locale _locale = const Locale('zh');
+
   @override
   void initState() {
     super.initState();
+
+    // debug lang
+    // _locale = WidgetsBinding.instance.window.locale;
+    // localizations = AppLocalizations(_locale);
+    // localizations.load();
+
     itemDetails = fetchItemDetails(widget.item.id);
     specs = fetchSpec(widget.item.id);
     clinicals = fetchClinicals(widget.item.id);
@@ -276,7 +289,7 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Category: ',
+                                  text: AppLocalizations.of(context)!.translate('category') + " : ",
                                   style: TextStyle(
                                     color: Color(0xFF757575),
                                     fontSize: 13,
@@ -321,8 +334,8 @@ class _DetailProductsState extends State<DetailProducts> {
                                 children: [
                                   TextSpan(
                                     text: item.manufacturer != null
-                                        ? 'Manufacturer: '
-                                        : 'Distributor: ',
+                                        ? AppLocalizations.of(context)!.translate('manufacturer') + " : "
+                                        : AppLocalizations.of(context)!.translate('distributor') + " : ",
                                     style: TextStyle(
                                       color: Color(0xFF757575),
                                       fontSize: 13,
@@ -354,7 +367,7 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Product Details\n',
+                                  text: AppLocalizations.of(context)!.translate('product_details') + "\n",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
@@ -382,7 +395,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8, top: 13),
                         child: Text(
-                          'Product Specifications',
+                          AppLocalizations.of(context)!.translate('product_specifications'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -416,7 +429,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(top: 13),
                         child: Text(
-                          'Clinical Application',
+                          AppLocalizations.of(context)!.translate('clinical_application'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -430,7 +443,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Row(
                         children: [
                           Text(
-                            'User Manual : ',
+                            AppLocalizations.of(context)!.translate('user_manual') + " : ",
                             style: TextStyle(
                               color: Color(0xFF18181B),
                               fontSize: 15,

@@ -11,7 +11,7 @@ import 'views/products.dart';
 import 'views/tenders.dart';
 import 'views/distributors.dart';
 import './AppLanguage.dart';
-import 'app_localizations.dart';
+import './app_localzations.dart';
 import 'package:provider/provider.dart';
 
 class NavigationHistory {
@@ -75,7 +75,7 @@ void navbarVisibility(bool status) {
 
 void changeLang(BuildContext context, String lang) {
   var appLanguage = Provider.of<AppLanguage>(context);
-  appLanguage.changeLanguage(context, Locale(lang));
+  appLanguage.changeLanguage(Locale(lang));
 }
 
 class MyApp extends StatefulWidget {
@@ -95,7 +95,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   late AppLocalizations localizations;
-  Locale _locale = const Locale('en');
+  Locale _locale = const Locale('zh');
 
   void changeLanguage(Locale locale) {
     setState(() {
@@ -106,11 +106,9 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    // Initialize anything you need in initState
-
-    // Example: Initialize appSetting or other dependencies
-    // appSetting.initialize();
-    localizations = AppLocalizations(WidgetsBinding.instance.window.locale);
+    // debug lang
+    // _locale = WidgetsBinding.instance.window.locale;
+    localizations = AppLocalizations(_locale);
     localizations.load();
   }
 

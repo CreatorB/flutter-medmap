@@ -5,5 +5,12 @@
   "tab_distributors": "经销商",
   "menu_events": "活动",
   "menu_drugs": "药品",
-  "menu_services": "服务"
+  "menu_services": "服务",
+  "category": "类别",
+  "distributor": "分销商",
+  "manufacturer": "制造商",
+  "product_details": "器械详情",
+  "product_specifications": "产品规格",
+  "clinical_application": "临床应用",
+  "user_manual" : "用户手册"
 }

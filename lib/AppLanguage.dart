@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'app_localizations.dart';
 
 class AppLanguage extends ChangeNotifier {
   Locale _appLocale = Locale('en');
@@ -16,30 +15,25 @@ class AppLanguage extends ChangeNotifier {
     return Null;
   }
 
-  void changeLanguage(BuildContext context, Locale type) async {
-    final localizations = AppLocalizations(_appLocale);
-    localizations.setLocale(context, type);
+
+  void changeLanguage(Locale type) async {
+    var prefs = await SharedPreferences.getInstance();
+    if (_appLocale == type) {
+      return;
+    }
+    if (type == Locale("zh")) {
+      _appLocale = Locale("zh");
+      await prefs.setString('language_code', 'zh');
+      await prefs.setString('countryCode', '');
+    } else if(type == Locale("id")){
+      _appLocale = Locale("id");
+      await prefs.setString('language_code', 'id');
+      await prefs.setString('countryCode', 'ID');
+    } else {
+      _appLocale = Locale("en");
+      await prefs.setString('language_code', 'en');
+      await prefs.setString('countryCode', 'US');
+    }
     notifyListeners();
   }
-
-  // void changeLanguage(Locale type) async {
-  //   var prefs = await SharedPreferences.getInstance();
-  //   if (_appLocale == type) {
-  //     return;
-  //   }
-  //   if (type == Locale("zh")) {
-  //     _appLocale = Locale("zh");
-  //     await prefs.setString('language_code', 'zh');
-  //     await prefs.setString('countryCode', '');
-  //   } else if(type == Locale("id")){
-  //     _appLocale = Locale("id");
-  //     await prefs.setString('language_code', 'id');
-  //     await prefs.setString('countryCode', 'ID');
-  //   } else {
-  //     _appLocale = Locale("en");
-  //     await prefs.setString('language_code', 'en');
-  //     await prefs.setString('countryCode', 'US');
-  //   }
-  //   notifyListeners();
-  // }
 }

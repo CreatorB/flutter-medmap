@@ -22,10 +22,10 @@ class Dashboard extends StatefulWidget {
     Key? key,
   }) : super(key: key);
   @override
-  _MyAppState createState() => _MyAppState();
+  _DashboardState createState() => _DashboardState();
 }
 
-class _MyAppState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard> {
   final api = Api();
   late analysis.AnalysisResponse analysisResponse;
   late affair.AffairResponse affairResponse;
@@ -37,11 +37,25 @@ class _MyAppState extends State<Dashboard> {
   // bool hasMore = true;
   // bool isLoading = false;
   // bool isInitialLoad = true;
-  final ScrollController _scrollController = ScrollController();
+  late ScrollController _scrollController;
+  bool _isScrolledToEnd = false;
 
   @override
   void initState() {
     super.initState();
+    _scrollController = ScrollController()
+      ..addListener(() {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.maxScrollExtent) {
+          setState(() {
+            _isScrolledToEnd = true;
+          });
+        } else {
+          setState(() {
+            _isScrolledToEnd = false;
+          });
+        }
+      });
     getAnalysis();
     getAffairs();
   }
@@ -144,6 +158,7 @@ class _MyAppState extends State<Dashboard> {
             margin: EdgeInsets.fromLTRB(0, 0, 0, 60),
             color: Colors.white,
             child: SingleChildScrollView(
+              controller: _scrollController,
               child: Column(
                 children: [
                   SearchInputBox(),
@@ -289,7 +304,6 @@ class _MyAppState extends State<Dashboard> {
                   Container(
                     height: 300, // Specify the fixed height for the ListView
                     child: ListView.separated(
-                      controller: _scrollController,
                       itemCount: datum.length,
                       itemBuilder: (context, index) {
                         if (index == datum.length) {
@@ -444,7 +458,6 @@ class _MyAppState extends State<Dashboard> {
                   Container(
                     height: 300, // Specify the fixed height for the ListView
                     child: ListView.separated(
-                      controller: _scrollController,
                       itemCount: datumAffair.length,
                       itemBuilder: (context, index) {
                         if (index == datumAffair.length) {
@@ -543,6 +556,33 @@ class _MyAppState extends State<Dashboard> {
               ),
             ),
           ),
+          floatingActionButton: Padding(
+            padding: const EdgeInsets.only(bottom: 60.0),
+            child: FloatingActionButton(
+              onPressed: () {
+                if (_isScrolledToEnd) {
+                  // Scroll to the top of the list
+                  _scrollController.animateTo(
+                    0,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 500),
+                  );
+                } else {
+                  // Scroll to the end of the list
+                  _scrollController.animateTo(
+                    _scrollController.position.maxScrollExtent,
+                    curve: Curves.easeOut,
+                    duration: const Duration(milliseconds: 500),
+                  );
+                }
+              },
+              child: Icon(
+                  _isScrolledToEnd ? Icons.arrow_upward : Icons.arrow_downward),
+              tooltip: _isScrolledToEnd ? 'Scroll to Top' : 'Scroll to End',
+            ),
+          ),
+          floatingActionButtonLocation: FloatingActionButtonLocation
+              .endFloat, // Set the location of the FAB
         );
       },
     );

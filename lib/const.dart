@@ -12,6 +12,10 @@ class Const {
   static const Color colorSelect = Color(0xFF4894FE);
   static const Color colorUnselect = Color(0xFF8696BB);
   static const Color colorDashboard = Color(0xFFF5EEFA);
+  static const String submenu_report = 'assets/icons/submenu_report.png';
+  static const String submenu_event = 'assets/icons/submenu_event.png';
+  static const String submenu_design = 'assets/icons/submenu_design.png';
+  static const String submenu_privacy = 'assets/icons/submenu_privacy.png';
   static const String banner = 'assets/icons/medmap_banner.png';
   static const String svgLogo = 'assets/icons/medmap_logo.svg';
   static const String imgMenuTenders = 'assets/images/menu_tenders.png';

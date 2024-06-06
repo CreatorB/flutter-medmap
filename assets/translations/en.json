@@ -2,8 +2,15 @@
   "tab_home": "Home",
   "tab_tenders": "Tenders",
   "tab_products": "Products",
-  "tab_distributors": "Distributor",
+  "tab_distributors": "Distributors",
   "menu_events": "Events",
   "menu_drugs": "Drugs",
-  "menu_services": "Services"
+  "menu_services": "Services",
+  "category": "Category",
+  "distributor": "Distributor",
+  "manufacturer": "Manufacturer",
+  "product_details": "Product Details",
+  "product_specifications": "Product Specifications",
+  "clinical_application": "Clinical Application",
+  "user_manual" : "User Manual"
 }

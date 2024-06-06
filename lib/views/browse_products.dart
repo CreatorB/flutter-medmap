@@ -15,6 +15,9 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'dart:convert';
 
+// multi language support
+import '../app_localzations.dart';
+
 class BrowseProducts extends StatefulWidget {
   static const String route = '/dashboard/browse-products';
   final String? title;
@@ -44,6 +47,7 @@ class _MyProductState extends State<BrowseProducts> {
   @override
   void initState() {
     super.initState();
+
     if(widget.keyword != null){
      _searchController.text = widget.keyword ?? '';
       isSearching = true;
@@ -552,7 +556,7 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Category: ',
+                                  text: AppLocalizations.of(context)!.translate('category') + " : ",
                                   style: TextStyle(
                                     color: Color(0xFF757575),
                                     fontSize: 13,
@@ -597,8 +601,8 @@ class _DetailProductsState extends State<DetailProducts> {
                                 children: [
                                   TextSpan(
                                     text: item['manufacturer'] != null
-                                        ? 'Manufacturer: '
-                                        : 'Distributor: ',
+                                        ? AppLocalizations.of(context)!.translate('manufacturer') + " : "
+                                        : AppLocalizations.of(context)!.translate('distributor') + " : ",
                                     style: TextStyle(
                                       color: Color(0xFF757575),
                                       fontSize: 13,
@@ -632,7 +636,7 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: 'Product Details\n',
+                                  text: AppLocalizations.of(context)!.translate('product_details') + "\n",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
@@ -660,7 +664,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8, top: 13),
                         child: Text(
-                          'Product Specifications',
+                          AppLocalizations.of(context)!.translate('product_specifications'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -694,7 +698,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(top: 13, bottom: 8),
                         child: Text(
-                          'Clinical Application',
+                          AppLocalizations.of(context)!.translate('clinical_application'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -708,7 +712,7 @@ class _DetailProductsState extends State<DetailProducts> {
                       Row(
                         children: [
                           Text(
-                            'User Manual : ',
+                            AppLocalizations.of(context)!.translate('user_manual') + " : ",
                             style: TextStyle(
                               color: Color(0xFF18181B),
                               fontSize: 15,
