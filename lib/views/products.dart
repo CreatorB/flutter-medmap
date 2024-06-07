@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 
 import '../views/browse_products.dart' as browse_products;
 import '../views/details/detail_products.dart';
+import '../../app_localzations.dart';
 
 class Products extends StatefulWidget {
   static const String route = '/products';
@@ -18,85 +19,142 @@ class _MyProductState extends State<Products> {
   late List<Item?> allItems = [];
   List<Item> displayedItems = [];
   bool isLoading = true;
+  late List<Map<String, dynamic>> itemCategories = [];
 
-  final List<Map<String, dynamic>> itemCategories = [
-    {
-      'image': 'assets/icons/ctg_all.png',
-      'title': 'All',
-      'color': Color(0xFFE0E0E0),
-      'id': '',
-    },
-    {
-      'image': 'assets/icons/ctg_medical_equipment.png',
-      'title': 'Medical Equipment',
-      'color': Color(0xFFF6EFC6),
-      'id': '1',
-    },
-    {
-      'image': 'assets/icons/ctg_medical_consumables.png',
-      'title': 'Medical Consumables',
-      'color': Color(0xFFFCEEE1),
-      'id': '2',
-    },
-    {
-      'image': 'assets/icons/ctg_molecular_instrument.png',
-      'title': 'Molecular Instrument',
-      'color': Color(0xFFDAE1FD),
-      'id': '3',
-    },
-    // {
-    //   'image': 'assets/icons/ctg_prescription_drug.png',
-    //   'title': 'Prescription Drug',
-    //   'color': Color(0xFFE3F2E9),
-    //   'id': '9',
-    // },
-    {
-      'image': 'assets/icons/ctg_immunohisto_chemistry.png',
-      'title': 'Immunohisto chemistry',
-      'color': Color(0xFFFFE7E7),
-      'id': '4',
-    },
-    {
-      'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
-      'title': 'Imaging and Diagnostics',
-      'color': Color(0xFFFFE7E7),
-      'id': '5',
-    },
-    {
-      'image': 'assets/icons/ctg_laboratory_furniture.png',
-      'title': 'Laboratory Furniture',
-      'color': Color(0xFFF6EFC6),
-      'id': '7',
-    },
-    {
-      'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
-      'title': 'Physiotherapy Rehabilitation',
-      'color': Color(0xFFE4ECFE),
-      'id': '6',
-    },
-    {
-      'image': 'assets/icons/ctg_software_database.png',
-      'title': 'Software & Database',
-      'color': Color(0xFFFCEEE1),
-      'id': '8',
-    },
-    // {
-    //   'image': 'assets/icons/ctg_otc_drug.png',
-    //   'title': 'OTC Drug',
-    //   'color': Color(0xFFE4ECFE),
-    //   'id': '10',
-    // },
-    // {
-    //   'image': 'assets/icons/ctg_vaccine.png',
-    //   'title': 'Vaccine',
-    //   'color': Color(0xFFFFE7E7),
-    //   'id': '11',
-    // },
-  ];
+  // final List<Map<String, dynamic>> itemCategories = [
+  //   {
+  //     'image': 'assets/icons/ctg_all.png',
+  //     'title': AppLocalizations.of(context)!.translate('all'),
+  //     'color': Color(0xFFE0E0E0),
+  //     'id': '',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_medical_equipment.png',
+  //     'title': 'Medical Equipment',
+  //     'color': Color(0xFFF6EFC6),
+  //     'id': '1',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_medical_consumables.png',
+  //     'title': 'Medical Consumables',
+  //     'color': Color(0xFFFCEEE1),
+  //     'id': '2',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_molecular_instrument.png',
+  //     'title': 'Molecular Instrument',
+  //     'color': Color(0xFFDAE1FD),
+  //     'id': '3',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_immunohisto_chemistry.png',
+  //     'title': 'Immunohisto chemistry',
+  //     'color': Color(0xFFFFE7E7),
+  //     'id': '4',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
+  //     'title': 'Imaging and Diagnostics',
+  //     'color': Color(0xFFFFE7E7),
+  //     'id': '5',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_laboratory_furniture.png',
+  //     'title': 'Laboratory Furniture',
+  //     'color': Color(0xFFF6EFC6),
+  //     'id': '7',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
+  //     'title': 'Physiotherapy Rehabilitation',
+  //     'color': Color(0xFFE4ECFE),
+  //     'id': '6',
+  //   },
+  //   {
+  //     'image': 'assets/icons/ctg_software_database.png',
+  //     'title': 'Software & Database',
+  //     'color': Color(0xFFFCEEE1),
+  //     'id': '8',
+  //   },
+  // ];
 
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+    itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_all.png',
+      'title': AppLocalizations.of(context)!.translate('all'),
+      'color': Color(0xFFE0E0E0),
+      'id': '',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_medical_equipment.png',
+      'title': AppLocalizations.of(context)!.translate('medical_equipment'),
+      'color': Color(0xFFF6EFC6),
+      'id': '1',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_medical_consumables.png',
+      'title': AppLocalizations.of(context)!.translate('medical_consumables'),
+      'color': Color(0xFFFCEEE1),
+      'id': '2',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_molecular_instrument.png',
+      'title': AppLocalizations.of(context)!.translate('molecular_instruments'),
+      'color': Color(0xFFDAE1FD),
+      'id': '3',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_immunohisto_chemistry.png',
+      'title': AppLocalizations.of(context)!.translate('immunohistochemistry'),
+      'color': Color(0xFFFFE7E7),
+      'id': '4',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
+      'title': AppLocalizations.of(context)!.translate('imaging_and_diagnostic'),
+      'color': Color(0xFFFFE7E7),
+      'id': '5',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_laboratory_furniture.png',
+      'title': AppLocalizations.of(context)!.translate('laboratory_furniture'),
+      'color': Color(0xFFF6EFC6),
+      'id': '7',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
+      'title': AppLocalizations.of(context)!.translate('physiotherapy_rehabilitation'),
+      'color': Color(0xFFE4ECFE),
+      'id': '6',
+    },
+  );
+  itemCategories.add(
+    {
+      'image': 'assets/icons/ctg_software_database.png',
+      'title': AppLocalizations.of(context)!.translate('software_and_database'),
+      'color': Color(0xFFFCEEE1),
+      'id': '8',
+    },
+  );
+    });
     fetchData();
   }
 
@@ -171,7 +229,7 @@ class _MyProductState extends State<Products> {
     return Scaffold(
       appBar: AppBar(
         // backgroundColor: Colors.colorDashboard,
-        title: Text('Search Products'),
+        title: Text(AppLocalizations.of(context)!.translate('search_products')),
         actions: [
           IconButton(
             icon: Icon(Icons.search),
@@ -227,8 +285,8 @@ class _MyProductState extends State<Products> {
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
-                            'Latest Products',
+                          child: Text(
+                            AppLocalizations.of(context)!.translate('latest_products'),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
@@ -270,8 +328,9 @@ class _MyProductState extends State<Products> {
                         padding: const EdgeInsets.all(8.0),
                         child: Align(
                           alignment: Alignment.centerLeft,
-                          child: const Text(
-                            'Categories',
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .translate('categories'),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,

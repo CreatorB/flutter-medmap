@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:medmap/app_localzations.dart';
 // import 'dart:convert';
 // import 'package:http/http.dart' as http;
 import '../models/tender_response.dart';
@@ -7,6 +8,7 @@ import '../const.dart';
 import '../api.dart';
 import '../utils.dart';
 import 'package:share_plus/share_plus.dart';
+import '../app_localzations.dart';
 
 class Tenders extends StatefulWidget {
   @override
@@ -150,7 +152,7 @@ class _TenderState extends State<Tenders> {
                   _updateSearchKeyword(value);
                 },
               )
-            : Text('Search Tender'),
+            : Text(AppLocalizations.of(context)!.translate('search_tender')),
         actions: [
           isSearching
               ? IconButton(
@@ -185,7 +187,7 @@ class _TenderState extends State<Tenders> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'Latest Tenders',
+                        AppLocalizations.of(context)!.translate('latest_tender'),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,

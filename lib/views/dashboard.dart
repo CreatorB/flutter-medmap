@@ -11,6 +11,7 @@ import '../views/affair.dart' as listAffair;
 import '../views/news.dart' as listNews;
 
 import '../AppLanguage.dart';
+import '../app_localzations.dart';
 import 'package:provider/provider.dart';
 import '../api.dart';
 import '../models/analysis_response.dart' as analysis;
@@ -172,7 +173,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_tenders.png', // Replace with your actual image path
-                        title: 'Tenders',
+                        title: AppLocalizations.of(context)!.translate('tenders'),
                         backgroundColor: Color(0xFFDCE3FD),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -183,7 +184,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_distributors.png', // Replace with your actual image path
-                        title: 'Distributors',
+                        title: AppLocalizations.of(context)!.translate('distributors'),
                         backgroundColor: Color(0xFFFFE7E7),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -194,7 +195,7 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_products.png', // Replace with your actual image path
-                        title: 'Products',
+                        title: AppLocalizations.of(context)!.translate('products'),
                         backgroundColor: Color(0xFFFCEEE1),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -213,7 +214,7 @@ class _DashboardState extends State<Dashboard> {
                           );
                         },
                         iconPath: 'assets/icons/ic_pharmacy.png',
-                        title: 'e-Pharmacy',
+                        title: AppLocalizations.of(context)!.translate('e_pharmacy'),
                         backgroundColor: Color(0xFFF6EFC6),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -224,7 +225,7 @@ class _DashboardState extends State<Dashboard> {
                               context, 'assets/pdfs/content_service.pdf');
                         },
                         iconPath: 'assets/icons/ic_services.png',
-                        title: 'Services',
+                        title: AppLocalizations.of(context)!.translate('services'),
                         backgroundColor: Color(0xFFE3F3EA),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -246,7 +247,7 @@ class _DashboardState extends State<Dashboard> {
                           // );
                         },
                         iconPath: 'assets/icons/ic_events.png',
-                        title: 'Events',
+                        title: AppLocalizations.of(context)!.translate('events'),
                         backgroundColor: Color(0xFFD3F2FF),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -260,7 +261,7 @@ class _DashboardState extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0, top: 16.0),
                           child: Text(
-                            'Breakthrough Case Studies',
+                            AppLocalizations.of(context)!.translate('breakthrough_case_studies'),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.black,
@@ -416,7 +417,7 @@ class _DashboardState extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
-                            'Medical Policy Affairs',
+                            AppLocalizations.of(context)!.translate('medical_policy_affairs'),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.black,

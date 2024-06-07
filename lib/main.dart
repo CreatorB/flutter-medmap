@@ -107,7 +107,7 @@ class _MyAppState extends State<MyApp> {
   void initState() {
     super.initState();
     // debug lang
-    // _locale = WidgetsBinding.instance.window.locale;
+    _locale = WidgetsBinding.instance.window.locale;
     localizations = AppLocalizations(_locale);
     localizations.load();
   }

@@ -4,6 +4,7 @@ import '../models/distributor_response.dart';
 import '../utils.dart';
 import '../api.dart';
 import '../widgets/network_image_global.dart';
+import '../app_localzations.dart';
 
 class Distributors extends StatefulWidget {
   @override
@@ -119,7 +120,7 @@ class _DistributorState extends State<Distributors> {
                   _updateSearchKeyword(value);
                 },
               )
-            : Text('Search Distributor'),
+            : Text(AppLocalizations.of(context)!.translate('search_distributor')),
         actions: [
           isSearching
               ? IconButton(
@@ -154,7 +155,7 @@ class _DistributorState extends State<Distributors> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        'New Distributors',
+                        AppLocalizations.of(context)!.translate('new_distributors'),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,

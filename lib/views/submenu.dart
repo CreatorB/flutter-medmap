@@ -1,7 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:medmap/const.dart';
+import '../../app_localzations.dart';
 
-class Submenu extends StatelessWidget {
+class Submenu extends StatefulWidget {
+  static const String route = '/products';
+  Submenu({
+    Key? key,
+  }) : super(key: key);
+  @override
+  _SubmenuState createState() => _SubmenuState();
+}
+
+class _SubmenuState extends State<Submenu> {
+  late String report;
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,13 +61,22 @@ class Submenu extends StatelessWidget {
           ],
         ),
         backgroundColor: Colors.white, // Set the body background color to white
-        body: CardsLayout(),
+        body: CardsLayout(
+          report: AppLocalizations.of(context)!.translate('market_study_report'),
+          event: AppLocalizations.of(context)!.translate('product_launch_event'),
+          design: AppLocalizations.of(context)!.translate('product_brochure_design'),
+          policy: AppLocalizations.of(context)!.translate('privacy_policy'),
+          ),
       ),
     );
   }
 }
 
 class CardsLayout extends StatelessWidget {
+  final String report, event, design, policy;
+
+  CardsLayout({required this.report, required this.event, required this.design, required this.policy});
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -81,7 +109,7 @@ class CardsLayout extends StatelessWidget {
                     padding: EdgeInsets.symmetric(
                         horizontal: 5.0), // Add padding to the left and right
                     child: Text(
-                      'Request Market\nStudy Report',
+                      report,
                       textAlign: TextAlign.center, // Center the text
                       style: TextStyle(fontSize: 10),
                     ),
@@ -111,7 +139,7 @@ class CardsLayout extends StatelessWidget {
                   SizedBox(height: 10),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 5.0),
-                    child: Text('Request for Product Launch Event',
+                    child: Text(event,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 10)),
                   ),
@@ -141,7 +169,7 @@ class CardsLayout extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 5.0), // Add padding to the left and right
-                    child: Text('Request Product Brochure Design',
+                    child: Text(design,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 10)),
                   ),
@@ -171,7 +199,7 @@ class CardsLayout extends StatelessWidget {
                   Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: 5.0), // Add padding to the left and right
-                    child: Text('Privacy Policy',
+                    child: Text(policy,
                         textAlign: TextAlign.center,
                         style: TextStyle(fontSize: 10)),
                   ),
