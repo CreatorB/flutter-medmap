@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:medmap/views/auth/login.dart';
 import 'package:medmap/views/submenu.dart';
 
 import '../const.dart';
@@ -140,15 +141,22 @@ class _DashboardState extends State<Dashboard> {
                 child: IconButton(
                   icon: Icon(Icons.perm_identity),
                   onPressed: () async {
-                    // NavigationHistory.addContext(context);
-                    // print("cekDashboard : ${context}");
-                    final back = await Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => Submenu()),
-                    );
-                    // if (back == 'back') {
-                    //   navbarVisibility(false);
-                    // }
+                    bool isLoggedIn = await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
+                    if (isLoggedIn != null && isLoggedIn) {
+                      final back = await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Submenu()),
+                      );
+                      // if (back == 'back') {
+                      //   navbarVisibility(false);
+                      // }
+                    } else {
+                      await Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (context) => Login()),
+                      );
+                    }
+                    ;
                   },
                   // color: Colors.white,
                 ),
@@ -173,7 +181,8 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_tenders.png', // Replace with your actual image path
-                        title: AppLocalizations.of(context)!.translate('tenders'),
+                        title:
+                            AppLocalizations.of(context)!.translate('tenders'),
                         backgroundColor: Color(0xFFDCE3FD),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -184,7 +193,8 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_distributors.png', // Replace with your actual image path
-                        title: AppLocalizations.of(context)!.translate('distributors'),
+                        title: AppLocalizations.of(context)!
+                            .translate('distributors'),
                         backgroundColor: Color(0xFFFFE7E7),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -195,7 +205,8 @@ class _DashboardState extends State<Dashboard> {
                         },
                         iconPath:
                             'assets/icons/ic_products.png', // Replace with your actual image path
-                        title: AppLocalizations.of(context)!.translate('products'),
+                        title:
+                            AppLocalizations.of(context)!.translate('products'),
                         backgroundColor: Color(0xFFFCEEE1),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -214,7 +225,8 @@ class _DashboardState extends State<Dashboard> {
                           );
                         },
                         iconPath: 'assets/icons/ic_pharmacy.png',
-                        title: AppLocalizations.of(context)!.translate('e_pharmacy'),
+                        title: AppLocalizations.of(context)!
+                            .translate('e_pharmacy'),
                         backgroundColor: Color(0xFFF6EFC6),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -225,7 +237,8 @@ class _DashboardState extends State<Dashboard> {
                               context, 'assets/pdfs/content_service.pdf');
                         },
                         iconPath: 'assets/icons/ic_services.png',
-                        title: AppLocalizations.of(context)!.translate('services'),
+                        title:
+                            AppLocalizations.of(context)!.translate('services'),
                         backgroundColor: Color(0xFFE3F3EA),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -247,7 +260,8 @@ class _DashboardState extends State<Dashboard> {
                           // );
                         },
                         iconPath: 'assets/icons/ic_events.png',
-                        title: AppLocalizations.of(context)!.translate('events'),
+                        title:
+                            AppLocalizations.of(context)!.translate('events'),
                         backgroundColor: Color(0xFFD3F2FF),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -261,7 +275,8 @@ class _DashboardState extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0, top: 16.0),
                           child: Text(
-                            AppLocalizations.of(context)!.translate('breakthrough_case_studies'),
+                            AppLocalizations.of(context)!
+                                .translate('breakthrough_case_studies'),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.black,
@@ -417,7 +432,8 @@ class _DashboardState extends State<Dashboard> {
                         child: Padding(
                           padding: const EdgeInsets.only(left: 16.0),
                           child: Text(
-                            AppLocalizations.of(context)!.translate('medical_policy_affairs'),
+                            AppLocalizations.of(context)!
+                                .translate('medical_policy_affairs'),
                             textAlign: TextAlign.left,
                             style: TextStyle(
                               color: Colors.black,

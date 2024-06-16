@@ -14,6 +14,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.2] Update 001
+
+Feedback for medmap v1.0.2.docx
+
+### Added
+
+- [x] [APK] Upload latest apk
+
+### Changed
+
+- [x] “privacy policy” sub menu display the privacy policy information (required by Apple) 
+- [x] change API from api-medmap.mandatech.co.id to api.med-map.org
+- [x] Login feature to access submenu
+
+### Fixed
+
+- [x] Bug fix eng translation for 
+
+
 ## [1.0.2]
 
 Feedback for medmap v1.0.2.docx
@@ -32,7 +51,6 @@ Feedback for medmap v1.0.2.docx
 - [ ] In Search box for distributor page， Current search keyword is based on distributor name. Add search distributor by “Distributor Tag”.
 - [x] In tender list， add “Country Label” (e.g Singapore or Indonesia) under the “Close Date” label
 - [x] Click “user” button there are 4 sub-menu (login/logout, privacy policy, request Product Market study report, Request for Product Launch Event)
-- [ ] “privacy policy” sub menu display the privacy policy information (required by Apple) 
 - [ ] Manufacture User can submit request for “Product Market study report ” to Medmap admin user.
 - [ ] The manufacture admin just need to input the product detail link and target country, admin user will get the request email automatically
 

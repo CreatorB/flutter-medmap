@@ -1,6 +1,26 @@
 import 'package:flutter/material.dart';
 
 class Const {
+  static const String URL_WEB = 'https://med-map.org';
+  static const String URL_WEB_DETAIL_CASE = URL_WEB + '/cases-analysis/detail';
+  static const String URL_WEB_DETAIL_PRODUCT = URL_WEB + '/product-detail';
+  static const String BASE_URL = 'https://api.med-map.org';
+  // static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
+  // static const String BASE_URL = 'https://be-mdmap.mandatech.co.id/';
+  static const String URL_API = BASE_URL + '/v1';
+  static const String API_PRODUCTS = URL_API + '/products/';
+  static const String API_LOGIN = URL_API + '/auth/login';
+
+  static const String URL_PRIVACY = URL_WEB + '/privacy-policy';
+  
+  static const String IS_LOGED_IN = 'is_logged_in';
+  static const String TOKEN = 'token';
+  static const String EXPIRES_AT = 'expires_at';
+  static const String USERNAME = 'username';
+  static const String NAME = 'name';
+  static const String OBJ_PROFILE = 'obj_profile';
+
+
   static const Color primaryBlue = Color(0xFF4894FE);
   static const Color primaryTextColor = Color(0xFF414C6B);
   static const Color secondaryTextColor = Color(0xFFE4979E);
@@ -26,12 +46,4 @@ class Const {
       'assets/images/menu_registrations.png';
   static const String imgMenuDrugs = 'assets/images/menu_phar.png';
   static const String imgMenuServices = 'assets/images/menu_services.png';
-
-  static const String URL_WEB = 'https://med-map.org';
-  static const String URL_WEB_DETAIL_CASE = URL_WEB + '/cases-analysis/detail';
-  static const String URL_WEB_DETAIL_PRODUCT = URL_WEB + '/product-detail';
-  static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
-  // static const String BASE_URL = 'https://be-mdmap.mandatech.co.id/';
-  static const String URL_API = BASE_URL + '/v1';
-  static const String API_PRODUCTS = URL_API + '/products/';
 }
