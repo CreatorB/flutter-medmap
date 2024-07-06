@@ -1,7 +1,7 @@
 {
   "dart.flutterSdkPath": ".fvm/versions/3.19.5",
   "dart.flutterSdkPaths": [
-    "/Users/macbook/fvm/versions"
+    "${env:OS == 'Windows_NT' ? 'C:\\Users\\Alendia\\fvm\\versions' : '/Users/macbook/fvm/versions'}"
   ],
   "search.exclude": {
     "**/.fvm": true
