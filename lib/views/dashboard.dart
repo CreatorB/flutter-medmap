@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:medmap/cubit/submenu/submenu_page.dart';
 import 'package:medmap/views/auth/login.dart';
-import 'package:medmap/views/submenu.dart';
 
 import '../const.dart';
 import '../utils.dart';
@@ -19,7 +19,6 @@ import '../models/analysis_response.dart' as analysis;
 import '../models/affair_response.dart' as affair;
 
 class Dashboard extends StatefulWidget {
-  static const String route = '/dashboard';
   Dashboard({
     Key? key,
   }) : super(key: key);
@@ -145,7 +144,8 @@ class _DashboardState extends State<Dashboard> {
                     if (isLoggedIn != null && isLoggedIn) {
                       final back = await Navigator.push(
                         context,
-                        MaterialPageRoute(builder: (context) => Submenu()),
+                        // MaterialPageRoute(builder: (context) => Submenu()),
+                        MaterialPageRoute(builder: (context) => SubmenuPage()),
                       );
                       // if (back == 'back') {
                       //   navbarVisibility(false);

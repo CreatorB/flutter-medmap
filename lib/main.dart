@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:medmap/route/app_router.dart';
 import 'package:navbar_router/navbar_router.dart';
 import 'dart:async';
 import 'dart:developer';
@@ -121,52 +122,76 @@ class _MyAppState extends State<MyApp> {
     return AnimatedBuilder(
         animation: appSetting,
         builder: (BuildContext context, Widget? child) {
-          return MaterialApp(
-              debugShowCheckedModeBanner:
-                  false, // Set to false to remove the debug banner
-              title: 'MEDMAP',
-              initialRoute: '/',
-              routes: {
-                // ProfileEdit.route: (context) => const ProfileEdit(),
-                Dashboard.route: (context) => Dashboard(),
-                Products.route: (context) => Products(),
-                // BrowseProducts.route: (context) => BrowseProducts(),
-                // '/products/browse-products': (context) => BrowseProducts(),
-              },
-              theme: ThemeData(
-                colorScheme:
-                    ColorScheme.fromSeed(seedColor: Const.colorDashboard),
-                useMaterial3: true,
-              ),
-              // themeMode:
-              //     appSetting.isDarkMode ? ThemeMode.dark : ThemeMode.light,
-              // darkTheme: ThemeData.dark(
-              //   useMaterial3: true,
-              // ).copyWith(
-              //     colorScheme: ColorScheme.fromSeed(
-              //         seedColor: appSetting.themeSeed,
-              //         brightness: Brightness.dark)),
-              // theme: ThemeData(
-              //     useMaterial3: true,
-              //     primaryColorDark: appSetting.themeSeed,
-              //     colorScheme:
-              //         ColorScheme.fromSeed(seedColor: appSetting.themeSeed)),
-              // home: const HomePage());
-              locale: _locale,
-              localizationsDelegates: [
-                AppLocalizations
-                    .delegate, // Add this line to use AppLocalizations
-                GlobalMaterialLocalizations.delegate,
-                GlobalWidgetsLocalizations.delegate,
-                GlobalCupertinoLocalizations.delegate,
-              ],
-              supportedLocales: [
-                const Locale('en', 'US'), // English
-                const Locale('id', 'ID'), // Indo
-                const Locale('zh', ''), // Chinese
-                // Add other supported locales here
-              ],
-              home: HomePage());
+          return MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            title: 'MEDMAP',
+            theme: ThemeData(
+              colorScheme:
+                  ColorScheme.fromSeed(seedColor: Const.colorDashboard),
+              useMaterial3: true,
+            ),
+            locale: _locale,
+            localizationsDelegates: [
+              AppLocalizations
+                  .delegate, // Add this line to use AppLocalizations
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            supportedLocales: [
+              const Locale('en', 'US'), // English
+              const Locale('id', 'ID'), // Indo
+              const Locale('zh', ''), // Chinese
+              // Add other supported locales here
+            ],
+            routerConfig: router,
+          );
+          // return MaterialApp(
+          //     debugShowCheckedModeBanner:
+          //         false, // Set to false to remove the debug banner
+          //     title: 'MEDMAP',
+          //     initialRoute: '/',
+          //     routes: {
+          //       // ProfileEdit.route: (context) => const ProfileEdit(),
+          //       Dashboard.route: (context) => Dashboard(),
+          //       Products.route: (context) => Products(),
+          //       // BrowseProducts.route: (context) => BrowseProducts(),
+          //       // '/products/browse-products': (context) => BrowseProducts(),
+          //     },
+          //     theme: ThemeData(
+          //       colorScheme:
+          //           ColorScheme.fromSeed(seedColor: Const.colorDashboard),
+          //       useMaterial3: true,
+          //     ),
+          //     // themeMode:
+          //     //     appSetting.isDarkMode ? ThemeMode.dark : ThemeMode.light,
+          //     // darkTheme: ThemeData.dark(
+          //     //   useMaterial3: true,
+          //     // ).copyWith(
+          //     //     colorScheme: ColorScheme.fromSeed(
+          //     //         seedColor: appSetting.themeSeed,
+          //     //         brightness: Brightness.dark)),
+          //     // theme: ThemeData(
+          //     //     useMaterial3: true,
+          //     //     primaryColorDark: appSetting.themeSeed,
+          //     //     colorScheme:
+          //     //         ColorScheme.fromSeed(seedColor: appSetting.themeSeed)),
+          //     // home: con◊st HomePage());
+          //     locale: _locale,
+          //     localizationsDelegates: [
+          //       AppLocalizations
+          //           .delegate, // Add this line to use AppLocalizations
+          //       GlobalMaterialLocalizations.delegate,
+          //       GlobalWidgetsLocalizations.delegate,
+          //       GlobalCupertinoLocalizations.delegate,
+          //     ],
+          //     supportedLocales: [
+          //       const Locale('en', 'US'), // English
+          //       const Locale('id', 'ID'), // Indo
+          //       const Locale('zh', ''), // Chinese
+          //       // Add other supported locales here
+          //     ],
+          //     home: HomePage());
         });
     // home: const NavbarSample(title: 'BottomNavbar Demo'));
   }
@@ -225,19 +250,19 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   final Map<int, Map<String, Widget>> _routes = {
     0: {
-      '/': Dashboard(),
+      '/dashboard': Dashboard(),
       // BrowseProducts.route: BrowseProducts(),
     },
     1: {
-      '/': Tenders(),
+      '/tenders': Tenders(),
     },
     2: {
-      '/': Products(),
+      '/products': Products(),
       // '/products/browse-products': BrowseProducts(),
       // BrowseProducts.route: BrowseProducts(),
     },
     3: {
-      '/': Distributors(),
+      '/distributors': Distributors(),
     },
   };
 
