@@ -1,6 +1,6 @@
 # Med-Map
 
-Mobile apps for https://www.med-map.org
+[Old Pattern] Mobile apps for https://www.med-map.org
 
 ## Demo
 
