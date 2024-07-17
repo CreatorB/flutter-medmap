@@ -62,7 +62,7 @@ class SignUpPage extends StatelessWidget {
                   TextButton(
                     onPressed: () {
                       // Navigator.of(context).pushNamed(AppRoutes.signIn);
-                      context.push(AppRoutes.signIn);
+                      context.go(AppRoutes.signIn);
                     },
                     child: Text('Already have an account? Sign In'),
                   ),

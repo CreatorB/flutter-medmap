@@ -66,7 +66,7 @@ class SubmenuPage extends StatelessWidget {
                           onPressed: () => context.pop(),
                         ),
                         TextButton(
-                          child: Text('Exits'),
+                          child: Text('Exit'),
                           onPressed: () async {
                             await Utils.clearSp();
                             context.go(AppRoutes.home);

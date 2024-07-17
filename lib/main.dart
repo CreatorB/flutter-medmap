@@ -329,7 +329,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     return WillPopScope(
       onWillPop: () async {
         // print("onBack");
-        navbarVisibility(false);
         if (_resumedFromBackground) {
           _resumedFromBackground = false;
           // Add your logic here for handling back after app resumes
@@ -402,27 +401,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             return const Center(child: Text('Error 404'));
           },
           isDesktop: size.width > 600 ? true : false,
-          // onBackButtonPressed: (isExitingApp) {
-          //   if (isExitingApp) {
-          //     newTime = DateTime.now();
-          //     int difference = newTime.difference(oldTime).inMilliseconds;
-          //     oldTime = newTime;
-          //     if (difference < 1000) {
-          //       NavbarNotifier.hideSnackBar(context);
-          //       return isExitingApp;
-          //     } else {
-          //       final state = Scaffold.of(context);
-          //       NavbarNotifier.showSnackBar(
-          //         context,
-          //         "Tap back button again to exit",
-          //         bottom: state.hasFloatingActionButton ? 0 : kNavbarHeight,
-          //       );
-          //       return false;
-          //     }
-          //   } else {
-          //     return isExitingApp;
-          //   }
-          // },
+          onBackButtonPressed: (isExitingApp) {
+            if (isExitingApp) {
+              newTime = DateTime.now();
+              int difference = newTime.difference(oldTime).inMilliseconds;
+              oldTime = newTime;
+              if (difference < 1000) {
+                NavbarNotifier.hideSnackBar(context);
+                return isExitingApp;
+              } else {
+                final state = Scaffold.of(context);
+                NavbarNotifier.showSnackBar(
+                  context,
+                  "Tap back button again to exit",
+                  bottom: state.hasFloatingActionButton ? 0 : kNavbarHeight,
+                );
+                return false;
+              }
+            } else {
+              return isExitingApp;
+            }
+          },
           initialIndex: 0,
           // type: NavbarType.floating,
           destinationAnimationCurve: Curves.fastOutSlowIn,
