@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:medmap/route/app_router.dart';
+import 'package:medmap/views/dashboard.dart';
 import 'package:navbar_router/navbar_router.dart';
 import 'dart:async';
 import 'dart:developer';
 
 import 'presentation/icon_medmap_home_icons.dart';
 import 'const.dart';
-import 'views/dashboard.dart';
 import 'views/products.dart';
 import 'views/tenders.dart';
 import 'views/distributors.dart';
@@ -150,14 +150,13 @@ class _MyAppState extends State<MyApp> {
           //     debugShowCheckedModeBanner:
           //         false, // Set to false to remove the debug banner
           //     title: 'MEDMAP',
-          //     initialRoute: '/',
-          //     routes: {
-          //       // ProfileEdit.route: (context) => const ProfileEdit(),
-          //       Dashboard.route: (context) => Dashboard(),
-          //       Products.route: (context) => Products(),
-          //       // BrowseProducts.route: (context) => BrowseProducts(),
-          //       // '/products/browse-products': (context) => BrowseProducts(),
-          //     },
+          //     // routes: {
+          //     //   // ProfileEdit.route: (context) => const ProfileEdit(),
+          //     //   Dashboard.route: (context) => Dashboard(),
+          //     //   Products.route: (context) => Products(),
+          //     //   // BrowseProducts.route: (context) => BrowseProducts(),
+          //     //   // '/products/browse-products': (context) => BrowseProducts(),
+          //     // },
           //     theme: ThemeData(
           //       colorScheme:
           //           ColorScheme.fromSeed(seedColor: Const.colorDashboard),
@@ -250,19 +249,20 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
   final Map<int, Map<String, Widget>> _routes = {
     0: {
-      '/dashboard': Dashboard(),
+      '/': Dashboard(),
+      // '/dashboard': DashboardPage(),
       // BrowseProducts.route: BrowseProducts(),
     },
     1: {
-      '/tenders': Tenders(),
+      '/': Tenders(),
     },
     2: {
-      '/products': Products(),
+      '/': Products(),
       // '/products/browse-products': BrowseProducts(),
       // BrowseProducts.route: BrowseProducts(),
     },
     3: {
-      '/distributors': Distributors(),
+      '/': Distributors(),
     },
   };
 
@@ -284,9 +284,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     // simulateTabChange();
-    NavbarNotifier.addIndexChangeListener((x) {
-      log('NavbarNotifier.indexChangeListener: $x');
-    });
   }
 
   @override
@@ -405,27 +402,27 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             return const Center(child: Text('Error 404'));
           },
           isDesktop: size.width > 600 ? true : false,
-          onBackButtonPressed: (isExitingApp) {
-            if (isExitingApp) {
-              newTime = DateTime.now();
-              int difference = newTime.difference(oldTime).inMilliseconds;
-              oldTime = newTime;
-              if (difference < 1000) {
-                NavbarNotifier.hideSnackBar(context);
-                return isExitingApp;
-              } else {
-                final state = Scaffold.of(context);
-                NavbarNotifier.showSnackBar(
-                  context,
-                  "Tap back button again to exit",
-                  bottom: state.hasFloatingActionButton ? 0 : kNavbarHeight,
-                );
-                return false;
-              }
-            } else {
-              return isExitingApp;
-            }
-          },
+          // onBackButtonPressed: (isExitingApp) {
+          //   if (isExitingApp) {
+          //     newTime = DateTime.now();
+          //     int difference = newTime.difference(oldTime).inMilliseconds;
+          //     oldTime = newTime;
+          //     if (difference < 1000) {
+          //       NavbarNotifier.hideSnackBar(context);
+          //       return isExitingApp;
+          //     } else {
+          //       final state = Scaffold.of(context);
+          //       NavbarNotifier.showSnackBar(
+          //         context,
+          //         "Tap back button again to exit",
+          //         bottom: state.hasFloatingActionButton ? 0 : kNavbarHeight,
+          //       );
+          //       return false;
+          //     }
+          //   } else {
+          //     return isExitingApp;
+          //   }
+          // },
           initialIndex: 0,
           // type: NavbarType.floating,
           destinationAnimationCurve: Curves.fastOutSlowIn,

@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Flutter (lib/views/analysis.dart)",
+            "type": "dart",
+            "request": "launch",
+            "program": "lib/views/analysis.dart"
+        }
+    ]
+}

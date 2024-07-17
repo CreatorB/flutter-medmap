@@ -5,7 +5,7 @@ import 'package:medmap/app_localzations.dart';
 import 'package:medmap/const.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
-import 'package:medmap/views/dashboard.dart';
+// import 'package:medmap/views/dashboard.dart';
 import 'submenu_cubit.dart';
 
 class SubmenuPage extends StatelessWidget {
@@ -69,13 +69,13 @@ class SubmenuPage extends StatelessWidget {
                           child: Text('Exits'),
                           onPressed: () async {
                             await Utils.clearSp();
-                            // context.go(AppRoutes.dashboard);
-                            Navigator.pushAndRemoveUntil(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => Dashboard()),
-                              (Route<dynamic> route) => false,
-                            );
+                            context.go(AppRoutes.home);
+                            // Navigator.pushAndRemoveUntil(
+                            //   context,
+                            //   MaterialPageRoute(
+                            //       builder: (context) => HomePage()),
+                            //   (Route<dynamic> route) => false,
+                            // );
                           },
                         ),
                       ],

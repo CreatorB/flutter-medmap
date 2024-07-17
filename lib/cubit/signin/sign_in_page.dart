@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
-import 'package:medmap/views/submenu.dart';
 import 'sign_in_cubit.dart';
 
 class SignInPage extends StatelessWidget {
@@ -26,7 +25,7 @@ class SignInPage extends StatelessWidget {
         child: BlocConsumer<SignInCubit, SignInState>(
           listener: (context, state) {
             if (state is SignInSuccess) {
-              context.go(AppRoutes.submenu);
+              context.go(AppRoutes.home);
             } else if (state is SignInError) {
               showDialog(
                 context: context,
