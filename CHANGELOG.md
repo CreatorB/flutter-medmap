@@ -14,6 +14,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [1.0.2] Update 002
+
+### Added
+
+- [x] [APK] Upload latest apk
+- [x] Sign Up features
+
+### Changed
+
+- Change tech stack to use cubit bloc flutter
+
+### Fixed
+
+
 ## [1.0.2] Update 001
 
 Feedback for medmap v1.0.2.docx
