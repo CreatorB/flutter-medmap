@@ -10,6 +10,7 @@ class Const {
   static const String URL_API = BASE_URL + '/v1';
   static const String API_PRODUCTS = URL_API + '/products/';
   static const String API_LOGIN = URL_API + '/auth/login';
+  static const String API_REGISTER = URL_API + '/auth/register/';
 
   static const String URL_PRIVACY = URL_WEB + '/privacy-policy';
   

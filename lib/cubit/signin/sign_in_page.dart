@@ -1,21 +1,44 @@
+import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'sign_in_cubit.dart';
 
-class SignInPage extends StatelessWidget {
+class SignInPage extends StatefulWidget {
+  @override
+  _SignInPageState createState() => _SignInPageState();
+}
+
+class _SignInPageState extends State<SignInPage> {
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  @override
+  void dispose() {
+    BackButtonInterceptor.remove(myInterceptor);
+    emailController.dispose();
+    passwordController.dispose();
+    super.dispose();
+  }
+
+  bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
+    context.go(AppRoutes.home);
+    return true;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final emailController = TextEditingController();
-    final passwordController = TextEditingController();
-
-    return PopScope(
-      canPop: false,
-      onPopInvoked: (didPop) async {
-        if (!didPop) {
-          context.go(AppRoutes.home); // Redirect to home
-        }
+    return WillPopScope(
+      onWillPop: () async {
+        context.go(AppRoutes.home); // Redirect to home
+        return false;
       },
       child: Scaffold(
         appBar: AppBar(
@@ -104,7 +127,9 @@ class SignInPage extends StatelessWidget {
                   onPressed: () {
                     String emailValue = emailController.text;
                     String passwordValue = passwordController.text;
-                    context.read<SignInCubit>().signIn(emailValue, passwordValue);
+                    context
+                        .read<SignInCubit>()
+                        .signIn(emailValue, passwordValue);
                   },
                   child: Text('Sign In', style: TextStyle(fontSize: 18)),
                 ),
