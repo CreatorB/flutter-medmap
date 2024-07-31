@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:medmap/views/auth/login.dart';
-import 'package:medmap/views/submenu.dart';
+import 'package:go_router/go_router.dart';
+import 'package:medmap/cubit/signin/sign_in_page.dart';
+import 'package:medmap/cubit/submenu/submenu_page.dart';
+import 'package:medmap/route/app_routes.dart';
 
 import '../const.dart';
 import '../utils.dart';
@@ -19,7 +21,6 @@ import '../models/analysis_response.dart' as analysis;
 import '../models/affair_response.dart' as affair;
 
 class Dashboard extends StatefulWidget {
-  static const String route = '/dashboard';
   Dashboard({
     Key? key,
   }) : super(key: key);
@@ -142,19 +143,22 @@ class _DashboardState extends State<Dashboard> {
                   icon: Icon(Icons.perm_identity),
                   onPressed: () async {
                     bool isLoggedIn = await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
-                    if (isLoggedIn != null && isLoggedIn) {
-                      final back = await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Submenu()),
-                      );
+                    if (isLoggedIn != null && isLoggedIn == true) {
+                      // final back = await Navigator.push(
+                      //   context,
+                      //   // MaterialPageRoute(builder: (context) => Submenu()),
+                      //   MaterialPageRoute(builder: (context) => SubmenuPage()),
+                      // );
                       // if (back == 'back') {
                       //   navbarVisibility(false);
                       // }
+                      context.push(AppRoutes.submenu);
                     } else {
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(builder: (context) => Login()),
-                      );
+                      context.push(AppRoutes.signIn);
+                      // await Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(builder: (context) => SignInPage()),
+                      // );
                     }
                     ;
                   },
