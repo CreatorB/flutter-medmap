@@ -1,4 +1,7 @@
+import 'package:go_router/go_router.dart';
+import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/models/response_product_manual.dart';
+import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/widgets/button_download.dart';
 import 'package:medmap/views/profile.dart';
 import '../../models/product.dart';
@@ -183,6 +186,12 @@ class _DetailProductsState extends State<DetailProducts> {
         ),
         actions: [
           IconButton(
+            icon: Icon(Icons.handshake),
+            onPressed: () {
+              context.push(AppRoutes.partnership, extra: widget.item.id);
+            },
+          ),
+          IconButton(
             icon: Icon(Icons.share),
             onPressed: _shareProduct,
           ),
@@ -289,7 +298,9 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: AppLocalizations.of(context)!.translate('category') + " : ",
+                                  text: AppLocalizations.of(context)!
+                                          .translate('category') +
+                                      " : ",
                                   style: TextStyle(
                                     color: Color(0xFF757575),
                                     fontSize: 13,
@@ -334,8 +345,12 @@ class _DetailProductsState extends State<DetailProducts> {
                                 children: [
                                   TextSpan(
                                     text: item.manufacturer != null
-                                        ? AppLocalizations.of(context)!.translate('manufacturer') + " : "
-                                        : AppLocalizations.of(context)!.translate('distributor') + " : ",
+                                        ? AppLocalizations.of(context)!
+                                                .translate('manufacturer') +
+                                            " : "
+                                        : AppLocalizations.of(context)!
+                                                .translate('distributor') +
+                                            " : ",
                                     style: TextStyle(
                                       color: Color(0xFF757575),
                                       fontSize: 13,
@@ -367,7 +382,9 @@ class _DetailProductsState extends State<DetailProducts> {
                             TextSpan(
                               children: [
                                 TextSpan(
-                                  text: AppLocalizations.of(context)!.translate('product_details') + "\n",
+                                  text: AppLocalizations.of(context)!
+                                          .translate('product_details') +
+                                      "\n",
                                   style: TextStyle(
                                     color: Colors.black,
                                     fontSize: 12,
@@ -395,7 +412,8 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(left: 8, top: 13),
                         child: Text(
-                          AppLocalizations.of(context)!.translate('product_specifications'),
+                          AppLocalizations.of(context)!
+                              .translate('product_specifications'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -429,7 +447,8 @@ class _DetailProductsState extends State<DetailProducts> {
                       Padding(
                         padding: const EdgeInsets.only(top: 13),
                         child: Text(
-                          AppLocalizations.of(context)!.translate('clinical_application'),
+                          AppLocalizations.of(context)!
+                              .translate('clinical_application'),
                           style: TextStyle(
                             color: Color(0xFF18181B),
                             fontSize: 15,
@@ -443,7 +462,9 @@ class _DetailProductsState extends State<DetailProducts> {
                       Row(
                         children: [
                           Text(
-                            AppLocalizations.of(context)!.translate('user_manual') + " : ",
+                            AppLocalizations.of(context)!
+                                    .translate('user_manual') +
+                                " : ",
                             style: TextStyle(
                               color: Color(0xFF18181B),
                               fontSize: 15,

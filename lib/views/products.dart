@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:medmap/cubit/partnership/request_page.dart';
 
 import '../views/browse_products.dart' as browse_products;
 import '../views/details/detail_products.dart';
@@ -82,78 +83,85 @@ class _MyProductState extends State<Products> {
   void initState() {
     super.initState();
     Future.delayed(Duration.zero, () {
-    itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_all.png',
-      'title': AppLocalizations.of(context)!.translate('all'),
-      'color': Color(0xFFE0E0E0),
-      'id': '',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_medical_equipment.png',
-      'title': AppLocalizations.of(context)!.translate('medical_equipment'),
-      'color': Color(0xFFF6EFC6),
-      'id': '1',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_medical_consumables.png',
-      'title': AppLocalizations.of(context)!.translate('medical_consumables'),
-      'color': Color(0xFFFCEEE1),
-      'id': '2',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_molecular_instrument.png',
-      'title': AppLocalizations.of(context)!.translate('molecular_instruments'),
-      'color': Color(0xFFDAE1FD),
-      'id': '3',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_immunohisto_chemistry.png',
-      'title': AppLocalizations.of(context)!.translate('immunohistochemistry'),
-      'color': Color(0xFFFFE7E7),
-      'id': '4',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
-      'title': AppLocalizations.of(context)!.translate('imaging_and_diagnostic'),
-      'color': Color(0xFFFFE7E7),
-      'id': '5',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_laboratory_furniture.png',
-      'title': AppLocalizations.of(context)!.translate('laboratory_furniture'),
-      'color': Color(0xFFF6EFC6),
-      'id': '7',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
-      'title': AppLocalizations.of(context)!.translate('physiotherapy_rehabilitation'),
-      'color': Color(0xFFE4ECFE),
-      'id': '6',
-    },
-  );
-  itemCategories.add(
-    {
-      'image': 'assets/icons/ctg_software_database.png',
-      'title': AppLocalizations.of(context)!.translate('software_and_database'),
-      'color': Color(0xFFFCEEE1),
-      'id': '8',
-    },
-  );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_all.png',
+          'title': AppLocalizations.of(context)!.translate('all'),
+          'color': Color(0xFFE0E0E0),
+          'id': '',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_medical_equipment.png',
+          'title': AppLocalizations.of(context)!.translate('medical_equipment'),
+          'color': Color(0xFFF6EFC6),
+          'id': '1',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_medical_consumables.png',
+          'title':
+              AppLocalizations.of(context)!.translate('medical_consumables'),
+          'color': Color(0xFFFCEEE1),
+          'id': '2',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_molecular_instrument.png',
+          'title':
+              AppLocalizations.of(context)!.translate('molecular_instruments'),
+          'color': Color(0xFFDAE1FD),
+          'id': '3',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_immunohisto_chemistry.png',
+          'title':
+              AppLocalizations.of(context)!.translate('immunohistochemistry'),
+          'color': Color(0xFFFFE7E7),
+          'id': '4',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_imaging_and_diagnostics.png',
+          'title':
+              AppLocalizations.of(context)!.translate('imaging_and_diagnostic'),
+          'color': Color(0xFFFFE7E7),
+          'id': '5',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_laboratory_furniture.png',
+          'title':
+              AppLocalizations.of(context)!.translate('laboratory_furniture'),
+          'color': Color(0xFFF6EFC6),
+          'id': '7',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_physiotherapy_rehabilitation.png',
+          'title': AppLocalizations.of(context)!
+              .translate('physiotherapy_rehabilitation'),
+          'color': Color(0xFFE4ECFE),
+          'id': '6',
+        },
+      );
+      itemCategories.add(
+        {
+          'image': 'assets/icons/ctg_software_database.png',
+          'title':
+              AppLocalizations.of(context)!.translate('software_and_database'),
+          'color': Color(0xFFFCEEE1),
+          'id': '8',
+        },
+      );
     });
     fetchData();
   }
@@ -286,7 +294,8 @@ class _MyProductState extends State<Products> {
                         child: Align(
                           alignment: Alignment.centerLeft,
                           child: Text(
-                            AppLocalizations.of(context)!.translate('latest_products'),
+                            AppLocalizations.of(context)!
+                                .translate('latest_products'),
                             style: TextStyle(
                               color: Colors.black,
                               fontSize: 15,
