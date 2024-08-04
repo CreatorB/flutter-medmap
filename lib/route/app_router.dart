@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:medmap/cubit/locations/location_page.dart';
 import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/cubit/signup/sign_up_page.dart';
 import 'package:medmap/cubit/signin/sign_in_page.dart';
@@ -10,6 +11,10 @@ import 'app_routes.dart';
 
 final GoRouter router = GoRouter(
   routes: [
+    GoRoute(
+      path: '/locations',
+      builder: (context, state) => LocationPage(),
+    ),
     GoRoute(
       path: AppRoutes.partnership,
       builder: (context, state) => RequestPage(),

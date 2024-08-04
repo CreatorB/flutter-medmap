@@ -5,114 +5,135 @@ import 'package:dio/dio.dart';
 import 'package:flutter/widgets.dart';
 import 'package:medmap/const.dart';
 import 'package:omega_dio_logger/omega_dio_logger.dart';
+import 'package:equatable/equatable.dart';
 
-part 'request_state.dart';
-
-class Country {
-  final int id;
-  final String name;
-  Country.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-}
-
-class States {
-  final int id;
-  final String name;
-  States.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'];
-}
-
-class CountriesLoaded extends RequestState {
-  final List<Country> countries;
-  CountriesLoaded(this.countries);
-}
-
-class StatesLoaded extends RequestState {
-  final List<States> states;
-  StatesLoaded(this.states);
-}
-
-// class RequestState extends StatefulWidget {
-
-//   final int idRequest;
-
-//   const RequestState({required this.idRequest});
-
-//   @override
-//   RequestCubit createState() => RequestCubit();
-// }
-
+import 'request_state.dart';
 class RequestCubit extends Cubit<RequestState> {
-  int? _selectedCountryId;
-  int? _selectedStateId;
-// Getter untuk mendapatkan state negara dan provinsi/staat
-  int? get selectedCountryId => _selectedCountryId;
-  int? get selectedStateId => _selectedStateId;
 
-  // Setter untuk mengupdate state negara dan provinsi/staat
-  void setSelectedCountryId(int? id) {
-    _selectedCountryId = id;
-  }
+  RequestCubit() : super(RequestInitial());
 
-  void setSelectedStateId(int? id) {
-    _selectedStateId = id;
-  }
+
+
+  String? selectedCountryId;
+
+  String? selectedStateId;
+
 
 
   final Dio _dio = Dio();
 
-  RequestCubit() : super(RequestInitial());
+
+
+  void selectCountry(String countryId) async {
+
+    selectedCountryId = countryId;
+
+    emit(CountrySelected(countryId: countryId));
+
+    await fetchStates(countryId);
+
+  }
+
+
+
+  void selectState(String stateId) {
+
+    selectedStateId = stateId;
+
+    emit(StateSelected(stateId: stateId));
+
+  }
+
+
 
   Future<void> fetchCountries() async {
-    _dio.interceptors.add(const OmegaDioLogger());
+
+    emit(RequestLoading());
+
     try {
-      final response =
-          await _dio.get(Const.URL_API + "/countries?page=1&limit=9999");
+
+      final response = await _dio.get('${Const.URL_API}/countries?page=1&limit=9999');
+
       if (response.statusCode == 200) {
-        final countries = response.data['data'] as List;
-        emit(CountriesLoaded(
-            countries.map((c) => Country.fromJson(c)).toList()));
+
+        emit(CountriesLoaded(countries: response.data['data']));
+
       } else {
-        emit(RequestFailure('Failed to load countries'));
+
+        emit(RequestError(message: 'Failed to load countries'));
+
       }
+
     } catch (e) {
-      emit(RequestFailure('Failed to load countries: $e'));
+
+      emit(RequestError(message: e.toString()));
+
     }
+
   }
 
-  Future<void> fetchStates(int countryId) async {
-    _dio.interceptors.add(const OmegaDioLogger());
+
+
+  Future<void> fetchStates(String countryId) async {
+
+    emit(RequestLoading());
+
     try {
-      final response = await _dio
-          .get(Const.URL_API + "/countries/$countryId/states?page=1&limit=999");
+
+      final response = await _dio.get('${Const.URL_API}/countries/$countryId/states?page=1&limit=999');
+
       if (response.statusCode == 200) {
-        final states = response.data['data'] as List;
-        emit(StatesLoaded(states.map((s) => States.fromJson(s)).toList()));
+
+        emit(StatesLoaded(states: response.data['data']));
+
       } else {
-        emit(RequestFailure('Failed to load states'));
+
+        emit(RequestError(message: 'Failed to load states'));
+
       }
+
     } catch (e) {
-      emit(RequestFailure('Failed to load states: $e'));
+
+      emit(RequestError(message: e.toString()));
+
     }
+
   }
+
+
 
   Future<void> submitForm(Map<String, dynamic> formData) async {
-    print("cekFormData : " + formData.toString());
-    // emit(RequestLoading());
-    // try {
-    //   final response = await _dio.post(
-    //     'https://your-api-endpoint.com/submit',
-    //     data: formData,
-    //   );
-    //   if (response.statusCode == 200) {
-    //     emit(RequestSuccess(response.data));
-    //   } else {
-    //     emit(RequestFailure(response.data['message']));
-    //   }
-    // } on DioError catch (e) {
-    //   emit(RequestFailure(e.response?.data?.message));
-    // }
+
+    print("Form Data: $formData");
+
+    emit(RequestLoading());
+
+    try {
+
+      final response = await _dio.post(
+
+        '${Const.URL_API}/submit', // replace with your actual endpoint
+
+        data: formData,
+
+      );
+
+      if (response.statusCode == 200) {
+
+        emit(RequestSuccess());
+
+      } else {
+
+        emit(RequestError(message: 'Failed to submit form'));
+
+      }
+
+    } catch (e) {
+
+      emit(RequestError(message: e.toString()));
+
+    }
+
   }
+
 }

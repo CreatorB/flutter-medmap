@@ -1,10 +1,9 @@
 import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-import 'package:medmap/route/app_routes.dart';
 import 'request_cubit.dart';
+import 'request_state.dart';
 
 class RequestPage extends StatefulWidget {
   @override
@@ -14,19 +13,15 @@ class RequestPage extends StatefulWidget {
 class _RequestPageState extends State<RequestPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _companyController = TextEditingController();
-  final TextEditingController _totalEmployeesController =
-      TextEditingController();
+  final TextEditingController _totalEmployeesController = TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
 
-  int? _selectedCountryId;
-  int? _selectedStateId;
-
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    context.go(AppRoutes.home);
+    context.go('/home'); // Use your correct home route here
     return true;
   }
 
@@ -57,40 +52,39 @@ class _RequestPageState extends State<RequestPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            context.go(AppRoutes.home); // Redirect to home
+            context.go('/home'); // Redirect to home
           },
         ),
       ),
       backgroundColor: Colors.white,
       body: BlocProvider(
-        // create: (context) => RequestCubit(),
         create: (context) {
-          final getData = RequestCubit();
-          getData.fetchCountries();
-          return getData;
+          final cubit = RequestCubit();
+          cubit.fetchCountries();
+          return cubit;
         },
         child: BlocConsumer<RequestCubit, RequestState>(
           listener: (context, state) {
-            if (state is RequestSuccess) {
-              context.go(AppRoutes.home);
-            } else if (state is RequestFailure) {
+            if (state is RequestError) {
               showDialog(
                 context: context,
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: Text('Error'),
-                    content: Text(state.errorMessage),
+                    content: Text(state.message),
                     actions: <Widget>[
                       TextButton(
                         child: Text('OK'),
                         onPressed: () {
-                          context.pop();
+                          Navigator.of(context).pop();
                         },
                       ),
                     ],
                   );
                 },
               );
+            } else if (state is RequestSuccess) {
+              context.go('/home');
             }
           },
           builder: (context, state) {
@@ -103,7 +97,7 @@ class _RequestPageState extends State<RequestPage> {
               ),
             );
 
-            final loginButton = Padding(
+            final submitButton = Padding(
               padding: EdgeInsets.fromLTRB(16.0, 16.0, 16.0, 0.0),
               child: ElevatedButton(
                 style: ElevatedButton.styleFrom(
@@ -125,8 +119,8 @@ class _RequestPageState extends State<RequestPage> {
                       'last_name': _lastNameController.text,
                       'email': _emailController.text,
                       'phone': _phoneController.text,
-                      'country_id': _selectedCountryId.toString(),
-                      'state_id': _selectedStateId.toString(),
+                      'country_id': context.read<RequestCubit>().selectedCountryId,
+                      'state_id': context.read<RequestCubit>().selectedStateId,
                       'zip_code': _zipCodeController.text
                     };
                     context.read<RequestCubit>().submitForm(formData);
@@ -135,6 +129,7 @@ class _RequestPageState extends State<RequestPage> {
                 child: Text('SUBMIT', style: TextStyle(fontSize: 18)),
               ),
             );
+
             return Center(
               child: Form(
                 key: _formKey,
@@ -142,9 +137,9 @@ class _RequestPageState extends State<RequestPage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.only(left: 24.0, right: 24.0),
                   children: <Widget>[
-                    if (state is RequestLoading)
-                      CircularProgressIndicator()
-                    else
+                    if (state is RequestLoading && !(state is CountriesLoaded || state is StatesLoaded)) 
+                      CircularProgressIndicator() 
+                    else 
                       logo,
                     SizedBox(height: 48.0),
                     TextFormField(
@@ -215,55 +210,6 @@ class _RequestPageState extends State<RequestPage> {
                       },
                     ),
                     SizedBox(height: 8.0),
-                    if (state is CountriesLoaded)
-                      DropdownButtonFormField<int>(
-                        decoration: InputDecoration(labelText: 'Country'),
-                        value: context.select(
-                            (RequestCubit cubit) => cubit.selectedCountryId),
-                        items: state.countries.map((country) {
-                          return DropdownMenuItem<int>(
-                            value: country.id,
-                            child: Text(country.name),
-                          );
-                        }).toList(),
-                        onChanged: (int? newValue) {
-                          context
-                              .read<RequestCubit>()
-                              .setSelectedCountryId(newValue);
-                          context.read<RequestCubit>().fetchStates(newValue!);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a country';
-                          }
-                          return null;
-                        },
-                      ),
-                    SizedBox(height: 8.0),
-                    if (state is StatesLoaded)
-                      DropdownButtonFormField<int>(
-                        decoration: InputDecoration(labelText: 'State'),
-                        value: context.select(
-                            (RequestCubit cubit) => cubit.selectedStateId),
-                        items: state.states.map((state) {
-                          return DropdownMenuItem<int>(
-                            value: state.id,
-                            child: Text(state.name),
-                          );
-                        }).toList(),
-                        onChanged: (int? newValue) {
-                          context
-                              .read<RequestCubit>()
-                              .setSelectedStateId(newValue);
-                        },
-                        validator: (value) {
-                          if (value == null) {
-                            return 'Please select a state';
-                          }
-                          return null;
-                        },
-                      ),
-                    SizedBox(height: 8.0),
                     TextFormField(
                       controller: _zipCodeController,
                       decoration: InputDecoration(labelText: 'Zip Code'),
@@ -275,8 +221,69 @@ class _RequestPageState extends State<RequestPage> {
                       },
                     ),
                     SizedBox(height: 24.0),
-                    loginButton,
+                    BlocBuilder<RequestCubit, RequestState>(
+                      builder: (context, state) {
+                        if (state is CountriesLoaded) {
+                          return DropdownButtonFormField<String>(
+                            decoration: InputDecoration(labelText: 'Country'),
+                            items: state.countries.map<DropdownMenuItem<String>>((country) {
+                              return DropdownMenuItem<String>(
+                                value: country['id'].toString(),
+                                child: Text(country['name']),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                context.read<RequestCubit>().selectCountry(value);
+                              }
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select a country';
+                              }
+                              return null;
+                            },
+                          );
+                        } else if (state is RequestLoading) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                    SizedBox(height: 8.0),
+                    BlocBuilder<RequestCubit, RequestState>(
+                      builder: (context, state) {
+                        if (state is StatesLoaded) {
+                          return DropdownButtonFormField<String>(
+                            decoration: InputDecoration(labelText: 'State'),
+                            items: state.states.map<DropdownMenuItem<String>>((state) {
+                              return DropdownMenuItem<String>(
+                                value: state['id'].toString(),
+                                child: Text(state['name']),
+                              );
+                            }).toList(),
+                            onChanged: (value) {
+                              if (value != null) {
+                                context.read<RequestCubit>().selectState(value);
+                              }
+                            },
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please select a state';
+                              }
+                              return null;
+                            },
+                          );
+                        } else if (state is RequestLoading) {
+                          return CircularProgressIndicator();
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
                     SizedBox(height: 24.0),
+                    submitButton,
                   ],
                 ),
               ),
@@ -287,3 +294,4 @@ class _RequestPageState extends State<RequestPage> {
     );
   }
 }
+// original
