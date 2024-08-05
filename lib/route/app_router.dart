@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:medmap/cubit/locations/location_page.dart';
+import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/cubit/signup/sign_up_page.dart';
 import 'package:medmap/cubit/signin/sign_in_page.dart';
 import 'package:medmap/cubit/submenu/submenu_page.dart';
@@ -9,6 +11,21 @@ import 'app_routes.dart';
 
 final GoRouter router = GoRouter(
   routes: [
+    GoRoute(
+      path: '/locations',
+      builder: (context, state) => LocationPage(),
+    ),
+  GoRoute(
+        path: AppRoutes.partnership,
+        builder: (context, state) {
+          final itemId = state.extra as int; // Ganti dengan tipe data yang sesuai
+          return RequestPage(itemId: itemId);
+        },
+      ),
+    // GoRoute(
+    //   path: AppRoutes.partnership,
+    //   builder: (context, state) => RequestPage(),
+    // ),
     GoRoute(
       path: AppRoutes.home,
       builder: (context, state) => HomePage(),
@@ -28,7 +45,6 @@ final GoRouter router = GoRouter(
     GoRoute(
       path: AppRoutes.signIn,
       builder: (context, state) {
-        print('Sign-in route is being used');
         return SignInPage();
       },
     ),
