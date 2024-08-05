@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:medmap/models/response_product_manual.dart';
+import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/views/profile.dart';
 import 'package:medmap/widgets/button_download.dart';
 import 'package:share_plus/share_plus.dart';
@@ -14,6 +15,7 @@ import '../const.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'dart:convert';
+import 'package:go_router/go_router.dart';
 
 // multi language support
 import '../app_localzations.dart';
@@ -461,6 +463,13 @@ class _DetailProductsState extends State<DetailProducts> {
           },
         ),
         actions: [
+          IconButton(
+            icon: Icon(Icons.handshake),
+            onPressed: () {
+              context.push(AppRoutes.partnership, extra: widget.item.id);
+              // context.push('/locations', extra: widget.item.id);
+            },
+          ),
           IconButton(
             icon: Icon(Icons.share),
             onPressed: _shareProduct,

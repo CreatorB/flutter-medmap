@@ -15,10 +15,17 @@ final GoRouter router = GoRouter(
       path: '/locations',
       builder: (context, state) => LocationPage(),
     ),
-    GoRoute(
-      path: AppRoutes.partnership,
-      builder: (context, state) => RequestPage(),
-    ),
+  GoRoute(
+        path: AppRoutes.partnership,
+        builder: (context, state) {
+          final itemId = state.extra as int; // Ganti dengan tipe data yang sesuai
+          return RequestPage(itemId: itemId);
+        },
+      ),
+    // GoRoute(
+    //   path: AppRoutes.partnership,
+    //   builder: (context, state) => RequestPage(),
+    // ),
     GoRoute(
       path: AppRoutes.home,
       builder: (context, state) => HomePage(),

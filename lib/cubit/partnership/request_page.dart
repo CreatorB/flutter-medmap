@@ -2,10 +2,13 @@ import 'package:back_button_interceptor/back_button_interceptor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
+import 'package:medmap/route/app_routes.dart';
 import 'request_cubit.dart';
 import 'request_state.dart';
 
 class RequestPage extends StatefulWidget {
+  final int itemId;
+  RequestPage({required this.itemId});
   @override
   _RequestPageState createState() => _RequestPageState();
 }
@@ -13,7 +16,8 @@ class RequestPage extends StatefulWidget {
 class _RequestPageState extends State<RequestPage> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _companyController = TextEditingController();
-  final TextEditingController _totalEmployeesController = TextEditingController();
+  final TextEditingController _totalEmployeesController =
+      TextEditingController();
   final TextEditingController _firstNameController = TextEditingController();
   final TextEditingController _lastNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -28,12 +32,12 @@ class _RequestPageState extends State<RequestPage> {
   @override
   void initState() {
     super.initState();
-    BackButtonInterceptor.add(myInterceptor);
+    // BackButtonInterceptor.add(myInterceptor);
   }
 
   @override
   void dispose() {
-    BackButtonInterceptor.remove(myInterceptor);
+    // BackButtonInterceptor.remove(myInterceptor);
     _companyController.dispose();
     _totalEmployeesController.dispose();
     _firstNameController.dispose();
@@ -52,7 +56,7 @@ class _RequestPageState extends State<RequestPage> {
         leading: IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
-            context.go('/home'); // Redirect to home
+            context.go(AppRoutes.home);
           },
         ),
       ),
@@ -119,11 +123,14 @@ class _RequestPageState extends State<RequestPage> {
                       'last_name': _lastNameController.text,
                       'email': _emailController.text,
                       'phone': _phoneController.text,
-                      'country_id': context.read<RequestCubit>().selectedCountryId,
+                      'country_id':
+                          context.read<RequestCubit>().selectedCountryId,
                       'state_id': context.read<RequestCubit>().selectedStateId,
                       'zip_code': _zipCodeController.text
                     };
-                    context.read<RequestCubit>().submitForm(formData);
+                    context
+                        .read<RequestCubit>()
+                        .submitForm(context, widget.itemId, formData);
                   }
                 },
                 child: Text('SUBMIT', style: TextStyle(fontSize: 18)),
@@ -137,9 +144,10 @@ class _RequestPageState extends State<RequestPage> {
                   shrinkWrap: true,
                   padding: EdgeInsets.only(left: 24.0, right: 24.0),
                   children: <Widget>[
-                    if (state is RequestLoading && !(state is CountriesLoaded || state is StatesLoaded)) 
-                      CircularProgressIndicator() 
-                    else 
+                    if (state is RequestLoading &&
+                        !(state is CountriesLoaded || state is StatesLoaded))
+                      CircularProgressIndicator()
+                    else
                       logo,
                     SizedBox(height: 48.0),
                     TextFormField(
@@ -221,69 +229,28 @@ class _RequestPageState extends State<RequestPage> {
                       },
                     ),
                     SizedBox(height: 24.0),
-                    BlocBuilder<RequestCubit, RequestState>(
-                      builder: (context, state) {
-                        if (state is CountriesLoaded) {
-                          return DropdownButtonFormField<String>(
-                            decoration: InputDecoration(labelText: 'Country'),
-                            items: state.countries.map<DropdownMenuItem<String>>((country) {
-                              return DropdownMenuItem<String>(
-                                value: country['id'].toString(),
-                                child: Text(country['name']),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value != null) {
-                                context.read<RequestCubit>().selectCountry(value);
-                              }
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select a country';
-                              }
-                              return null;
-                            },
-                          );
-                        } else if (state is RequestLoading) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
+                    CountryDropdown(),
+// if (context.read<RequestCubit>().selectedCountryId != null)
+//                       Padding(
+//                         padding: const EdgeInsets.only(top: 8.0),
+//                         child: Text(
+//                           context.read<RequestCubit>().getSelectedCountryName(),
+//                           style: TextStyle(fontSize: 16, color: Colors.red),
+//                         ),
+//                       ),
                     SizedBox(height: 8.0),
-                    BlocBuilder<RequestCubit, RequestState>(
-                      builder: (context, state) {
-                        if (state is StatesLoaded) {
-                          return DropdownButtonFormField<String>(
-                            decoration: InputDecoration(labelText: 'State'),
-                            items: state.states.map<DropdownMenuItem<String>>((state) {
-                              return DropdownMenuItem<String>(
-                                value: state['id'].toString(),
-                                child: Text(state['name']),
-                              );
-                            }).toList(),
-                            onChanged: (value) {
-                              if (value != null) {
-                                context.read<RequestCubit>().selectState(value);
-                              }
-                            },
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please select a state';
-                              }
-                              return null;
-                            },
-                          );
-                        } else if (state is RequestLoading) {
-                          return CircularProgressIndicator();
-                        } else {
-                          return Container();
-                        }
-                      },
-                    ),
+                    StateDropdown(),
+                    // if (context.read<RequestCubit>().selectedStateId != null)
+                    //   Padding(
+                    //     padding: const EdgeInsets.only(top: 8.0),
+                    //     child: Text(
+                    //       context.read<RequestCubit>().getSelectedStateName(),
+                    //       style: TextStyle(fontSize: 16),
+                    //     ),
+                    //   ),
                     SizedBox(height: 24.0),
                     submitButton,
+                    SizedBox(height: 8.0),
                   ],
                 ),
               ),
@@ -294,4 +261,79 @@ class _RequestPageState extends State<RequestPage> {
     );
   }
 }
-// original
+
+class CountryDropdown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RequestCubit, RequestState>(
+      builder: (context, state) {
+        if (state is CountriesLoaded) {
+          return DropdownButtonFormField<String>(
+            value: context.read<RequestCubit>().selectedCountryId,
+            decoration: InputDecoration(labelText: 'Country'),
+            items: state.countries.map<DropdownMenuItem<String>>((country) {
+              return DropdownMenuItem<String>(
+                value: country['id'].toString(),
+                child: Text(country['name']),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                print('Selected Country ID: $value');
+                context.read<RequestCubit>().selectCountry(value);
+              }
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select a country';
+              }
+              return null;
+            },
+          );
+        } else if (state is RequestLoading) {
+          return CircularProgressIndicator();
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}
+
+class StateDropdown extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<RequestCubit, RequestState>(
+      builder: (context, state) {
+        if (state is StatesLoaded) {
+          return DropdownButtonFormField<String>(
+            value: context.read<RequestCubit>().selectedStateId,
+            decoration: InputDecoration(labelText: 'State'),
+            items: state.states.map<DropdownMenuItem<String>>((state) {
+              return DropdownMenuItem<String>(
+                value: state['id'].toString(),
+                child: Text(state['name']),
+              );
+            }).toList(),
+            onChanged: (value) {
+              if (value != null) {
+                print('Selected State ID: $value');
+                context.read<RequestCubit>().selectState(value);
+              }
+            },
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please select a state';
+              }
+              return null;
+            },
+          );
+        } else if (state is RequestLoading) {
+          return CircularProgressIndicator();
+        } else {
+          return Container();
+        }
+      },
+    );
+  }
+}
