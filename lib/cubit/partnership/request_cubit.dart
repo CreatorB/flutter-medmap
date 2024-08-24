@@ -9,59 +9,74 @@ import 'package:omega_dio_logger/omega_dio_logger.dart';
 import 'package:equatable/equatable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'request_state.dart';
+
+import 'package:meta/meta.dart';
+import 'dart:convert';
+part 'request_state.dart';
+
+class Country {
+  final int id;
+  final String name;
+
+  Country({required this.id, required this.name});
+
+  factory Country.fromJson(Map<String, dynamic> json) {
+    return Country(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
+}
+
+class City {
+  final int id;
+  final String name;
+  final int countryId;
+
+  City({required this.id, required this.name, required this.countryId});
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      id: json['id'],
+      name: json['name'],
+      countryId: json['country_id'],
+    );
+  }
+}
 
 class RequestCubit extends Cubit<RequestState> {
   RequestCubit() : super(RequestInitial());
 
   String? selectedCountryId;
-
   String? selectedStateId;
-
   final Dio _dio = Dio();
 
-void selectCountry(String countryId) {
-    print('Selecting Country ID: $countryId');
+  void selectCountry(String countryId) {
     selectedCountryId = countryId;
     if (state is CountriesLoaded) {
-      print('Emitting CountriesLoaded');
       emit(CountriesLoaded(countries: (state as CountriesLoaded).countries));
     }
     fetchStates(countryId);
   }
 
   void selectState(String stateId) {
-    print('Selecting State ID: $stateId');
     selectedStateId = stateId;
     if (state is StatesLoaded) {
-      print('Emitting StatesLoaded');
       emit(StatesLoaded(states: (state as StatesLoaded).states));
     }
   }
-
-  // void selectCountry(String countryId) async {
-  //   selectedCountryId = countryId;
-
-  //   emit(CountrySelected(countryId: countryId));
-
-  //   await fetchStates(countryId);
-  // }
-
-  // void selectState(String stateId) {
-  //   selectedStateId = stateId;
-
-  //   emit(StateSelected(stateId: stateId));
-  // }
 
   Future<void> fetchCountries() async {
     emit(RequestLoading());
 
     try {
-      final response =
-          await _dio.get('${Const.URL_API}/countries?page=1&limit=9999');
+      final response = await _dio.get('${Const.URL_API}/countries?page=1&limit=9999');
 
       if (response.statusCode == 200) {
-        emit(CountriesLoaded(countries: response.data['data']));
+        List<Country> countries = (response.data['data'] as List)
+            .map((country) => Country.fromJson(country))
+            .toList();
+        emit(CountriesLoaded(countries: countries));
       } else {
         emit(RequestError(message: 'Failed to load countries'));
       }
@@ -74,11 +89,13 @@ void selectCountry(String countryId) {
     emit(RequestLoading());
 
     try {
-      final response = await _dio
-          .get('${Const.URL_API}/countries/$countryId/states?page=1&limit=999');
+      final response = await _dio.get('${Const.URL_API}/countries/$countryId/states?page=1&limit=999');
 
       if (response.statusCode == 200) {
-        emit(StatesLoaded(states: response.data['data']));
+        List<City> states = (response.data['data'] as List)
+            .map((state) => City.fromJson(state))
+            .toList();
+        emit(StatesLoaded(states: states));
       } else {
         emit(RequestError(message: 'Failed to load states'));
       }
@@ -87,30 +104,23 @@ void selectCountry(String countryId) {
     }
   }
 
-  Future<void> submitForm(BuildContext context, id,Map<String, dynamic> formData) async {
-    print("Form Data $id : $formData");
-
+  Future<void> submitForm(BuildContext context, String id, Map<String, dynamic> formData) async {
+    // print('cekFormData : ' + formData.toString());
     emit(RequestLoading());
-
     try {
-      final response = await _dio.post(
-        '${Const.API_PRODUCTS}/$id/demo-request',
-        data: formData,
-      );
-      print('cekResponse : ' + response.toString());
+      final response = await _dio.post('${Const.API_PRODUCTS}/$id/demo-request', data: formData);
       if (response.statusCode == 200) {
-        // emit(RequestSuccess(message: response.data['message']));
         Fluttertoast.showToast(
-        msg: "Successfully Submitted",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.CENTER,
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.green,
-        textColor: Colors.white,
-        fontSize: 16.0
-    );
+          msg: "Successfully Submitted",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.CENTER,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
         Future.delayed(Duration(seconds: 1), () {
-                  context.go(AppRoutes.home);
+          context.go(AppRoutes.home);
         });
       } else {
         emit(RequestError(message: 'Failed to submit form'));
@@ -120,33 +130,23 @@ void selectCountry(String countryId) {
     }
   }
 
-String getSelectedCountryName() {
-  print('cekCountryInit');
-  if (state is CountriesLoaded) {
-    print('State is CountriesLoaded');
-    final country = (state as CountriesLoaded).countries.firstWhere(
-      (country) => country['id'].toString() == selectedCountryId,
-      orElse: () => null,
-    );
-    print('cekCountry: $country');
-    return country != null ? country['name'] : '';
+  String getSelectedCountryName() {
+    if (state is CountriesLoaded && selectedCountryId != null) {
+      final country = (state as CountriesLoaded)
+          .countries
+          .firstWhere((country) => country.id.toString() == selectedCountryId, orElse: () => Country(id: 0, name: ''));
+      return country.name;
+    }
+    return '';
   }
-  print('State is not CountriesLoaded');
-  return '';
-}
 
-String getSelectedStateName() {
-  print('cekStateInit');
-  if (state is StatesLoaded) {
-    print('State is StatesLoaded');
-    final stateObj = (state as StatesLoaded).states.firstWhere(
-      (state) => state['id'].toString() == selectedStateId,
-      orElse: () => null,
-    );
-    print('cekState: $stateObj');
-    return stateObj != null ? stateObj['name'] : '';
+  String getSelectedStateName() {
+    if (state is StatesLoaded && selectedStateId != null) {
+      final city = (state as StatesLoaded)
+          .states
+          .firstWhere((state) => state.id.toString() == selectedStateId, orElse: () => City(id: 0, name: '', countryId: 0));
+      return city.name;
+    }
+    return '';
   }
-  print('State is not StatesLoaded');
-  return '';
-}
 }
