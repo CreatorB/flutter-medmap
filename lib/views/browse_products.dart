@@ -25,8 +25,9 @@ class BrowseProducts extends StatefulWidget {
   final String? title;
   final String? categoryId;
   final String? keyword;
+  final String? tagId;
 
-  BrowseProducts({Key? key, this.title, this.categoryId, this.keyword}) : super(key: key);
+  BrowseProducts({Key? key, this.title, this.categoryId, this.keyword, this.tagId}) : super(key: key);
 
   @override
   _MyProductState createState() => _MyProductState();
@@ -123,7 +124,7 @@ class _MyProductState extends State<BrowseProducts> {
 
     try {
       final response = await api.fetchData(context,
-          'products?page=$page&limit=$limitItem&keyword=$keyword&category_ids=${widget.categoryId ?? ""}');
+          'products?page=$page&limit=$limitItem&keyword=$keyword&category_ids=${widget.categoryId ?? ""}&tags=${widget.tagId ?? ""}');
       // print("cekResponse : " + response.toString());
 
       if (response is Map<String, dynamic>) {

@@ -171,7 +171,7 @@ class _DetailProductsState extends State<DetailProducts> {
 
   void _shareProduct() {
     final String productUrl =
-        'https://med-map.org/product-detail/${widget.item.slug}';
+        Const.URL_WEB + '/product-detail/${widget.item.slug}';
     Share.share(productUrl, subject: '');
   }
 
