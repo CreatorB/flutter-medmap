@@ -4,7 +4,74 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'request_cubit.dart';
-import 'request_state.dart';
+import 'package:dio/dio.dart';
+import 'package:omega_dio_logger/omega_dio_logger.dart';
+import 'package:medmap/const.dart';
+import 'dart:convert';
+
+// patch dropdown city country
+class Country {
+  final int id;
+  final String name;
+
+  Country({required this.id, required this.name});
+
+  factory Country.fromJson(Map<String, dynamic> json) {
+    return Country(
+      id: json['id'],
+      name: json['name'],
+    );
+  }
+}
+
+class City {
+  final int id;
+  final String name;
+  final int countryId;
+
+  City({required this.id, required this.name, required this.countryId});
+
+  factory City.fromJson(Map<String, dynamic> json) {
+    return City(
+      id: json['id'],
+      name: json['name'],
+      countryId: json['country_id'],
+    );
+  }
+}
+
+// Mendapatkan daftar negara
+Future<List<Country>> fetchCountries() async {
+  var dio = Dio();
+  dio.interceptors.add(const OmegaDioLogger());
+  final response =
+      await dio.get('${Const.URL_API}/countries?page=1&limit=9999');
+  if (response.statusCode == 200) {
+    List<Country> countries = (response.data['data'] as List)
+        .map((country) => Country.fromJson(country))
+        .toList();
+    return countries;
+  } else {
+    throw Exception('Failed to load countries');
+  }
+}
+
+// Mendapatkan daftar kota berdasarkan ID negara
+Future<List<City>> fetchCities(int countryId) async {
+  var dio = Dio();
+  dio.interceptors.add(const OmegaDioLogger());
+  final response = await dio
+      .get('${Const.URL_API}/countries/$countryId/states?page=1&limit=999');
+  if (response.statusCode == 200) {
+    List<City> cities = (response.data['data'] as List)
+        .map((state) => City.fromJson(state))
+        .toList();
+    return cities;
+  } else {
+    throw Exception('Failed to load cities');
+  }
+}
+// end patch
 
 class RequestPage extends StatefulWidget {
   final int itemId;
@@ -24,20 +91,73 @@ class _RequestPageState extends State<RequestPage> {
   final TextEditingController _phoneController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
 
+  // patch dropdown city country
+  List<Country> _countries = [];
+  List<City> _cities = [];
+  Country? _selectedCountry;
+  City? _selectedCity;
+  bool _isLoadingCountries = false;
+  bool _isLoadingCities = false;
+  String? _error;
+
   bool myInterceptor(bool stopDefaultButtonEvent, RouteInfo info) {
-    context.go('/home'); // Use your correct home route here
+    context.go(AppRoutes.home); // Use your correct home route here
     return true;
   }
 
   @override
   void initState() {
     super.initState();
-    // BackButtonInterceptor.add(myInterceptor);
+    _loadCountries();
+    BackButtonInterceptor.add(myInterceptor);
+  }
+
+  void _loadCountries() async {
+    setState(() {
+      _isLoadingCountries = true;
+      _error = null;
+    });
+    try {
+      List<Country> countries = await fetchCountries();
+      setState(() {
+        _countries = countries;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoadingCountries = false;
+      });
+    }
+  }
+
+  void _loadCities(int countryId) async {
+    setState(() {
+      _isLoadingCities = true;
+      _error = null;
+    });
+    try {
+      List<City> cities = await fetchCities(countryId);
+      setState(() {
+        _cities = cities;
+        _selectedCity = null;
+      });
+    } catch (e) {
+      setState(() {
+        _error = e.toString();
+      });
+    } finally {
+      setState(() {
+        _isLoadingCities = false;
+      });
+    }
   }
 
   @override
   void dispose() {
-    // BackButtonInterceptor.remove(myInterceptor);
+    BackButtonInterceptor.remove(myInterceptor);
     _companyController.dispose();
     _totalEmployeesController.dispose();
     _firstNameController.dispose();
@@ -88,7 +208,7 @@ class _RequestPageState extends State<RequestPage> {
                 },
               );
             } else if (state is RequestSuccess) {
-              context.go('/home');
+              context.go(AppRoutes.home);
             }
           },
           builder: (context, state) {
@@ -123,14 +243,12 @@ class _RequestPageState extends State<RequestPage> {
                       'last_name': _lastNameController.text,
                       'email': _emailController.text,
                       'phone': _phoneController.text,
-                      'country_id':
-                          context.read<RequestCubit>().selectedCountryId,
-                      'state_id': context.read<RequestCubit>().selectedStateId,
+                      'country_id': _selectedCountry?.id,
+                      'state_id': _selectedCity?.id,
                       'zip_code': _zipCodeController.text
                     };
-                    context
-                        .read<RequestCubit>()
-                        .submitForm(context, widget.itemId, formData);
+                    context.read<RequestCubit>().submitForm(
+                        context, widget.itemId.toString(), formData);
                   }
                 },
                 child: Text('SUBMIT', style: TextStyle(fontSize: 18)),
@@ -228,26 +346,43 @@ class _RequestPageState extends State<RequestPage> {
                         return null;
                       },
                     ),
-                    SizedBox(height: 24.0),
-                    CountryDropdown(),
-// if (context.read<RequestCubit>().selectedCountryId != null)
-//                       Padding(
-//                         padding: const EdgeInsets.only(top: 8.0),
-//                         child: Text(
-//                           context.read<RequestCubit>().getSelectedCountryName(),
-//                           style: TextStyle(fontSize: 16, color: Colors.red),
-//                         ),
-//                       ),
                     SizedBox(height: 8.0),
-                    StateDropdown(),
-                    // if (context.read<RequestCubit>().selectedStateId != null)
-                    //   Padding(
-                    //     padding: const EdgeInsets.only(top: 8.0),
-                    //     child: Text(
-                    //       context.read<RequestCubit>().getSelectedStateName(),
-                    //       style: TextStyle(fontSize: 16),
-                    //     ),
-                    //   ),
+                    // CountryDropdown(),
+                    DropdownButton<Country>(
+                      hint: Text('Select Country'),
+                      value: _selectedCountry,
+                      onChanged: (Country? newValue) {
+                        setState(() {
+                          _selectedCountry = newValue;
+                          if (newValue != null) {
+                            _loadCities(newValue.id);
+                          }
+                        });
+                      },
+                      items: _countries.map((Country country) {
+                        return DropdownMenuItem<Country>(
+                          value: country,
+                          child: Text(country.name),
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(height: 8.0),
+                    // StateDropdown(),
+                    DropdownButton<City>(
+                      hint: Text('Select City'),
+                      value: _selectedCity,
+                      onChanged: (City? newValue) {
+                        setState(() {
+                          _selectedCity = newValue;
+                        });
+                      },
+                      items: _cities.map((City city) {
+                        return DropdownMenuItem<City>(
+                          value: city,
+                          child: Text(city.name),
+                        );
+                      }).toList(),
+                    ),
                     SizedBox(height: 24.0),
                     submitButton,
                     SizedBox(height: 8.0),
@@ -273,8 +408,8 @@ class CountryDropdown extends StatelessWidget {
             decoration: InputDecoration(labelText: 'Country'),
             items: state.countries.map<DropdownMenuItem<String>>((country) {
               return DropdownMenuItem<String>(
-                value: country['id'].toString(),
-                child: Text(country['name']),
+                value: country.id.toString(),
+                child: Text(country.name),
               );
             }).toList(),
             onChanged: (value) {
@@ -311,8 +446,8 @@ class StateDropdown extends StatelessWidget {
             decoration: InputDecoration(labelText: 'State'),
             items: state.states.map<DropdownMenuItem<String>>((state) {
               return DropdownMenuItem<String>(
-                value: state['id'].toString(),
-                child: Text(state['name']),
+                value: state.id.toString(),
+                child: Text(state.name),
               );
             }).toList(),
             onChanged: (value) {

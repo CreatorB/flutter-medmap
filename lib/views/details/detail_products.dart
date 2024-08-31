@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 import 'package:medmap/cubit/locations/location_page.dart';
+import 'package:medmap/cubit/partnership/partnership.dart';
 import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/models/response_product_manual.dart';
 import 'package:medmap/route/app_routes.dart';
@@ -170,7 +171,7 @@ class _DetailProductsState extends State<DetailProducts> {
 
   void _shareProduct() {
     final String productUrl =
-        'https://med-map.org/product-detail/${widget.item.slug}';
+        Const.URL_WEB + '/product-detail/${widget.item.slug}';
     Share.share(productUrl, subject: '');
   }
 
@@ -191,6 +192,11 @@ class _DetailProductsState extends State<DetailProducts> {
             onPressed: () {
               context.push(AppRoutes.partnership, extra: widget.item.id);
               // context.push('/locations', extra: widget.item.id);
+              // intent to partnership.dart
+              // Navigator.push(
+              //   context,
+              //   MaterialPageRoute(builder: (context) => CountryCityDropdown()),
+              // );
             },
           ),
           IconButton(

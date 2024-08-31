@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:medmap/cubit/signin/sign_in_page.dart';
 import 'package:medmap/cubit/submenu/submenu_page.dart';
 import 'package:medmap/route/app_routes.dart';
+import 'package:medmap/views/poct.dart';
 
 import '../const.dart';
 import '../utils.dart';
@@ -237,12 +238,16 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       CircularIconWithTitle(
                         onTap: () {
-                          Utils.openPDFFromAssets(
-                              context, 'assets/pdfs/content_service.pdf');
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => PoCT()),
+                          );
+                          // Utils.openPDFFromAssets(
+                          //     context, 'assets/pdfs/content_service.pdf');
                         },
                         iconPath: 'assets/icons/ic_services.png',
                         title:
-                            AppLocalizations.of(context)!.translate('services'),
+                            AppLocalizations.of(context)!.translate('poct'),
                         backgroundColor: Color(0xFFE3F3EA),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,

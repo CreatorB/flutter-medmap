@@ -257,7 +257,7 @@ class TenderDetailPage extends StatelessWidget {
   TenderDetailPage({Key? key, required this.item});
 
   void _shareProduct() {
-    final String productUrl = 'https://med-map.org/tender/detail/${item.id}';
+    final String productUrl = Const.URL_WEB + '/tender/detail/${item.id}';
     Share.share(productUrl, subject: '');
   }
 
