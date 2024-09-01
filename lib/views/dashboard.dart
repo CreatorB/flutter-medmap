@@ -245,7 +245,7 @@ class _DashboardState extends State<Dashboard> {
                           // Utils.openPDFFromAssets(
                           //     context, 'assets/pdfs/content_service.pdf');
                         },
-                        iconPath: 'assets/icons/ic_services.png',
+                        iconPath: 'assets/icons/ic_poct.png',
                         title:
                             AppLocalizations.of(context)!.translate('poct'),
                         backgroundColor: Color(0xFFE3F3EA),
