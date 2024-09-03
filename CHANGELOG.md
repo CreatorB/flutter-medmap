@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Fixed
 
+- High res PoCT icon
+
 
 ## [1.0.2] Update 002
 
