@@ -254,15 +254,15 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       // BrowseProducts.route: BrowseProducts(),
     },
     1: {
-      '/': Tenders(),
-    },
-    2: {
       '/': Products(),
       // '/products/browse-products': BrowseProducts(),
       // BrowseProducts.route: BrowseProducts(),
     },
-    3: {
+    2: {
       '/': Distributors(),
+    },
+    3: {
+      '/': Tenders(),
     },
   };
 
@@ -298,12 +298,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       NavbarItem(
           IconMedmap.home, AppLocalizations.of(context)!.translate('tab_home')),
       // NavbarItem(IconMedmap.home, 'Home'),
-      NavbarItem(IconMedmap.tenders,
-          AppLocalizations.of(context)!.translate('tab_tenders')),
       NavbarItem(IconMedmap.products,
           AppLocalizations.of(context)!.translate('tab_products')),
       NavbarItem(IconMedmap.distributors,
           AppLocalizations.of(context)!.translate('tab_distributors')),
+      NavbarItem(IconMedmap.tenders,
+          AppLocalizations.of(context)!.translate('tab_four')),
     ];
   }
 
