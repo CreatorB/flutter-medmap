@@ -61,7 +61,7 @@ class _OutsourcingState extends State<Outsourcing> {
 
     try {
       final response = await api.fetchData(context,
-          'manufacturer/lists?page=$page&limit=$limitItem&keyword=$keyword');
+          'users-manufacturer?page=$page&limit=$limitItem&sort=id&order=desc');
 
       if (response != null) {
         ManufacturerResponse newResponse =
@@ -116,7 +116,9 @@ class _OutsourcingState extends State<Outsourcing> {
                   _updateSearchKeyword(value);
                 },
               )
-            : Text(AppLocalizations.of(context)!.translate('search_outsourcing'),),
+            : Text(
+                AppLocalizations.of(context)!.translate('search_outsourcing'),
+              ),
         actions: [
           isSearching
               ? IconButton(
@@ -151,7 +153,8 @@ class _OutsourcingState extends State<Outsourcing> {
                     Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Text(
-                        AppLocalizations.of(context)!.translate('new_outsourcing'),
+                        AppLocalizations.of(context)!
+                            .translate('new_outsourcing'),
                         style: TextStyle(
                           color: Colors.black,
                           fontSize: 15,
@@ -211,7 +214,10 @@ class _OutsourcingState extends State<Outsourcing> {
                                                 MainAxisAlignment.spaceBetween,
                                             children: [
                                               Text(
-                                                item.name ?? 'Not provided',
+                                                (item.name?.length ?? 0) > 25
+                                                    ? '${item.name!.substring(0, 25)}...'
+                                                    : item.name ??
+                                                        'Not provided',
                                                 style: TextStyle(
                                                   color: Color(0xFF150A33),
                                                   fontSize: 14,
@@ -226,8 +232,7 @@ class _OutsourcingState extends State<Outsourcing> {
                                                 },
                                                 itemBuilder: (BuildContext
                                                         context) =>
-                                                    <PopupMenuEntry<String>>[
-                                                ],
+                                                    <PopupMenuEntry<String>>[],
                                               ),
                                             ],
                                           ),
