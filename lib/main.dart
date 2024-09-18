@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:medmap/route/app_router.dart';
 import 'package:medmap/views/dashboard.dart';
+import 'package:medmap/views/outsourcing.dart';
 import 'package:navbar_router/navbar_router.dart';
 import 'dart:async';
 import 'dart:developer';
@@ -262,7 +263,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       '/': Distributors(),
     },
     3: {
-      '/': Tenders(),
+      // '/': Tenders(),
+      '/': Outsourcing(),
     },
   };
 

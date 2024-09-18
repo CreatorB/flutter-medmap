@@ -18,6 +18,20 @@ and this project adheres to [Semantic Versioning](http://semver.org/).
 
 ### Added
 
+- [x] Outsourcing page
+
+### Changed
+
+- Change Tender to Outsourcing
+- [Dashboard] Remove search box
+
+### Fixed
+
+
+## [1.0.2] Updated
+
+### Added
+
 - [x] [APK] Upload latest apk
 - [x] PoCT features
 
