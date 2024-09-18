@@ -4,6 +4,7 @@ import 'package:medmap/cubit/signin/sign_in_page.dart';
 import 'package:medmap/cubit/submenu/submenu_page.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/views/poct.dart';
+import 'package:medmap/views/tenders.dart';
 
 import '../const.dart';
 import '../utils.dart';
@@ -175,14 +176,19 @@ class _DashboardState extends State<Dashboard> {
               controller: _scrollController,
               child: Column(
                 children: [
-                  SearchInputBox(),
-                  SizedBox(height: 20),
+                  // SearchInputBox(),
+                  // SizedBox(height: 20),
+                  SizedBox(height: 5),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       CircularIconWithTitle(
                         onTap: () {
-                          selectTab(1);
+                          // selectTab(1);
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => Tenders()),
+                          );
                         },
                         iconPath:
                             'assets/icons/ic_tenders.png', // Replace with your actual image path
@@ -194,7 +200,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       CircularIconWithTitle(
                         onTap: () {
-                          selectTab(3);
+                          selectTab(2);
                         },
                         iconPath:
                             'assets/icons/ic_distributors.png', // Replace with your actual image path
@@ -206,7 +212,7 @@ class _DashboardState extends State<Dashboard> {
                       ),
                       CircularIconWithTitle(
                         onTap: () {
-                          selectTab(2);
+                          selectTab(1);
                         },
                         iconPath:
                             'assets/icons/ic_products.png', // Replace with your actual image path
