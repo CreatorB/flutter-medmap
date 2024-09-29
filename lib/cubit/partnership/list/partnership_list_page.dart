@@ -19,6 +19,9 @@ class PartnershipListPage extends StatelessWidget {
             if (state is PartnershipListStateLoading) {
               return const Center(child: CircularProgressIndicator());
             } else if (state is PartnershipListStateLoaded) {
+              if (state.requests.isEmpty) {
+                return const Center(child: Text('No data found'));
+              }
               return ListView.builder(
                 itemCount: state.requests.length,
                 itemBuilder: (context, index) {
