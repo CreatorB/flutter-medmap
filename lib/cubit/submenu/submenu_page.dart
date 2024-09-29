@@ -5,7 +5,6 @@ import 'package:medmap/app_localzations.dart';
 import 'package:medmap/const.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
-// import 'package:medmap/views/dashboard.dart';
 import 'submenu_cubit.dart';
 
 class SubmenuPage extends StatelessWidget {
@@ -31,7 +30,7 @@ class SubmenuPage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                                state.profile?.user?.username ?? state.username,
+                                state.profile?.user.username ?? state.username,
                                 style: TextStyle(fontSize: 16)),
                             Text(state.profile?.name ?? 'Company not set',
                                 style: TextStyle(
@@ -70,12 +69,6 @@ class SubmenuPage extends StatelessWidget {
                           onPressed: () async {
                             await Utils.clearSp();
                             context.go(AppRoutes.home);
-                            // Navigator.pushAndRemoveUntil(
-                            //   context,
-                            //   MaterialPageRoute(
-                            //       builder: (context) => HomePage()),
-                            //   (Route<dynamic> route) => false,
-                            // );
                           },
                         ),
                       ],
@@ -93,12 +86,14 @@ class SubmenuPage extends StatelessWidget {
               return Center(child: CircularProgressIndicator());
             } else if (state is SubmenuLoaded) {
               return CardsLayout(
-                report: AppLocalizations.of(context)!
-                    .translate('market_study_report'),
-                event: AppLocalizations.of(context)!
-                    .translate('product_launch_event'),
-                design: AppLocalizations.of(context)!
-                    .translate('product_brochure_design'),
+                partnership_management: AppLocalizations.of(context)!
+                    .translate('partnership_management'),
+                // report: AppLocalizations.of(context)!
+                //     .translate('market_study_report'),
+                // event: AppLocalizations.of(context)!
+                //     .translate('product_launch_event'),
+                // design: AppLocalizations.of(context)!
+                //     .translate('product_brochure_design'),
                 policy:
                     AppLocalizations.of(context)!.translate('privacy_policy'),
               );
@@ -114,12 +109,14 @@ class SubmenuPage extends StatelessWidget {
 }
 
 class CardsLayout extends StatelessWidget {
-  final String report, event, design, policy;
+  final partnership_management, policy;
+  // final String report, event, design, policy;
 
   CardsLayout(
-      {required this.report,
-      required this.event,
-      required this.design,
+      {required this.partnership_management,
+      //   required this.report,
+      // required this.event,
+      // required this.design,
       required this.policy});
 
   @override
@@ -130,9 +127,13 @@ class CardsLayout extends StatelessWidget {
         crossAxisCount: 2,
         childAspectRatio: 1 / 1,
         children: <Widget>[
-          _buildCard(Const.submenu_report, report),
-          _buildCard(Const.submenu_event, event),
-          _buildCard(Const.submenu_design, design),
+          InkWell(
+            onTap: () => context.push(AppRoutes.partnership_list),
+            child: _buildCard(Const.submenu_event, partnership_management),
+          ),
+          // _buildCard(Const.submenu_report, report),
+          // _buildCard(Const.submenu_event, event),
+          // _buildCard(Const.submenu_design, design),
           InkWell(
             onTap: () => Utils.launchURL(context, Const.URL_PRIVACY),
             child: _buildCard(Const.submenu_privacy, policy),

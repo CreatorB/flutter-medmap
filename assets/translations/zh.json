@@ -1,6 +1,6 @@
 {
   "tab_home": "首页",
-  "tab_outsourcing": "外包",
+  "tab_outsourcing": "外包服务",
   "tab_products": "器械",
   "tab_distributors": "经销商",
   "menu_events": "活动",
@@ -43,5 +43,6 @@
   "market_study_report": "市场研究报告",
   "product_launch_event": "产品发布",
   "product_brochure_design": "产品宣传册设计",
-  "privacy_policy": "隐私政策"
+  "privacy_policy": "隐私政策",
+  "partnership_management": "合作伙伴管理"
 }
