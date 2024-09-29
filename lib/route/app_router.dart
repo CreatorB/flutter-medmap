@@ -5,6 +5,7 @@ import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/cubit/signup/sign_up_page.dart';
 import 'package:medmap/cubit/signin/sign_in_page.dart';
 import 'package:medmap/cubit/submenu/submenu_page.dart';
+import 'package:medmap/cubit/partnership/list/partnership_list_page.dart';
 import 'package:medmap/main.dart';
 import 'package:medmap/views/dashboard.dart';
 import 'app_routes.dart';
@@ -46,6 +47,12 @@ final GoRouter router = GoRouter(
       path: AppRoutes.signIn,
       builder: (context, state) {
         return SignInPage();
+      },
+    ),
+    GoRoute(
+      path: AppRoutes.partnership_list,
+      builder: (context, state) {
+        return PartnershipListPage();
       },
     ),
   ],
