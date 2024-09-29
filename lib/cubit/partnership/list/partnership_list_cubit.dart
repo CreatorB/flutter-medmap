@@ -1,13 +1,10 @@
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'dart:convert';
 
 import 'package:medmap/const.dart';
-import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
 import 'package:omega_dio_logger/omega_dio_logger.dart';
 
@@ -29,7 +26,7 @@ class PartnershipListCubit extends Cubit<PartnershipListState> {
         options: Options(validateStatus: (status) => true),
       );
 
-      print("cekPartnershipList: ${response.data}");
+      // print("cekPartnershipList: ${response.data}");
 
       if (response.statusCode == 200) {
         final data = response.data;
@@ -48,10 +45,7 @@ class PartnershipListCubit extends Cubit<PartnershipListState> {
           fontSize: 16.0,
         );
         await Utils.clearSp();
-        Navigator.of(context).pushNamedAndRemoveUntil(
-          AppRoutes.dashboard,
-              (route) => false,
-        );
+        Navigator.of(context).pop();
       } else {
         emit(PartnershipListStateError('Failed to load partnership requests'));
       }

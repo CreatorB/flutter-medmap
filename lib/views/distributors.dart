@@ -198,7 +198,7 @@ class _DistributorState extends State<Distributors> {
                                           8.0), // Adjust the padding values as needed
                                       child: ClipOval(
                                         child: NetworkImageGlobal(
-                                          imageUrl: item?.logo?.url,
+                                          imageUrl: item.logo?.url,
                                           imageWidth: 75,
                                           imageHeight: 75,
                                         ),

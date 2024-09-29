@@ -7,7 +7,6 @@ import 'request_cubit.dart';
 import 'package:dio/dio.dart';
 import 'package:omega_dio_logger/omega_dio_logger.dart';
 import 'package:medmap/const.dart';
-import 'dart:convert';
 
 // patch dropdown city country
 class Country {

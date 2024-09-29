@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:medmap/cubit/partnership/request_page.dart';
 
 import '../views/browse_products.dart' as browse_products;
 import '../views/details/detail_products.dart';

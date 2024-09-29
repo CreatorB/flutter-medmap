@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 class rProfile {
   final int id;

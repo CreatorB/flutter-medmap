@@ -197,7 +197,7 @@ class _OutsourcingState extends State<Outsourcing> {
                                           8.0), // Adjust the padding values as needed
                                       child: ClipOval(
                                         child: NetworkImageGlobal(
-                                          imageUrl: item?.logo?.url,
+                                          imageUrl: item.logo?.url,
                                           imageWidth: 75,
                                           imageHeight: 75,
                                         ),

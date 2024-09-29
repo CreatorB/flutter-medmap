@@ -8,7 +8,6 @@ import '../const.dart';
 import '../api.dart';
 import '../utils.dart';
 import 'package:share_plus/share_plus.dart';
-import '../app_localzations.dart';
 
 class Tenders extends StatefulWidget {
   @override
@@ -219,7 +218,7 @@ class _TenderState extends State<Tenders> {
                               ),
                             ),
                             subtitle: Text(
-                              'Start  : ${Utils.formatDateToDMY(tender.openDate)}\nClose : ${Utils.formatDateToDMY(tender.closeDate)}\nCountry : ${tender?.state?.country?.name}',
+                              'Start  : ${Utils.formatDateToDMY(tender.openDate)}\nClose : ${Utils.formatDateToDMY(tender.closeDate)}\nCountry : ${tender.state.country.name}',
                               style: TextStyle(
                                 color: Color(0xFF797979),
                                 fontSize: 14,
