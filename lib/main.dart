@@ -5,12 +5,10 @@ import 'package:medmap/views/dashboard.dart';
 import 'package:medmap/views/outsourcing.dart';
 import 'package:navbar_router/navbar_router.dart';
 import 'dart:async';
-import 'dart:developer';
 
 import 'presentation/icon_medmap_home_icons.dart';
 import 'const.dart';
 import 'views/products.dart';
-import 'views/tenders.dart';
 import 'views/distributors.dart';
 import './AppLanguage.dart';
 import './app_localzations.dart';

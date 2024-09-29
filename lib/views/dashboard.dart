@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:medmap/cubit/signin/sign_in_page.dart';
-import 'package:medmap/cubit/submenu/submenu_page.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/views/poct.dart';
 import 'package:medmap/views/tenders.dart';
@@ -145,7 +143,7 @@ class _DashboardState extends State<Dashboard> {
                   icon: Icon(Icons.perm_identity),
                   onPressed: () async {
                     bool isLoggedIn = await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
-                    if (isLoggedIn != null && isLoggedIn == true) {
+                    if (isLoggedIn == true) {
                       // final back = await Navigator.push(
                       //   context,
                       //   // MaterialPageRoute(builder: (context) => Submenu()),

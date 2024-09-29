@@ -1,17 +1,11 @@
-import 'dart:math';
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:medmap/const.dart';
 import 'package:medmap/route/app_routes.dart';
-import 'package:omega_dio_logger/omega_dio_logger.dart';
-import 'package:equatable/equatable.dart';
 import 'package:go_router/go_router.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-import 'package:meta/meta.dart';
-import 'dart:convert';
 part 'request_state.dart';
 
 class Country {

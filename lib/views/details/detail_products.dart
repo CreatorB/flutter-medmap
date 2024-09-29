@@ -1,7 +1,4 @@
 import 'package:go_router/go_router.dart';
-import 'package:medmap/cubit/locations/location_page.dart';
-import 'package:medmap/cubit/partnership/partnership.dart';
-import 'package:medmap/cubit/partnership/request_page.dart';
 import 'package:medmap/models/response_product_manual.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/widgets/button_download.dart';

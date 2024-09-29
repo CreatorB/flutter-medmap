@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:medmap/cubit/partnership/list/partnership_detail_page.dart';
 import 'package:medmap/cubit/partnership/list/partnership_list_cubit.dart';
