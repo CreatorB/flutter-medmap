@@ -10,6 +10,12 @@ You can test it easily by click the download button below and install it apk on 
 flutter build apk --release --target-platform=android-arm,android-arm64 --split-per-abi
 ```
 
+If you used fvm you can also debug by merge it commands
+
+```
+fvm flutter clean ; fvm flutter pub get ; fvm flutter run -d 127.0.0.1:5555 -v
+```
+
 <!-- BEGIN LATEST DOWNLOAD BUTTON -->
 **Version app-armeabi-v7a (Mostly used)**
 
