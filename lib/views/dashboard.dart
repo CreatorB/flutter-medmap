@@ -331,8 +331,10 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    height: 300, // Specify the fixed height for the ListView
+                    height: 350,
                     child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: datum.length,
                       itemBuilder: (context, index) {
                         if (index == datum.length) {
@@ -486,8 +488,10 @@ class _DashboardState extends State<Dashboard> {
                   ),
                   SizedBox(height: 10),
                   Container(
-                    height: 300, // Specify the fixed height for the ListView
+                    height: 350,
                     child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: datumAffair.length,
                       itemBuilder: (context, index) {
                         if (index == datumAffair.length) {
