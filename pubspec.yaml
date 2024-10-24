@@ -59,6 +59,8 @@ dependencies:
   omega_dio_logger: ^1.2.0
   back_button_interceptor: ^7.0.3
   fluttertoast: ^8.2.6
+  fleather: ^1.14.5+1
+  image_picker: ^0.8.5+3
 
 dev_dependencies:
   flutter_application_id: ^2.0.0-dev

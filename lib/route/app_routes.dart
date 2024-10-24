@@ -6,6 +6,7 @@ class AppRoutes {
   static const String signUp = '/sign-up';
   static const String partnership = '/request-partnership';
   static const String partnership_list = '/partnership-list';
+  static const String service_request = '/service-request';
   // static const String home = '/';
   // static const String submenu = 'submenu';
   // static const String dashboard= 'dashboard';

@@ -9,6 +9,9 @@ class Const {
   // static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
   // static const String BASE_URL = 'https://be-mdmap.mandatech.co.id/';
   static const String URL_API = BASE_URL + '/v1';
+
+  static const String URL_IMG_PLACEHOLDER = 'https://placehold.co/100x100';
+
   static const String API_PARTNERSHIP_LIST = URL_API + '/demo-requests?page=1&limit=10&sort=id&order=desc';
   static const String API_PRODUCTS = URL_API + '/products/';
   static const String API_LOGIN = URL_API + '/auth/login';
