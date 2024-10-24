@@ -12,6 +12,7 @@ import '../views/drugs.dart';
 import '../views/analysis.dart' as listAnalysis;
 import '../views/affair.dart' as listAffair;
 import '../views/news.dart' as listNews;
+import '../views/marketing_services.dart' as listMarketingServices;
 
 import '../AppLanguage.dart';
 import '../app_localzations.dart';
@@ -19,6 +20,7 @@ import 'package:provider/provider.dart';
 import '../api.dart';
 import '../models/analysis_response.dart' as analysis;
 import '../models/affair_response.dart' as affair;
+import '../models/marketing_services_response.dart' as marketing_services;
 
 class Dashboard extends StatefulWidget {
   Dashboard({
@@ -32,8 +34,10 @@ class _DashboardState extends State<Dashboard> {
   final api = Api();
   late analysis.AnalysisResponse analysisResponse;
   late affair.AffairResponse affairResponse;
+  late marketing_services.MarketingServicesResponse marketingServicesResponse;
   List<analysis.Data> datum = [];
   List<affair.Data> datumAffair = [];
+  List<marketing_services.Data> datumMarketingServices = [];
   int currentPage = 1;
   int limitItem = 3;
   String keyword = "";
@@ -59,8 +63,32 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       });
+    getMarketingServices();
     getAnalysis();
     getAffairs();
+  }
+
+  Future<void> getMarketingServices({int page = 1}) async {
+    try {
+      final response = await api.fetchData(
+          context, 'marketing-services?page=$page&limit=$limitItem');
+      if (response != null) {
+        marketingServicesResponse =
+            marketing_services.MarketingServicesResponse.fromJson(response);
+        setState(() {
+          if (page == 1) {
+            datumMarketingServices = marketingServicesResponse.data ?? [];
+          } else {
+            datumMarketingServices.addAll(marketingServicesResponse.data ?? []);
+          }
+          currentPage = page;
+        });
+      } else {
+        Utils.showSnackBar(context, 'Failed to load data');
+      }
+    } catch (e) {
+      Utils.showSnackBar(context, e.toString());
+    }
   }
 
   Future<void> getAnalysis({int page = 1}) async {
@@ -144,7 +172,7 @@ class _DashboardState extends State<Dashboard> {
                   onPressed: () async {
                     bool isLoggedIn = await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
                     if (isLoggedIn == true) {
-                      // final back = await Navigator.push(
+                      // final back = await Navigator.push'cekMarketingServices : ' + (
                       //   context,
                       //   // MaterialPageRoute(builder: (context) => Submenu()),
                       //   MaterialPageRoute(builder: (context) => SubmenuPage()),
@@ -282,6 +310,140 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   SizedBox(height: 20),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .translate('dashboard_list_service'),
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(right: 16.0, top: 16.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        listMarketingServices.MarketingServices()),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                // fontSize: 13,
+                                fontFamily: 'Inter',
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 350,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: datumMarketingServices.length,
+                      itemBuilder: (context, index) {
+                        if (index == datumMarketingServices.length) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final item = datumMarketingServices[index];
+                        return Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      listMarketingServices.DetailPage(item: item),
+                                ),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start, // Align items vertically at the start
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 10),
+                                            Text(
+                                              Utils.fmtToDMY(item.createdAt),
+                                              style: TextStyle(
+                                                color: Color(0xFF514A6B),
+                                                fontSize: 12,
+                                                fontFamily: 'Open Sans',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            Text(
+                                              Utils.trimString(item.title),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Color(0xFF150A33),
+                                                fontSize: 14,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              'Read More',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 11,
+                                                fontFamily: 'Open Sans',
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(height: 0),
+                    ),
+                  ),
                   Row(
                     children: <Widget>[
                       Expanded(
