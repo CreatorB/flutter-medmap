@@ -12,6 +12,8 @@ class Const {
 
   static const String URL_IMG_PLACEHOLDER = 'https://placehold.co/100x100';
 
+  static const String API_SERVICE_REQUESTS = URL_API + '/service-requests';
+
   static const String API_PARTNERSHIP_LIST = URL_API + '/demo-requests?page=1&limit=10&sort=id&order=desc';
   static const String API_PRODUCTS = URL_API + '/products/';
   static const String API_LOGIN = URL_API + '/auth/login';
@@ -23,6 +25,7 @@ class Const {
   static const String TOKEN = 'token';
   static const String EXPIRES_AT = 'expires_at';
   static const String USERNAME = 'username';
+  static const String USER_ID = 'user_id';
   static const String NAME = 'name';
   static const String OBJ_PROFILE = 'obj_profile';
 

@@ -94,6 +94,7 @@ class _ServiceRequestFormState extends State<ServiceRequestForm> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Request Submitted Successfully')),
             );
+            context.pop();
           } else if (state is ServiceRequestError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Error: ${state.message}')),
@@ -211,28 +212,29 @@ class _ServiceRequestFormState extends State<ServiceRequestForm> {
                   ElevatedButton(
                     onPressed: () {
                       // navigate to service request details
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => ServiceRequestDetails(
-                            fullDescription: jsonEncode(
-                                _editorController.document.toDelta().toJson()),
-                          ),
-                        ),
-                      );
-                      // if (_formKey.currentState!.validate()) {
-                      //   context.read<ServiceRequestCubit>().submitRequest(
-                      //         requestTitle: _requestTitle,
-                      //         fullDescription: jsonEncode(_editorController
-                      //             .document
-                      //             .toDelta()
-                      //             .toJson()),
-                      //         selectedCurrency: _selectedCurrency!,
-                      //         estimateBudget: _estimateBudget,
-                      //         selectedPriceType: _selectedPriceType!,
-                      //         images: _images,
-                      //       );
-                      // }
+                      // Navigator.push(
+                      //   context,
+                      //   MaterialPageRoute(
+                      //     builder: (context) => ServiceRequestDetails(
+                      //       fullDescription: jsonEncode(
+                      //           _editorController.document.toDelta().toJson()),
+                      //     ),
+                      //   ),
+                      // );
+                      if (_formKey.currentState!.validate()) {
+                        context.read<ServiceRequestCubit>().submitRequest(
+                              serviceId: widget.itemId.toString(),
+                              requestTitle: _requestTitle,
+                              fullDescription: jsonEncode(_editorController
+                                  .document
+                                  .toDelta()
+                                  .toJson()),
+                              selectedCurrency: _selectedCurrency!,
+                              estimateBudget: _estimateBudget,
+                              selectedPriceType: _selectedPriceType!,
+                              images: _images,
+                            );
+                      }
                     },
                     child: Text('Submit'),
                   ),

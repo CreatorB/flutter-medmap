@@ -50,7 +50,7 @@ class _ServiceRequestDetailsState extends State<ServiceRequestDetails> {
               String? imageUrl;
               imageUrl = data['source'] as String?;
               if (imageUrl != null) {
-                print("Image URL: $imageUrl");
+                // print("Image URL: $imageUrl");
                 return Image.network(imageUrl);
               } else {
                 return Text('Invalid image data');

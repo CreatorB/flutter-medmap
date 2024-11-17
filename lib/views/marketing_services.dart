@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
+import 'package:medmap/const.dart';
 import 'package:medmap/models/marketing_services_response.dart';
 import 'package:medmap/route/app_routes.dart';
+import 'package:navbar_router/navbar_router.dart';
 import 'package:pretty_http_logger/pretty_http_logger.dart';
 import '../utils.dart';
 import '../api.dart';
@@ -306,10 +309,16 @@ class DetailPage extends StatelessWidget {
       floatingActionButton: Padding(
         padding: EdgeInsets.only(bottom: 60),
         child: FloatingActionButton(
-          onPressed: () {
-            context.push(AppRoutes.service_request, extra: item.id);
+          onPressed: () async {
+            final userId = await Utils.getSpString(Const.USER_ID);
+            if (userId != null) {
+              context.push(AppRoutes.service_request, extra: item.id);
+            } else {
+              Fluttertoast.showToast(msg: 'Please login first');
+              context.go(AppRoutes.signIn);
+            }
           },
-          child: Icon(Icons.add),
+          child: Icon(Icons.post_add),
         ),
       ),
     );
