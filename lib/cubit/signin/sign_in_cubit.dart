@@ -39,6 +39,7 @@ class SignInCubit extends Cubit<SignInState> {
       Utils.setSpString(Const.TOKEN, response.data['token']['token']);
       Utils.setSpString(Const.EXPIRES_AT, response.data['token']['expires_at']);
       Utils.setSpString(Const.USERNAME, response.data['user']['username']);
+      Utils.setSpString(Const.USER_ID, response.data['user']['id'].toString());
 
       if (response.data['user']['role'] == 'admin') {
         emit(SignInSuccess());

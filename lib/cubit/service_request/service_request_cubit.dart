@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:dio/dio.dart';
+import 'package:medmap/const.dart';
+import 'package:medmap/utils.dart';
 import 'package:meta/meta.dart';
 
 part 'service_request_state.dart';
@@ -12,6 +14,7 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
   ServiceRequestCubit() : super(ServiceRequestInitial());
 
   Future<void> submitRequest({
+    required String serviceId,
     required String requestTitle,
     required String fullDescription,
     required String selectedCurrency,
@@ -23,16 +26,18 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
 
     try {
       FormData formData = FormData.fromMap({
+        'marketing_service_id': serviceId,
+        'submitter_id': await Utils.getSpString('user_id'),
         'title': requestTitle,
         'description': fullDescription,
         'currency': selectedCurrency,
         'budget': estimateBudget,
-        'priceType': selectedPriceType,
+        'price_type': selectedPriceType,
       });
 
       for (var i = 0; i < images.length; i++) {
         formData.files.add(MapEntry(
-          'images',
+          'image',
           await MultipartFile.fromFile(images[i].path,
               filename: 'image_$i.jpg'),
         ));
@@ -46,24 +51,33 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
         formDataString += "${file.key}: ${file.value.filename}\n";
       });
 
-      print("formDataServiceRequest: $formDataString");
+      print("cekReqService: $formDataString");
 
-      // final response = await _dio.post(
-      //   'https://your-api-endpoint.com/service-requests',
-      //   data: formData,
-      //   options: Options(
-      //     headers: {
-      //       'Content-Type': 'multipart/form-data',
-      //     },
-      //   ),
-      // );
+      final token = await Utils.getSpString(Const.TOKEN);
 
-      // if (response.statusCode == 201) {
-      //   emit(ServiceRequestLoaded());
-      // } else {
-      //   throw Exception('Failed to create service request.');
-      // }
+      final response = await _dio.post(
+        Const.API_SERVICE_REQUESTS,
+        data: formData,
+        options: Options(
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            'Authorization': 'Bearer $token',
+          },
+        ),
+      );
+
+      if (response.statusCode == 200) {
+        emit(ServiceRequestLoaded());
+      } else {
+        print("failedReqService: $response");
+        throw Exception('Failed to create service request.');
+      }
     } catch (e) {
+      if (e is DioException) {
+        print("DioException: ${e.response?.data}");
+      } else {
+        print("Unhandled Error: $e");
+      }
       emit(ServiceRequestError(e.toString()));
     }
   }
