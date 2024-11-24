@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/app_localzations.dart';
 import 'package:medmap/const.dart';
@@ -29,8 +30,7 @@ class SubmenuPage extends StatelessWidget {
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text(
-                                state.profile?.user.username ?? state.username,
+                            Text(state.profile?.user.username ?? state.username,
                                 style: TextStyle(fontSize: 16)),
                             Text(state.profile?.name ?? 'Company not set',
                                 style: TextStyle(
@@ -85,18 +85,48 @@ class SubmenuPage extends StatelessWidget {
             if (state is SubmenuLoading) {
               return Center(child: CircularProgressIndicator());
             } else if (state is SubmenuLoaded) {
-              return CardsLayout(
-                partnership_management: AppLocalizations.of(context)!
-                    .translate('partnership_management'),
-                // report: AppLocalizations.of(context)!
-                //     .translate('market_study_report'),
-                // event: AppLocalizations.of(context)!
-                //     .translate('product_launch_event'),
-                // design: AppLocalizations.of(context)!
-                //     .translate('product_brochure_design'),
-                policy:
-                    AppLocalizations.of(context)!.translate('privacy_policy'),
+              return Column(
+                children: [
+                  Expanded(
+                    child: CardsLayout(
+                      partnership_management: AppLocalizations.of(context)!
+                          .translate('partnership_management'),
+                      policy: AppLocalizations.of(context)!
+                          .translate('privacy_policy'),
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.bottomRight,
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: FloatingActionButton(
+                        onPressed: () async {
+                          final userId = await Utils.getSpString(Const.USER_ID);
+                          if (userId != null) {
+                            context.push(AppRoutes.service_request, extra: 0);
+                          } else {
+                            Fluttertoast.showToast(msg: 'Please login first');
+                            context.go(AppRoutes.signIn);
+                          }
+                        },
+                        child: Icon(Icons.post_add),
+                      ),
+                    ),
+                  ),
+                ],
               );
+              // return CardsLayout(
+              //   partnership_management: AppLocalizations.of(context)!
+              //       .translate('partnership_management'),
+              //   // report: AppLocalizations.of(context)!
+              //   //     .translate('market_study_report'),
+              //   // event: AppLocalizations.of(context)!
+              //   //     .translate('product_launch_event'),
+              //   // design: AppLocalizations.of(context)!
+              //   //     .translate('product_brochure_design'),
+              //   policy:
+              //       AppLocalizations.of(context)!.translate('privacy_policy'),
+              // );
             } else if (state is SubmenuError) {
               return Center(child: Text('Error: ${state.message}'));
             }

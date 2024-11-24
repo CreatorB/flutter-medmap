@@ -14,7 +14,6 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
   ServiceRequestCubit() : super(ServiceRequestInitial());
 
   Future<void> submitRequest({
-    required String serviceId,
     required String requestTitle,
     required String fullDescription,
     required String selectedCurrency,
@@ -26,7 +25,6 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
 
     try {
       FormData formData = FormData.fromMap({
-        'marketing_service_id': serviceId,
         'submitter_id': await Utils.getSpString('user_id'),
         'title': requestTitle,
         'description': fullDescription,
