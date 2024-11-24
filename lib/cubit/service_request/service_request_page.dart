@@ -223,7 +223,6 @@ class _ServiceRequestFormState extends State<ServiceRequestForm> {
                       // );
                       if (_formKey.currentState!.validate()) {
                         context.read<ServiceRequestCubit>().submitRequest(
-                              serviceId: widget.itemId.toString(),
                               requestTitle: _requestTitle,
                               fullDescription: jsonEncode(_editorController
                                   .document
