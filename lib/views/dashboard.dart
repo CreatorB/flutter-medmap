@@ -13,6 +13,7 @@ import '../views/analysis.dart' as listAnalysis;
 import '../views/affair.dart' as listAffair;
 import '../views/news.dart' as listNews;
 import '../views/marketing_services.dart' as listMarketingServices;
+import '../views/service_request.dart' as listServiceRequest;
 
 import '../AppLanguage.dart';
 import '../app_localzations.dart';
@@ -76,6 +77,7 @@ class _DashboardState extends State<Dashboard> {
     try {
       final response = await api.fetchData(
           context, 'service-requests?page=$page&limit=$limitItem');
+      print('API Response Service Request: $response');
       if (response != null) {
         serviceRequestResponse =
             service_request.ServiceRequestResponse.fromJson(response);
@@ -86,6 +88,7 @@ class _DashboardState extends State<Dashboard> {
             datumServiceRequest.addAll(serviceRequestResponse.data ?? []);
           }
           currentPage = page;
+          print('datumServiceRequest: $datumServiceRequest');
         });
       } else {
         Utils.showSnackBar(context, 'Failed to load data request service');
@@ -197,7 +200,8 @@ class _DashboardState extends State<Dashboard> {
                 child: IconButton(
                   icon: Icon(Icons.perm_identity),
                   onPressed: () async {
-                    bool isLoggedIn = await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
+                    bool isLoggedIn =
+                        await Utils.getSpBool(Const.IS_LOGED_IN) ?? false;
                     if (isLoggedIn == true) {
                       // final back = await Navigator.push'cekMarketingServices : ' + (
                       //   context,
@@ -305,8 +309,7 @@ class _DashboardState extends State<Dashboard> {
                           //     context, 'assets/pdfs/content_service.pdf');
                         },
                         iconPath: 'assets/icons/ic_poct.png',
-                        title:
-                            AppLocalizations.of(context)!.translate('poct'),
+                        title: AppLocalizations.of(context)!.translate('poct'),
                         backgroundColor: Color(0xFFE3F3EA),
                         // iconColor: Colors.white,
                         titleColor: Colors.black,
@@ -666,12 +669,12 @@ class _DashboardState extends State<Dashboard> {
                               const EdgeInsets.only(right: 16.0, top: 16.0),
                           child: InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //       builder: (context) =>
-                              //           listMarketingServices.MarketingServices()),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) =>
+                                        listServiceRequest.ServiceRequest()),
+                              );
                             },
                             child: Text(
                               'View All',
@@ -707,13 +710,12 @@ class _DashboardState extends State<Dashboard> {
                           margin: EdgeInsets.all(8.0),
                           child: InkWell(
                             onTap: () {
-                              // Navigator.push(
-                              //   context,
-                              //   MaterialPageRoute(
-                              //     builder: (context) =>
-                              //         listMarketingServices.DetailPage(item: item),
-                              //   ),
-                              // );
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => listServiceRequest
+                                        .ServiceRequestDetailPage(item: item)),
+                              );
                             },
                             child: Padding(
                               padding: const EdgeInsets.all(16.0),
