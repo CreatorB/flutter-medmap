@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
+import 'package:medmap/views/details/detail_products.dart';
 import 'package:medmap/views/poct.dart';
 import 'package:medmap/views/tenders.dart';
 
@@ -67,7 +68,7 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       });
-    // getMarketingServices();
+    getMarketingServices();
     getAnalysis();
     getAffairs();
     getServiceRequest();
@@ -282,6 +283,7 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   SizedBox(height: 20),
+
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
@@ -338,6 +340,161 @@ class _DashboardState extends State<Dashboard> {
                         titleColor: Colors.black,
                       ),
                     ],
+                  ),
+                  SizedBox(height: 20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      CircularIconWithTitle(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    listServiceRequest.ServiceRequest()),
+                          );
+                        },
+                        iconPath: 'assets/icons/ic_pharmacy.png',
+                        title: AppLocalizations.of(context)!
+                            .translate('marketing_services'),
+                        backgroundColor: Color(0xFFF6EFC6),
+                        // iconColor: Colors.white,
+                        titleColor: Colors.black,
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: <Widget>[
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.only(left: 16.0, top: 16.0),
+                          child: Text(
+                            AppLocalizations.of(context)!
+                                .translate('marketing_services'),
+                            textAlign: TextAlign.left,
+                            style: TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontFamily: 'Inter',
+                              fontWeight: FontWeight.w700,
+                              height: 0,
+                            ),
+                          ),
+                        ),
+                      ),
+                      Expanded(
+                        child: Padding(
+                          padding:
+                              const EdgeInsets.only(right: 16.0, top: 16.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => listMarketingServices
+                                        .MarketingServices()),
+                              );
+                            },
+                            child: Text(
+                              'View All',
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                color: Colors.grey,
+                                // fontSize: 13,
+                                fontFamily: 'Inter',
+                                height: 0,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 350,
+                    child: ListView.separated(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
+                      itemCount: datum.length,
+                      itemBuilder: (context, index) {
+                        if (index == datum.length) {
+                          return Center(
+                            child: CircularProgressIndicator(),
+                          );
+                        }
+                        final item = datum[index];
+                        return Card(
+                          color: Colors.white,
+                          margin: EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => listMarketingServices
+                                        .MarketingServices()),
+                              );
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(16.0),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment
+                                        .start, // Align items vertically at the start
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(height: 10),
+                                            Text(
+                                              Utils.fmtToDMY(item.createdAt),
+                                              style: TextStyle(
+                                                color: Color(0xFF514A6B),
+                                                fontSize: 12,
+                                                fontFamily: 'Open Sans',
+                                                fontWeight: FontWeight.w400,
+                                                height: 0,
+                                              ),
+                                            ),
+                                            Text(
+                                              Utils.trimString(item.title),
+                                              overflow: TextOverflow.ellipsis,
+                                              maxLines: 1,
+                                              style: TextStyle(
+                                                color: Color(0xFF150A33),
+                                                fontSize: 14,
+                                                fontFamily: 'Inter',
+                                                fontWeight: FontWeight.w700,
+                                              ),
+                                            ),
+                                            SizedBox(height: 5),
+                                            Text(
+                                              'Read More',
+                                              style: TextStyle(
+                                                color: Colors.blue,
+                                                fontSize: 11,
+                                                fontFamily: 'Open Sans',
+                                                height: 0,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                      separatorBuilder: (context, index) => SizedBox(height: 0),
+                    ),
                   ),
                   SizedBox(height: 20),
                   Row(
