@@ -8,6 +8,7 @@ import 'service_request_cubit.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
 import 'dart:convert';
+import '../../views/service_request.dart' as listServiceRequest;
 
 class ServiceRequestPage extends StatelessWidget {
   final int itemId;
@@ -94,7 +95,13 @@ class _ServiceRequestFormState extends State<ServiceRequestForm> {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Request Submitted Successfully')),
             );
-            context.pop();
+            // context.pop();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => listServiceRequest.ServiceRequest(),
+              ),
+            );
           } else if (state is ServiceRequestError) {
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(content: Text('Error: ${state.message}')),

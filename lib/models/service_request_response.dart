@@ -34,8 +34,8 @@ class Meta {
   int? firstPage;
   String? firstPageUrl;
   String? lastPageUrl;
-  Null? nextPageUrl;
-  Null? previousPageUrl;
+  String? nextPageUrl;
+  String? previousPageUrl;
 
   Meta(
       {this.total,
