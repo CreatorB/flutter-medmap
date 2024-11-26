@@ -14,7 +14,8 @@ class Const {
 
   static const String API_SERVICE_REQUESTS = URL_API + '/service-requests';
 
-  static const String API_PARTNERSHIP_LIST = URL_API + '/demo-requests?page=1&limit=10&sort=id&order=desc';
+  static const String API_PARTNERSHIP_LIST =
+      URL_API + '/demo-requests?page=1&limit=10&sort=id&order=desc';
   static const String API_PRODUCTS = URL_API + '/products/';
   static const String API_LOGIN = URL_API + '/auth/login';
   static const String API_REGISTER = URL_API + '/auth/register/';
