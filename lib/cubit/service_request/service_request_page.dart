@@ -158,7 +158,7 @@ class _ServiceRequestFormState extends State<ServiceRequestForm> {
                   DropdownButtonFormField<String>(
                     value: _selectedCurrency,
                     decoration: InputDecoration(labelText: 'Currency'),
-                    items: <String>['USD', 'EUR', 'GBP', 'IDR']
+                    items: <String>['USD', 'EUR', 'GBP', 'IDR', 'SGD', 'CNY']
                         .map<DropdownMenuItem<String>>((String value) {
                       return DropdownMenuItem<String>(
                         value: value,
