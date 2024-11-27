@@ -45,6 +45,7 @@ class Const {
   static const String submenu_event = 'assets/icons/submenu_event.png';
   static const String submenu_design = 'assets/icons/submenu_design.png';
   static const String submenu_privacy = 'assets/icons/submenu_privacy.png';
+  static const String submenu_service = 'assets/icons/submenu_report.png';
   static const String submenu_partnership = 'assets/icons/submenu_event.png';
   static const String banner = 'assets/icons/medmap_banner.png';
   static const String svgLogo = 'assets/icons/medmap_logo.svg';
