@@ -93,12 +93,14 @@ class SubmenuPage extends StatelessWidget {
                           .translate('partnership_management'),
                       policy: AppLocalizations.of(context)!
                           .translate('privacy_policy'),
+                      service_request: AppLocalizations.of(context)!
+                          .translate('service_request'),
                     ),
                   ),
                   Align(
-                    alignment: Alignment.bottomRight,
+                    alignment: Alignment.bottomCenter,
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.only(bottom: 200.0),
                       child: FloatingActionButton(
                         onPressed: () async {
                           final userId = await Utils.getSpString(Const.USER_ID);
@@ -139,7 +141,7 @@ class SubmenuPage extends StatelessWidget {
 }
 
 class CardsLayout extends StatelessWidget {
-  final partnership_management, policy;
+  final partnership_management, policy, service_request;
   // final String report, event, design, policy;
 
   CardsLayout(
@@ -147,6 +149,7 @@ class CardsLayout extends StatelessWidget {
       //   required this.report,
       // required this.event,
       // required this.design,
+      required this.service_request,
       required this.policy});
 
   @override
@@ -167,6 +170,10 @@ class CardsLayout extends StatelessWidget {
           InkWell(
             onTap: () => Utils.launchURL(context, Const.URL_PRIVACY),
             child: _buildCard(Const.submenu_privacy, policy),
+          ),
+          InkWell(
+            onTap: () => context.push(AppRoutes.service_request, extra: 0),
+            child: _buildCard(Const.submenu_report, service_request),
           ),
         ],
       ),
