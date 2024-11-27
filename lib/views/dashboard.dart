@@ -354,7 +354,7 @@ class _DashboardState extends State<Dashboard> {
                                     listServiceRequest.ServiceRequest()),
                           );
                         },
-                        iconPath: 'assets/icons/ic_pharmacy.png',
+                        iconPath: 'assets/icons/ic_tenders.png',
                         title: AppLocalizations.of(context)!
                             .translate('marketing_services'),
                         backgroundColor: Color(0xFFF6EFC6),
