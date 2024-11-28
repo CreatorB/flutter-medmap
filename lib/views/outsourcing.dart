@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:go_router/go_router.dart';
 import '../models/manufacturer_response.dart';
 import '../utils.dart';
 import '../api.dart';
 import '../widgets/network_image_global.dart';
 import '../app_localzations.dart';
+import 'package:medmap/route/app_routes.dart';
 
 class Outsourcing extends StatefulWidget {
   @override
@@ -298,16 +300,34 @@ class DetailPage extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text(
-                      item.name ?? 'Not provided',
-                      style: TextStyle(
-                        color: Colors.grey,
-                        fontSize: 20,
-                        fontFamily: 'Inter',
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1.5,
+                    GestureDetector(
+                      onTap: () {
+                        context.push(AppRoutes.service_request, extra: 0);
+                      },
+                      child: Text(
+                        'Request Service',
+                        style: TextStyle(
+                          color: Colors
+                              .blue, // Teks dengan warna biru untuk menunjukkan interaksi
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
+                          decoration:
+                              TextDecoration.underline, // Teks bergaris bawah
+                        ),
                       ),
                     ),
+
+                    SizedBox(
+                        height:
+                            10), // Memberikan jarak antara teks dan elemen berikutnya
+                    Text(item.name ?? 'Not provided',
+                        style: TextStyle(
+                          color: Colors.grey,
+                          fontSize: 20,
+                          fontFamily: 'Inter',
+                          fontWeight: FontWeight.bold,
+                          letterSpacing: 1.5,
+                        )),
                     Text(
                       'Overview',
                       style: TextStyle(
