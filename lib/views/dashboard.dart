@@ -68,17 +68,17 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       });
+    getServiceRequest();
     getMarketingServices();
     getAnalysis();
     getAffairs();
-    getServiceRequest();
   }
 
   Future<void> getServiceRequest({int page = 1}) async {
+    final response = await api.fetchData(
+        context, 'service-requests?page=$page&limit=$limitItem');
+    print('Raw API Response Service Request: $response');
     try {
-      final response = await api.fetchData(
-          context, 'service-requests?page=$page&limit=$limitItem');
-      print('API Response Service Request: $response');
       if (response != null) {
         serviceRequestResponse =
             service_request.ServiceRequestResponse.fromJson(response);
@@ -103,6 +103,8 @@ class _DashboardState extends State<Dashboard> {
     try {
       final response = await api.fetchData(
           context, 'marketing-services?page=$page&limit=$limitItem');
+      print('Raw API Response Marketing: $response');
+
       if (response != null) {
         marketingServicesResponse =
             marketing_services.MarketingServicesResponse.fromJson(response);
