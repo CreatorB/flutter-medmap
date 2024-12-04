@@ -70,7 +70,8 @@ class _ServiceRequestState extends State<ServiceRequest> {
       final response = await api.fetchData(context,
           'service-requests?sort=created_at&order=desc&page=$page&limit=$limitItem&keyword=$keyword');
       if (response != null) {
-        modelResponse = service_request.ServiceRequestResponse.fromJson(response);
+        modelResponse =
+            service_request.ServiceRequestResponse.fromJson(response);
 
         setState(() {
           if (page == 1) {
@@ -264,7 +265,8 @@ class ServiceRequestDetailPage extends StatefulWidget {
   ServiceRequestDetailPage({Key? key, required this.item});
 
   @override
-  _ServiceRequestDetailPageState createState() => _ServiceRequestDetailPageState();
+  _ServiceRequestDetailPageState createState() =>
+      _ServiceRequestDetailPageState();
 }
 
 class _ServiceRequestDetailPageState extends State<ServiceRequestDetailPage> {
@@ -295,7 +297,8 @@ class _ServiceRequestDetailPageState extends State<ServiceRequestDetailPage> {
         title: Text('Service Request Details'),
       ),
       body: Container(
-        margin: EdgeInsets.only(bottom: 60), // Tambahkan margin bawah sebesar 60
+        margin:
+            EdgeInsets.only(bottom: 60), // Tambahkan margin bawah sebesar 60
         child: SingleChildScrollView(
           padding: EdgeInsets.all(16.0),
           child: Column(
