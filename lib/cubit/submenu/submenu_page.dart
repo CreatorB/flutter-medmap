@@ -24,27 +24,34 @@ class SubmenuPage extends StatelessWidget {
             BlocBuilder<SubmenuCubit, SubmenuState>(
               builder: (context, state) {
                 if (state is SubmenuLoaded) {
-                  return Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(state.profile?.user.username ?? state.username,
-                                style: TextStyle(fontSize: 16)),
-                            Text(state.profile?.name ?? 'Company not set',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.grey[600])),
-                          ],
-                        ),
-                        SizedBox(width: 10),
-                        CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(state.profile?.logo?.url ?? ''),
-                          radius: 30,
-                        ),
-                      ],
+                  return GestureDetector(
+                    onTap: () {
+                      context.push(AppRoutes.profile);
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  state.profile?.user.username ??
+                                      state.username,
+                                  style: TextStyle(fontSize: 16)),
+                              Text(state.profile?.name ?? 'Company not set',
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey[600])),
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(state.profile?.logo?.url ?? ''),
+                            radius: 30,
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }

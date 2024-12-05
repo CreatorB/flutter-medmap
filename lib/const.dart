@@ -24,6 +24,7 @@ class Const {
 
   static const String URL_PRIVACY = URL_WEB + '/privacy-policy';
 
+  static const String ROLE = 'role';
   static const String IS_LOGED_IN = 'is_logged_in';
   static const String TOKEN = 'token';
   static const String EXPIRES_AT = 'expires_at';
