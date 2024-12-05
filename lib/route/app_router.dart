@@ -9,7 +9,6 @@ import 'package:medmap/cubit/signin/sign_in_page.dart';
 import 'package:medmap/cubit/submenu/submenu_page.dart';
 import 'package:medmap/cubit/partnership/list/partnership_list_page.dart';
 import 'package:medmap/main.dart';
-import 'package:medmap/models/r_profile.dart';
 import 'package:medmap/views/dashboard.dart';
 import 'app_routes.dart';
 
