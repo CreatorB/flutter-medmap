@@ -4,8 +4,8 @@ class Const {
   static const String URL_WEB = 'https://med-map.org';
   static const String URL_WEB_DETAIL_CASE = URL_WEB + '/cases-analysis/detail';
   static const String URL_WEB_DETAIL_PRODUCT = URL_WEB + '/product-detail';
-  static const String BASE_URL = 'http://192.168.50.100:3333';
-  // static const String BASE_URL = 'https://api.med-map.org';
+  // static const String BASE_URL = 'http://192.168.50.100:3333';
+  static const String BASE_URL = 'https://api.med-map.org';
   // static const String BASE_URL = 'https://api-medmap.mandatech.co.id';
   // static const String BASE_URL = 'https://be-mdmap.mandatech.co.id/';
   static const String URL_API = BASE_URL + '/v1';
