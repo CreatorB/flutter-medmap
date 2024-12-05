@@ -25,6 +25,8 @@ import '../models/affair_response.dart' as affair;
 import '../models/marketing_services_response.dart' as marketing_services;
 import '../models/service_request_response.dart' as service_request;
 
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+
 class Dashboard extends StatefulWidget {
   Dashboard({
     Key? key,
@@ -74,10 +76,35 @@ class _DashboardState extends State<Dashboard> {
     getAffairs();
   }
 
+  Future<void> _loadInitialData() async {
+    await getServiceRequest();
+    await getMarketingServices();
+    await getAnalysis();
+    await getAffairs();
+  }
+
+  Future<void> _loadMoreData() async {
+    setState(() {
+      currentPage++;
+    });
+    await getServiceRequest(page: currentPage);
+  }
+
+  Future<void> _refreshData() async {
+    setState(() {
+      currentPage = 1;
+      datumServiceRequest.clear();
+      datumMarketingServices.clear();
+      datum.clear();
+      datumAffair.clear();
+    });
+    await _loadInitialData();
+  }
+
   Future<void> getServiceRequest({int page = 1}) async {
     final response = await api.fetchData(
         context, 'service-requests?page=$page&limit=$limitItem');
-    print('Raw API Response Service Request: $response');
+    // print('Raw API Response Service Request: $response');
     try {
       if (response != null) {
         serviceRequestResponse =
@@ -943,31 +970,46 @@ class _DashboardState extends State<Dashboard> {
           ),
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                if (_isScrolledToEnd) {
-                  // Scroll to the top of the list
-                  _scrollController.animateTo(
-                    0,
-                    curve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 500),
-                  );
-                } else {
-                  // Scroll to the end of the list
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    curve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 500),
-                  );
-                }
-              },
-              child: Icon(
-                  _isScrolledToEnd ? Icons.arrow_upward : Icons.arrow_downward),
-              tooltip: _isScrolledToEnd ? 'Scroll to Top' : 'Scroll to End',
+            child: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              children: [
+                SpeedDialChild(
+                  child: Icon(Icons.refresh),
+                  backgroundColor: Colors.green,
+                  label: 'Refresh Data',
+                  onTap: _refreshData,
+                ),
+                SpeedDialChild(
+                  child: Icon(_isScrolledToEnd
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward),
+                  backgroundColor: Colors.red,
+                  label: _isScrolledToEnd ? 'Scroll to Top' : 'Scroll to End',
+                  onTap: () {
+                    if (_isScrolledToEnd) {
+                      // Scroll to the top of the list
+                      _scrollController.animateTo(
+                        0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    } else {
+                      // Scroll to the end of the list
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation
-              .endFloat, // Set the location of the FAB
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
       },
     );
