@@ -7,6 +7,7 @@ import 'package:medmap/const.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
 import 'submenu_cubit.dart';
+import 'package:medmap/views/service_request.dart' as listServiceRequest;
 
 class SubmenuPage extends StatelessWidget {
   @override
@@ -179,7 +180,14 @@ class CardsLayout extends StatelessWidget {
             child: _buildCard(Const.submenu_privacy, policy),
           ),
           InkWell(
-            onTap: () => context.push(AppRoutes.service_request, extra: 0),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => listServiceRequest.ServiceRequest(),
+                ),
+              );
+            },
             child: _buildCard(Const.submenu_report, service_request),
           ),
         ],

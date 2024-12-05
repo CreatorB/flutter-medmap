@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'dart:convert';
 // import 'package:http/http.dart' as http;
@@ -16,9 +18,21 @@ class Api {
   Future<dynamic> fetchData(BuildContext context, String endpoint) async {
     String apiUrl = '$baseUrl/$endpoint';
     // print(apiUrl);
+    print('print response : $apiUrl');
+
+    final token = await Utils.getSpString(Const.TOKEN);
+
     try {
-      final response = await _client.get(Uri.parse(apiUrl));
+      final response = await _client.get(
+        Uri.parse(apiUrl),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=UTF-8',
+          'Authorization': 'Bearer $token',
+        },
+      );
+      log('print response: ${response.statusCode}');
       if (response.statusCode == 200) {
+        print('Test Api Respon Body: ${json.decode(response.body)} \n \n ');
         return json.decode(response.body);
       } else {
         // Handle the error, you can create a custom error response here

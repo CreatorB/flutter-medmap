@@ -49,15 +49,15 @@ class Meta {
       this.previousPageUrl});
 
   Meta.fromJson(Map<String, dynamic> json) {
-    total = json['total'];
-    perPage = json['per_page'];
-    currentPage = json['current_page'];
-    lastPage = json['last_page'];
-    firstPage = json['first_page'];
-    firstPageUrl = json['first_page_url'];
-    lastPageUrl = json['last_page_url'];
-    nextPageUrl = json['next_page_url'];
-    previousPageUrl = json['previous_page_url'];
+    total = json['total'] ?? 0;
+    perPage = json['per_page'] ?? 0;
+    currentPage = json['current_page'] ?? 0;
+    lastPage = json['last_page'] ?? 0;
+    firstPage = json['first_page'] ?? 0;
+    firstPageUrl = json['first_page_url'] ?? '';
+    lastPageUrl = json['last_page_url'] ?? '';
+    nextPageUrl = json['next_page_url'] ?? '';
+    previousPageUrl = json['previous_page_url'] ?? '';
   }
 
   Map<String, dynamic> toJson() {
@@ -153,12 +153,12 @@ class Image {
       this.url});
 
   Image.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    extname = json['extname'];
-    type = json['type'];
-    path = json['path'];
-    createdAt = json['created_at'];
-    updatedAt = json['updated_at'];
+    id = json['id'] ?? 0;
+    extname = json['extname'] ?? 0;
+    type = json['type'] ?? 0;
+    path = json['path'] ?? 0;
+    createdAt = json['created_at'] ?? '';
+    updatedAt = json['updated_at'] ?? '';
     url = json['url'];
   }
 
