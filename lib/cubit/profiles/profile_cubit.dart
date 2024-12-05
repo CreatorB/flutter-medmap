@@ -3,11 +3,9 @@ import 'package:dio/dio.dart';
 import 'package:medmap/const.dart';
 import 'package:medmap/cubit/profiles/profile_state.dart';
 import 'package:medmap/models/r_profile.dart';
-import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
 import 'dart:io';
 
-import 'package:path/path.dart';
 
 class ProfileCubit extends Cubit<ProfileState> {
   final Dio _dio;

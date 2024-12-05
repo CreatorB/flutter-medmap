@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
-import 'package:medmap/views/details/detail_products.dart';
 import 'package:medmap/views/poct.dart';
 import 'package:medmap/views/tenders.dart';
 

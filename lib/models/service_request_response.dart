@@ -180,7 +180,7 @@ class Submitter {
   int? creatorId;
   String? email;
   String? username;
-  Null? description;
+  Null description;
   bool? isVerified;
   String? role;
   String? createdAt;

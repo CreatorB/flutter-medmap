@@ -39,8 +39,8 @@ class _ProfileViewState extends State<ProfileView> {
   rProfile? _cachedProfile;
 
   Future<void> _pickImage() async {
-    final pickedFile =
-        await ImagePicker().getImage(source: ImageSource.gallery);
+    final ImagePicker _picker = ImagePicker();
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
@@ -184,7 +184,8 @@ class _ProfileViewState extends State<ProfileView> {
                     ),
                     TextFormField(
                       controller: _currentPasswordController,
-                      decoration: InputDecoration(labelText: 'Current Password'),
+                      decoration:
+                          InputDecoration(labelText: 'Current Password'),
                       obscureText: true,
                     ),
                     TextFormField(
