@@ -67,17 +67,17 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       });
+    getServiceRequest();
     getMarketingServices();
     getAnalysis();
     getAffairs();
-    getServiceRequest();
   }
 
   Future<void> getServiceRequest({int page = 1}) async {
+    final response = await api.fetchData(
+        context, 'service-requests?page=$page&limit=$limitItem');
+    print('Raw API Response Service Request: $response');
     try {
-      final response = await api.fetchData(
-          context, 'service-requests?page=$page&limit=$limitItem');
-      print('API Response Service Request: $response');
       if (response != null) {
         serviceRequestResponse =
             service_request.ServiceRequestResponse.fromJson(response);
@@ -102,6 +102,8 @@ class _DashboardState extends State<Dashboard> {
     try {
       final response = await api.fetchData(
           context, 'marketing-services?page=$page&limit=$limitItem');
+      print('Raw API Response Marketing: $response');
+
       if (response != null) {
         marketingServicesResponse =
             marketing_services.MarketingServicesResponse.fromJson(response);
@@ -341,27 +343,28 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircularIconWithTitle(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    listServiceRequest.ServiceRequest()),
-                          );
-                        },
-                        iconPath: 'assets/icons/ic_tenders.png',
-                        title: AppLocalizations.of(context)!
-                            .translate('marketing_services'),
-                        backgroundColor: Color(0xFFF6EFC6),
-                        // iconColor: Colors.white,
-                        titleColor: Colors.black,
-                      ),
-                    ],
-                  ),
+                  // Row(
+                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  //   children: [
+                  //     CircularIconWithTitle(
+                  //       onTap: () {
+                  //         Navigator.push(
+                  //           context,
+                  //           MaterialPageRoute(
+                  //               builder: (context) =>
+                  //                   listServiceRequest.ServiceRequest()),
+                  //         );
+                  //       },
+                  //       iconPath: 'assets/icons/ic_tenders.png',
+                  //       title: AppLocalizations.of(context)!
+                  //           .translate('marketing_services'),
+                  //       backgroundColor: Color(0xFFF6EFC6),
+                  //       // iconColor: Colors.white,
+                  //       titleColor: Colors.black,
+                  //     ),
+                  //   ],
+                  // ),
+                  SizedBox(height: 20),
                   Row(
                     children: <Widget>[
                       Expanded(

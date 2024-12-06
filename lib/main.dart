@@ -14,6 +14,9 @@ import './AppLanguage.dart';
 import './app_localzations.dart';
 import 'package:provider/provider.dart';
 
+import 'package:device_preview/device_preview.dart';
+import 'package:flutter/foundation.dart';
+
 class NavigationHistory {
   static List<BuildContext> _history = [];
 
@@ -41,10 +44,19 @@ void main() async {
   // runApp(MyApp(
   //   appLanguage: appLanguage,
   // ));
+  // runApp(
+  //   ChangeNotifierProvider(
+  //     create: (context) => AppLanguage(),
+  //     child: MyApp(appLanguage: appLanguage),
+  //   ),
+  // );
   runApp(
     ChangeNotifierProvider(
       create: (context) => AppLanguage(),
-      child: MyApp(appLanguage: appLanguage),
+      child: DevicePreview(
+        enabled: !kReleaseMode,
+        builder: (context) => MyApp(appLanguage: appLanguage),
+      ),
     ),
   );
 }
@@ -129,7 +141,9 @@ class _MyAppState extends State<MyApp> {
                   ColorScheme.fromSeed(seedColor: Const.colorDashboard),
               useMaterial3: true,
             ),
-            locale: _locale,
+            locale: DevicePreview.locale(context),
+            builder: DevicePreview.appBuilder,
+            // locale: _locale,
             localizationsDelegates: [
               AppLocalizations
                   .delegate, // Add this line to use AppLocalizations
