@@ -24,8 +24,15 @@ class SubmenuPage extends StatelessWidget {
               builder: (context, state) {
                 if (state is SubmenuLoaded) {
                   return GestureDetector(
-                    onTap: () {
-                      context.push(AppRoutes.profile);
+                    onTap: () async {
+                      final role = await Utils.getSpString(Const.ROLE);
+                      print('cekRole: $role');
+                      if (role != 'admin') {
+                        context.push(AppRoutes.profile);
+                      } else {
+                        Utils.showSnackBar(context,
+                            'Admin account only can change in the admin panel.');
+                      }
                     },
                     child: Padding(
                       padding: EdgeInsets.all(5.0),
