@@ -7,6 +7,7 @@ import 'package:medmap/const.dart';
 import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
 import 'submenu_cubit.dart';
+import 'package:medmap/views/service_request.dart' as listServiceRequest;
 
 class SubmenuPage extends StatelessWidget {
   @override
@@ -23,27 +24,41 @@ class SubmenuPage extends StatelessWidget {
             BlocBuilder<SubmenuCubit, SubmenuState>(
               builder: (context, state) {
                 if (state is SubmenuLoaded) {
-                  return Padding(
-                    padding: EdgeInsets.all(5.0),
-                    child: Row(
-                      children: [
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(state.profile?.user.username ?? state.username,
-                                style: TextStyle(fontSize: 16)),
-                            Text(state.profile?.name ?? 'Company not set',
-                                style: TextStyle(
-                                    fontSize: 14, color: Colors.grey[600])),
-                          ],
-                        ),
-                        SizedBox(width: 10),
-                        CircleAvatar(
-                          backgroundImage:
-                              NetworkImage(state.profile?.logo?.url ?? ''),
-                          radius: 30,
-                        ),
-                      ],
+                  return GestureDetector(
+                    onTap: () async {
+                      final role = await Utils.getSpString(Const.ROLE);
+                      print('cekRole: $role');
+                      if (role != 'admin') {
+                        context.push(AppRoutes.profile);
+                      } else {
+                        Utils.showSnackBar(context,
+                            'Admin account only can change in the admin panel.');
+                      }
+                    },
+                    child: Padding(
+                      padding: EdgeInsets.all(5.0),
+                      child: Row(
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                  state.profile?.user.username ??
+                                      state.username,
+                                  style: TextStyle(fontSize: 16)),
+                              Text(state.profile?.name ?? 'Company not set',
+                                  style: TextStyle(
+                                      fontSize: 14, color: Colors.grey[600])),
+                            ],
+                          ),
+                          SizedBox(width: 10),
+                          CircleAvatar(
+                            backgroundImage:
+                                NetworkImage(state.profile?.logo?.url ?? ''),
+                            radius: 30,
+                          ),
+                        ],
+                      ),
                     ),
                   );
                 }
@@ -172,7 +187,14 @@ class CardsLayout extends StatelessWidget {
             child: _buildCard(Const.submenu_privacy, policy),
           ),
           InkWell(
-            onTap: () => context.push(AppRoutes.service_request, extra: 0),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => listServiceRequest.ServiceRequest(),
+                ),
+              );
+            },
             child: _buildCard(Const.submenu_report, service_request),
           ),
         ],

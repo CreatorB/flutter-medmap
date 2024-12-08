@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
-import 'package:medmap/views/details/detail_products.dart';
 import 'package:medmap/views/poct.dart';
 import 'package:medmap/views/tenders.dart';
 
@@ -24,6 +23,8 @@ import '../models/analysis_response.dart' as analysis;
 import '../models/affair_response.dart' as affair;
 import '../models/marketing_services_response.dart' as marketing_services;
 import '../models/service_request_response.dart' as service_request;
+
+import 'package:flutter_speed_dial/flutter_speed_dial.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({
@@ -68,17 +69,42 @@ class _DashboardState extends State<Dashboard> {
           });
         }
       });
+    getServiceRequest();
     getMarketingServices();
     getAnalysis();
     getAffairs();
-    getServiceRequest();
+  }
+
+  Future<void> _loadInitialData() async {
+    await getServiceRequest();
+    await getMarketingServices();
+    await getAnalysis();
+    await getAffairs();
+  }
+
+  Future<void> _loadMoreData() async {
+    setState(() {
+      currentPage++;
+    });
+    await getServiceRequest(page: currentPage);
+  }
+
+  Future<void> _refreshData() async {
+    setState(() {
+      currentPage = 1;
+      datumServiceRequest.clear();
+      datumMarketingServices.clear();
+      datum.clear();
+      datumAffair.clear();
+    });
+    await _loadInitialData();
   }
 
   Future<void> getServiceRequest({int page = 1}) async {
+    final response = await api.fetchData(
+        context, 'service-requests?page=$page&limit=$limitItem');
+    // print('Raw API Response Service Request: $response');
     try {
-      final response = await api.fetchData(
-          context, 'service-requests?page=$page&limit=$limitItem');
-      print('API Response Service Request: $response');
       if (response != null) {
         serviceRequestResponse =
             service_request.ServiceRequestResponse.fromJson(response);
@@ -103,6 +129,8 @@ class _DashboardState extends State<Dashboard> {
     try {
       final response = await api.fetchData(
           context, 'marketing-services?page=$page&limit=$limitItem');
+      print('Raw API Response Marketing: $response');
+
       if (response != null) {
         marketingServicesResponse =
             marketing_services.MarketingServicesResponse.fromJson(response);
@@ -342,27 +370,27 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      CircularIconWithTitle(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) =>
-                                    listServiceRequest.ServiceRequest()),
-                          );
-                        },
-                        iconPath: 'assets/icons/ic_tenders.png',
-                        title: AppLocalizations.of(context)!
-                            .translate('marketing_services'),
-                        backgroundColor: Color(0xFFF6EFC6),
-                        // iconColor: Colors.white,
-                        titleColor: Colors.black,
-                      ),
-                    ],
-                  ),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: [
+//                       CircularIconWithTitle(
+//                         onTap: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                                 builder: (context) =>
+//                                     listServiceRequest.ServiceRequest()),
+//                           );
+//                         },
+//                         iconPath: 'assets/icons/ic_tenders.png',
+//                         title: AppLocalizations.of(context)!
+//                             .translate('marketing_services'),
+//                         backgroundColor: Color(0xFFF6EFC6),
+//                         // iconColor: Colors.white,
+//                         titleColor: Colors.black,
+//                       ),
+//                     ],
+//                   ),
                   Row(
                     children: <Widget>[
                       Expanded(
@@ -940,31 +968,46 @@ class _DashboardState extends State<Dashboard> {
           ),
           floatingActionButton: Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
-            child: FloatingActionButton(
-              onPressed: () {
-                if (_isScrolledToEnd) {
-                  // Scroll to the top of the list
-                  _scrollController.animateTo(
-                    0,
-                    curve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 500),
-                  );
-                } else {
-                  // Scroll to the end of the list
-                  _scrollController.animateTo(
-                    _scrollController.position.maxScrollExtent,
-                    curve: Curves.easeOut,
-                    duration: const Duration(milliseconds: 500),
-                  );
-                }
-              },
-              child: Icon(
-                  _isScrolledToEnd ? Icons.arrow_upward : Icons.arrow_downward),
-              tooltip: _isScrolledToEnd ? 'Scroll to Top' : 'Scroll to End',
+            child: SpeedDial(
+              icon: Icons.menu,
+              activeIcon: Icons.close,
+              backgroundColor: Colors.blue,
+              foregroundColor: Colors.white,
+              children: [
+                SpeedDialChild(
+                  child: Icon(Icons.refresh),
+                  backgroundColor: Colors.green,
+                  label: 'Refresh Data',
+                  onTap: _refreshData,
+                ),
+                SpeedDialChild(
+                  child: Icon(_isScrolledToEnd
+                      ? Icons.arrow_upward
+                      : Icons.arrow_downward),
+                  backgroundColor: Colors.red,
+                  label: _isScrolledToEnd ? 'Scroll to Top' : 'Scroll to End',
+                  onTap: () {
+                    if (_isScrolledToEnd) {
+                      // Scroll to the top of the list
+                      _scrollController.animateTo(
+                        0,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    } else {
+                      // Scroll to the end of the list
+                      _scrollController.animateTo(
+                        _scrollController.position.maxScrollExtent,
+                        curve: Curves.easeOut,
+                        duration: const Duration(milliseconds: 500),
+                      );
+                    }
+                  },
+                ),
+              ],
             ),
           ),
-          floatingActionButtonLocation: FloatingActionButtonLocation
-              .endFloat, // Set the location of the FAB
+          floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
         );
       },
     );
