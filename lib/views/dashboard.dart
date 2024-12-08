@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:medmap/route/app_routes.dart';
@@ -26,6 +28,7 @@ import '../models/marketing_services_response.dart' as marketing_services;
 import '../models/service_request_response.dart' as service_request;
 
 import 'package:flutter_speed_dial/flutter_speed_dial.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Dashboard extends StatefulWidget {
   Dashboard({
@@ -101,9 +104,23 @@ class _DashboardState extends State<Dashboard> {
     await _loadInitialData();
   }
 
-  Future<void> getServiceRequest({int page = 1}) async {
-    final response = await api.fetchData(
-        context, 'service-requests?page=$page&limit=$limitItem');
+  Future<void> getServiceRequest(
+      {int page = 1, bool includeOwnRequests = false}) async {
+    // Retrieve the user ID from shared preferences
+    final prefs = await SharedPreferences.getInstance();
+    final userId = prefs.getString('user_id') ?? '';
+
+    // Construct the API URL with the company_id parameter
+    String ServiceUrl = 'service-requests?page=$page&limit=$limitItem';
+    if (includeOwnRequests) {
+      ServiceUrl += '&user_id=$userId';
+    } else {
+      ServiceUrl += '&company_id=$userId';
+    }
+
+    final response = await api.fetchData(context, ServiceUrl);
+    print('SERVICE URL ISI: $ServiceUrl');
+    // context, 'service-requests?company_id=&$company_idpage=$page&limit=$limitItem');
     // print('Raw API Response Service Request: $response');
     try {
       if (response != null) {

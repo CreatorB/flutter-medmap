@@ -56,7 +56,11 @@ class _ServiceRequestState extends State<ServiceRequest> {
     }
   }
 
-  Future<void> fetchData({int page = 1}) async {
+  Future<void> fetchMyServiceRequests({int page = 1}) async {
+    await fetchData(page: page, myRequests: true);
+  }
+
+  Future<void> fetchData({int page = 1, bool myRequests = false}) async {
     if (!hasMore || isLoading) return;
 
     setState(() {
@@ -67,8 +71,11 @@ class _ServiceRequestState extends State<ServiceRequest> {
     });
 
     try {
-      final response = await api.fetchData(context,
-          'service-requests?sort=created_at&order=desc&page=$page&limit=$limitItem&keyword=$keyword');
+      final userId = await Utils.getSpString('user_id');
+      final companyId = myRequests ? '&company_id=$userId' : '';
+
+      final response = await api.fetchData(
+          context, 'service-requests?&page=$page&limit=$limitItem');
       if (response != null) {
         modelResponse =
             service_request.ServiceRequestResponse.fromJson(response);

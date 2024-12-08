@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:go_router/go_router.dart';
@@ -7,6 +9,8 @@ import '../api.dart';
 import '../widgets/network_image_global.dart';
 import '../app_localzations.dart';
 import 'package:medmap/route/app_routes.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:pretty_http_logger/pretty_http_logger.dart';
 
 class Outsourcing extends StatefulWidget {
   @override
@@ -49,6 +53,12 @@ class _OutsourcingState extends State<Outsourcing> {
         !isLoading) {
       fetchData(page: currentPage + 1);
     }
+  }
+
+  Future<void> storeCompanyId(String companyId) async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('company_id', companyId);
+    log('Stored company_id: $companyId');
   }
 
   Future<void> fetchData({int page = 1}) async {
@@ -301,8 +311,22 @@ class DetailPage extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
                     GestureDetector(
-                      onTap: () {
-                        context.push(AppRoutes.service_request, extra: 0);
+                      onTap: () async {
+                        // Retrieve the user ID from shared preferences
+                        final companyId = item.userId;
+                        log('Mendaptakan userID dari outsourcing: $companyId');
+
+                        // Store the company ID in shared preferences
+                        final prefs = await SharedPreferences.getInstance();
+                        await prefs.setString(
+                            'company_id', companyId.toString());
+                        log('Stored company_id: $companyId');
+
+                        // Navigate to the service request page with the user ID
+                        log('Navigating to: ${AppRoutes.service_request}',
+                            name: 'Navigation', error: 'Extra: $companyId');
+                        context.push(AppRoutes.service_request,
+                            extra: companyId);
                       },
                       child: Text(
                         'Request Service',
