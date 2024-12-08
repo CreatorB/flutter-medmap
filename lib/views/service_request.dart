@@ -2,14 +2,7 @@ import 'dart:convert';
 
 import 'package:fleather/fleather.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:fluttertoast/fluttertoast.dart';
-import 'package:go_router/go_router.dart';
-import 'package:medmap/const.dart';
 import 'package:medmap/models/service_request_response.dart' as service_request;
-import 'package:medmap/route/app_routes.dart';
-import 'package:navbar_router/navbar_router.dart';
-import 'package:pretty_http_logger/pretty_http_logger.dart';
 import '../utils.dart';
 import '../api.dart';
 

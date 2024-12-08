@@ -5,8 +5,6 @@ import 'package:go_router/go_router.dart';
 import 'package:medmap/const.dart';
 import 'package:medmap/models/marketing_services_response.dart';
 import 'package:medmap/route/app_routes.dart';
-import 'package:navbar_router/navbar_router.dart';
-import 'package:pretty_http_logger/pretty_http_logger.dart';
 import '../utils.dart';
 import '../api.dart';
 
