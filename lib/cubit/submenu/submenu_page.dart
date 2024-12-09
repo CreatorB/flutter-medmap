@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -8,6 +10,8 @@ import 'package:medmap/route/app_routes.dart';
 import 'package:medmap/utils.dart';
 import 'submenu_cubit.dart';
 import 'package:medmap/views/service_request.dart' as listServiceRequest;
+
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SubmenuPage extends StatelessWidget {
   @override
@@ -118,6 +122,10 @@ class SubmenuPage extends StatelessWidget {
                       padding: const EdgeInsets.only(bottom: 200.0),
                       child: FloatingActionButton(
                         onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          await prefs.remove('company_id');
+                          log('Cleared company_id');
+
                           final userId = await Utils.getSpString(Const.USER_ID);
                           if (userId != null) {
                             context.push(AppRoutes.service_request, extra: 0);

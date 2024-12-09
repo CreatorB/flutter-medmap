@@ -24,10 +24,15 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
     emit(ServiceRequestLoading());
 
     try {
+      // Retrieve company_id from shared preferences
+      final companyId = await Utils.getSpString('company_id');
+      print('Retrieved company_id: $companyId');
+
       FormData formData = FormData.fromMap({
         'submitter_id': await Utils.getSpString('user_id'),
         'title': requestTitle,
         'description': fullDescription,
+        'company_id': await Utils.getSpString('company_id'),
         'currency': selectedCurrency,
         'budget': estimateBudget,
         'price_type': selectedPriceType,
@@ -51,10 +56,20 @@ class ServiceRequestCubit extends Cubit<ServiceRequestState> {
 
       print("cekReqService: $formDataString");
 
+      String url = Const.API_SERVICE_REQUESTS;
+
       final token = await Utils.getSpString(Const.TOKEN);
+      final id = await Utils.getSpString(Const.USER_ID);
+      final role = await Utils.getSpString(Const.ROLE);
+      print('role_muncul + $role');
+      if (role == 'manufacture') {
+        url = Const.API_SERVICE_REQUESTS + '?company_id=$id';
+      } else {
+        url = Const.API_SERVICE_REQUESTS;
+      }
 
       final response = await _dio.post(
-        Const.API_SERVICE_REQUESTS,
+        url,
         data: formData,
         options: Options(
           headers: {
