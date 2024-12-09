@@ -387,28 +387,27 @@ class _DashboardState extends State<Dashboard> {
                     ],
                   ),
                   SizedBox(height: 20),
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  //   children: [
-                  //     CircularIconWithTitle(
-                  //       onTap: () {
-                  //         Navigator.push(
-                  //           context,
-                  //           MaterialPageRoute(
-                  //               builder: (context) =>
-                  //                   listServiceRequest.ServiceRequest()),
-                  //         );
-                  //       },
-                  //       iconPath: 'assets/icons/ic_tenders.png',
-                  //       title: AppLocalizations.of(context)!
-                  //           .translate('marketing_services'),
-                  //       backgroundColor: Color(0xFFF6EFC6),
-                  //       // iconColor: Colors.white,
-                  //       titleColor: Colors.black,
-                  //     ),
-                  //   ],
-                  // ),
-                  SizedBox(height: 20),
+//                   Row(
+//                     mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+//                     children: [
+//                       CircularIconWithTitle(
+//                         onTap: () {
+//                           Navigator.push(
+//                             context,
+//                             MaterialPageRoute(
+//                                 builder: (context) =>
+//                                     listServiceRequest.ServiceRequest()),
+//                           );
+//                         },
+//                         iconPath: 'assets/icons/ic_tenders.png',
+//                         title: AppLocalizations.of(context)!
+//                             .translate('marketing_services'),
+//                         backgroundColor: Color(0xFFF6EFC6),
+//                         // iconColor: Colors.white,
+//                         titleColor: Colors.black,
+//                       ),
+//                     ],
+//                   ),
                   Row(
                     children: <Widget>[
                       Expanded(
