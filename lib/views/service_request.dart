@@ -307,32 +307,37 @@ class _ServiceRequestDetailPageState extends State<ServiceRequestDetailPage> {
               Text(
                 widget.item.title ?? 'Title not provided',
                 style: TextStyle(
-                  fontSize: 24,
+                  fontSize: 17,
                   fontWeight: FontWeight.bold,
                 ),
               ),
               SizedBox(height: 10),
               Text(
-                'Created At: ${Utils.fmtToDMY(widget.item.createdAt)}',
+                'Posted on: ${Utils.fmtToDMY(widget.item.createdAt)}',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
+                  fontSize: 14,
+                  color: new Color(0xFF9EA5B0),
+                ),
+              ),
+              Text(
+                'Budget: ${widget.item.budget.toString()} ${widget.item.currency!} ${"(" + widget.item.priceType! + ")"}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: new Color(0xFF9EA5B0),
+                ),
+              ),
+              Text(
+                'Requested by: ${widget.item.submitter!.username!}',
+                style: TextStyle(
+                  fontSize: 14,
+                  color: new Color(0xFF9EA5B0),
                 ),
               ),
               SizedBox(height: 10),
               Text(
-                'Price : ${widget.item.budget.toString()} ${widget.item.currency!} ${" | " + widget.item.priceType!}',
+                'Description ',
                 style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                ),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Description:',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
+                  fontSize: 14,
                 ),
               ),
               FleatherEditor(
@@ -353,13 +358,6 @@ class _ServiceRequestDetailPageState extends State<ServiceRequestDetailPage> {
                 },
               ),
               SizedBox(height: 20),
-              Text(
-                'Submitter : ${widget.item.submitter!.username! + " | " + widget.item.submitter!.email!}',
-                style: TextStyle(
-                  fontSize: 16,
-                  color: Colors.grey[700],
-                ),
-              ),
             ],
           ),
         ),
